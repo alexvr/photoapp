@@ -1,5 +1,5 @@
-import {OverviewLayout} from "./OverviewLayout";
-import {DetailLayout} from "./DetailLayout";
+import {OverviewLayout} from "./layout/OverviewLayout";
+import {DetailLayout} from "./layout/DetailLayout";
 import {Configuration} from "./Configuration";
 
 export class Event {
