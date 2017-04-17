@@ -1,20 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+// Modules
+import { BrowserModule }    from '@angular/platform-browser';
+import { NgModule }         from '@angular/core';
+import { FormsModule }      from '@angular/forms';
+import { HttpModule }       from '@angular/http';
+import { AppRoutingModule } from "./app-routing.module";
 
-import { AppComponent } from './app.component';
+// Components
+import { AppComponent }           from './app.component';
+import { OnlineEventOverviewComponent } from "./online-event-overview/online-event-overview.component";
+
+// Services
+import { AuthService }    from "./login/auth.service";
+import { LoginComponent } from "./login/login.component";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    OnlineEventOverviewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
