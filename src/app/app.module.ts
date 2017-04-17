@@ -19,7 +19,7 @@ import { LoginComponent } from "./login/login.component";
   declarations: [
     AppComponent,
     StartScreenComponent,
-    EventComponent
+    EventComponent,
     OnlineEventOverviewComponent,
     LoginComponent
   ],
