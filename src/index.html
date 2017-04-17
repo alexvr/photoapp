@@ -8,12 +8,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="assets/bootstrap-3.3.7/css/bootstrap.min.css">
-  <script src="http://cdn.auth0.com/js/auth0/8.5/auth0.min.js"></script>
 
 </head>
 <body>
   <app-root>Loading...</app-root>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- Insert this line above script imports  -->
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+  <!-- Library-->
+  <script src="assets/jquery-2.3.1/jquery-3.2.1.js"></script>
+
+  <!-- App files-->
+  <script src="assets/bootstrap-3.3.7/js/bootstrap.js"></script>
+  <script src="assets/auth0/auth0.min.js"></script>
+
+  <!-- Insert this line after script imports -->
+  <script>if (window.module) module = window.module;</script>
+
 </body>
 </html>
