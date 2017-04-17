@@ -54,7 +54,7 @@ export class AuthService {
       }
       else if (authResult && authResult.idToken && authResult.accessToken) {
         this.setUser(authResult);
-        this.router.navigate(['/online-online-event-overview']);
+        this.router.navigate(['/online-event-overview']);
         return obs.complete();
       }
     }));
