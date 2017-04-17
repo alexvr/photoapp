@@ -3,7 +3,7 @@
 </button>
 
 <div class="event-container">
-  <event *ngFor="let e of events" [event]="e"></event>
+  <event *ngFor="let e of events" [event]="e" routerLink="/event"></event>
   <div id="addEvent">
     <a id="addEvent-btn" class="btn btn-primary" href="#" role="button" routerLink="/configuration">+</a>
     <h3>Add event</h3>

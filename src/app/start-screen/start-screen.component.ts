@@ -3,9 +3,9 @@ import {Event} from "../model/Event";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'startscreen',
-  templateUrl: 'startscreen.component.html',
-  styleUrls: ['startscreen.component.css']
+  selector: 'start-screen',
+  templateUrl: 'start-screen.component.html',
+  styleUrls: ['start-screen.component.css']
 })
 
 export class StartScreenComponent {
