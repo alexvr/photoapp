@@ -5,6 +5,11 @@ import {Component} from "@angular/core";
   styleUrls: ['configuration.component.css']
 })
 
-export class ConfigurationComponent{
+export class ConfigurationComponent {
+  private activePart: number = 1;
+
+  changeActivePart(newActivePart: number) {
+    this.activePart = newActivePart;
+  }
 
 }

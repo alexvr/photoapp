@@ -9,12 +9,15 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent }           from './app.component';
 import {EventComponent} from "./startscreen/event/event.component";
 import {StartScreenComponent} from "./startscreen/startscreen.component";
+import { LoginComponent } from "./login/login.component";
 import { OnlineEventOverviewComponent } from "./online-event-overview/online-event-overview.component";
 import {ConfigurationComponent} from "./configuration/configuration.component";
+import {BasicInfoComponent} from "./configuration/basic-info/basic-info.component";
+import {MediaSettingsComponent} from "./configuration/media-settings/media-settings.component";
+import {LayoutSettingsComponent} from "./configuration/layout-settings/layout-settings.component";
 
 // Services
 import { AuthService }    from "./login/auth.service";
-import { LoginComponent } from "./login/login.component";
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { LoginComponent } from "./login/login.component";
     EventComponent,
     OnlineEventOverviewComponent,
     LoginComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    BasicInfoComponent,
+    MediaSettingsComponent,
+    LayoutSettingsComponent
   ],
   imports: [
     BrowserModule,
