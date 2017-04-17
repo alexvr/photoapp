@@ -1,0 +1,22 @@
+#fetchAllEvents {
+  margin: 2rem;
+}
+
+.event-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  background: #eeeeee;
+  padding: 2rem;
+
+  width: 80%;
+  margin: auto;
+}
+
+#addEvent {
+  width: 7rem;
+  height: 7rem;
+  font-size: 4rem;
+  padding-top: 2px;
+}

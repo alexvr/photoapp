@@ -1,0 +1,5 @@
+<a id="fetchAllEvents" class="btn btn-default" href="#" role="button">Fetch all events</a>
+<div class="event-container">
+  <event *ngFor="let e of events" [event]="e"></event>
+  <a id="addEvent" class="btn btn-primary" href="#" role="button">+</a>
+</div>

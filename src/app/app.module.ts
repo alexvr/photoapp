@@ -7,6 +7,8 @@ import { AppRoutingModule } from "./app-routing.module";
 
 // Components
 import { AppComponent }           from './app.component';
+import {EventComponent} from "./startscreen/event/event.component";
+import {StartScreenComponent} from "./startscreen/startscreen.component";
 import { OnlineEventOverviewComponent } from "./online-event-overview/online-event-overview.component";
 
 // Services
@@ -16,6 +18,8 @@ import { LoginComponent } from "./login/login.component";
 @NgModule({
   declarations: [
     AppComponent,
+    StartScreenComponent,
+    EventComponent
     OnlineEventOverviewComponent,
     LoginComponent
   ],
@@ -30,4 +34,5 @@ import { LoginComponent } from "./login/login.component";
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

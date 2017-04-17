@@ -1,0 +1,11 @@
+.event-image {
+  background: gray;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 4px;
+  margin: auto;
+}
+
+h3 {
+  text-align: center;
+}
