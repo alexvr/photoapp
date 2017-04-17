@@ -13,6 +13,12 @@ export class LoginComponent {
 
   constructor(private authService: AuthService) {}
 
+  /**
+   * Checks if the username and password are correctly filled in.
+   * @param username
+   * @param password
+   * @returns {boolean}
+   */
   allFieldsFilledIn(username, password): boolean {
     if (username == '' && password == '') {
       this.messages.errorMessage = 'Username and password need to be filled in!';
@@ -30,6 +36,11 @@ export class LoginComponent {
     return true;
   }
 
+  /**
+   * Log in with sensible success -and error handling.
+   * @param username
+   * @param password
+   */
   loginWithErrorHandling(username, password) {
     if (this.allFieldsFilledIn(username, password)) {
       this.authService.login(username, password).subscribe(data => {
@@ -44,6 +55,11 @@ export class LoginComponent {
     }
   }
 
+  /**
+   * Sign up with sensible success -and error handling.
+   * @param username
+   * @param password
+   */
   signUpWithErrorHandling(username, password) {
     if (this.allFieldsFilledIn(username, password)) {
       this.authService.signup(username, password).subscribe(data => {

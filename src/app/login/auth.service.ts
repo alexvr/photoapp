@@ -7,6 +7,10 @@ import { Observable }      from "rxjs/Observable";
 declare let auth0: any;
 let Auth0Lock = require('auth0-lock').default;
 
+/**
+ * This service is used for User authentication.
+ * Build with Auth0 and JWT.
+ */
 @Injectable()
 export class AuthService {
 
@@ -19,7 +23,7 @@ export class AuthService {
     responseType: 'token id_token'
   });
 
-  // Configure Auth0
+  // Configure Auth0Lock
   lock = new Auth0Lock('oGa4il3EPpAPkuY686B28fhNea02-21P', 'globeshanghai.au.auth0.com', {});
 
   constructor(private router: Router) {
@@ -29,6 +33,9 @@ export class AuthService {
     });
   }
 
+  /**
+   * Get the authentication result from the URL.
+   */
   public handleAuthentication(): void {
     this.auth0.parseHash({ _idTokenVerification: false }, (err, authResult) => {
       if (err) {
@@ -43,6 +50,13 @@ export class AuthService {
     });
   }
 
+  /**
+   * Login with username and password.
+   * If successful the id token and access token will be stored in local storage.
+   * @param username
+   * @param password
+   * @returns {Observable}
+   */
   public login(username: string, password: string): Observable<any> {
     return new Observable(obs => this.auth0.client.login({
       realm: 'Username-Password-Authentication',
@@ -61,6 +75,12 @@ export class AuthService {
   }
 
   // TODO: Is signup necessary?
+  /**
+   * Sign up with email and password.
+   * @param email
+   * @param password
+   * @returns {Observable}
+   */
   public signup(email: string, password: string): Observable<any> {
     return new Observable(obs => this.auth0.redirect.signupAndLogin({
       connection: 'Username-Password-Authentication',
@@ -74,17 +94,28 @@ export class AuthService {
     }));
   }
 
+  /**
+   * Check for the User's authentication state based on the id_token's expiry time.
+   * @returns {boolean}
+   */
   public isAuthenticated(): boolean {
     // Check whether the id_token is expired or not
     return tokenNotExpired();
   }
 
+  /**
+   * Logs out the current user. Acces token and id token in local storage will be removed.
+   */
   public logout(): void {
     // Remove token from localStorage
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
   }
 
+  /**
+   * Set acces token and id token in local storage.
+   * @param authResult
+   */
   private setUser(authResult): void {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
