@@ -1,0 +1,25 @@
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  margin: 3rem;
+}
+
+main{
+  background: #e8e8e8;
+  width: 80%;
+  height: 75%;
+  margin: auto;
+}
+
+.configSteps{
+  display: flex;
+  justify-content: center;
+}
+
+a{
+  margin: 2rem;
+}
