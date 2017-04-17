@@ -4,7 +4,8 @@ import { LoginMessage } from "./LoginMessage";
 
 @Component({
   selector: 'login',
-  templateUrl: 'login.template.html'
+  templateUrl: 'login.component.html',
+  styleUrls: ['login.component.css']
 })
 
 export class LoginComponent {
