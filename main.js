@@ -16,7 +16,7 @@ app.on('ready', function () {
   win = new BrowserWindow({width: 1000, height: 600});
 
   // Specify entry point
-  if (process.env.PACKAGE === 'true'){
+  if (process.env.PACKAGE === 'true') {
     win.loadURL(url.format({
       pathname: path.join(__dirname, 'dist/index.html'),
       protocol: 'file:',
@@ -40,9 +40,10 @@ app.on('ready', function () {
 
 app.on('activate', () => {
   if (win === null) {
-  createWindow();
-}
-});
+    createWindow();
+  }
+})
+;
 
 app.on('window-all-closed', function () {
   if (process.platform != 'darwin') {
