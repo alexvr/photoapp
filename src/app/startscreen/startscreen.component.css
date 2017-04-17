@@ -1,22 +1,45 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
 #fetchAllEvents {
+  position: absolute;
+  top: 0;
+  right: 0;
   margin: 2rem;
 }
 
 .event-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
 
   background: #eeeeee;
   padding: 2rem;
 
   width: 80%;
+
   margin: auto;
 }
 
 #addEvent {
+  margin: 1rem 4rem;
+}
+
+#addEvent-btn {
+  display: block;
   width: 7rem;
   height: 7rem;
   font-size: 4rem;
   padding-top: 2px;
+  margin: auto;
+}
+
+#addEvent h3 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 300;
 }

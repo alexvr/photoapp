@@ -1,3 +1,7 @@
+:host {
+  margin: 1rem 4rem;
+}
+
 .event-image {
   background: gray;
   width: 7rem;
@@ -8,4 +12,6 @@
 
 h3 {
   text-align: center;
+  font-size: 2rem;
+  font-weight: 300;
 }

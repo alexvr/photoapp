@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {Event} from "../model/Event";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'startscreen',
@@ -44,4 +45,6 @@ export class StartScreenComponent {
       detailLayout: null,
       configuration: null
     }];
+
+  constructor(private router: Router){}
 }

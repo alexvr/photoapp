@@ -10,6 +10,7 @@ import { AppComponent }           from './app.component';
 import {EventComponent} from "./startscreen/event/event.component";
 import {StartScreenComponent} from "./startscreen/startscreen.component";
 import { OnlineEventOverviewComponent } from "./online-event-overview/online-event-overview.component";
+import {ConfigurationComponent} from "./configuration/configuration.component";
 
 // Services
 import { AuthService }    from "./login/auth.service";
@@ -21,7 +22,8 @@ import { LoginComponent } from "./login/login.component";
     StartScreenComponent,
     EventComponent,
     OnlineEventOverviewComponent,
-    LoginComponent
+    LoginComponent,
+    ConfigurationComponent
   ],
   imports: [
     BrowserModule,

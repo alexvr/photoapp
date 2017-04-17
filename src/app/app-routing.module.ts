@@ -1,10 +1,12 @@
-import { NgModule }               from '@angular/core';
-import { RouterModule, Routes }   from '@angular/router';
-import { OnlineEventOverviewComponent } from './online-event-overview/online-event-overview.component';
+import {NgModule}               from '@angular/core';
+import {RouterModule, Routes}   from '@angular/router';
+import {OnlineEventOverviewComponent} from './online-event-overview/online-event-overview.component';
 import {StartScreenComponent} from "./startscreen/startscreen.component";
+import {ConfigurationComponent} from "./configuration/configuration.component";
 
 export const routes: Routes = [
   {path: 'online-event-overview', component: OnlineEventOverviewComponent},
+  {path: 'configuration', component: ConfigurationComponent},
   {path: '', component: StartScreenComponent},
   {path: '**', redirectTo: ''}
 ];
@@ -14,4 +16,5 @@ export const routes: Routes = [
   exports: [RouterModule]
 })
 
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
