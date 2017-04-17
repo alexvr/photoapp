@@ -1,4 +1,5 @@
-<form>
+<div id="logincontainer">
+  <form>
     <div class="form-group">
       <label for="name">Email</label>
       <input
@@ -26,11 +27,12 @@
     </button>
     <div id="errorMessage" class="errorMessage">{{messages.errorMessage}}</div>
     <div id="succesMessage" class="succesMessage">{{messages.succesMessage}}</div>
-  <button
-    type="submit"
-    class="btn btn-default"
-    (click)="authService.logout(username.value, password.value)"
-    *ngIf="authService.isAuthenticated()">
-    Log Out
-  </button>
-</form>
+    <button
+      type="submit"
+      class="btn btn-default"
+      (click)="authService.logout(username.value, password.value)"
+      *ngIf="authService.isAuthenticated()">
+      Log Out
+    </button>
+  </form>
+</div>
