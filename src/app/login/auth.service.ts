@@ -60,14 +60,18 @@ export class AuthService {
     }));
   }
 
-  public signup(email, password): void {
-    this.auth0.redirect.signupAndLogin({
+  // TODO: Is signup necessary?
+  public signup(email: string, password: string): Observable<any> {
+    return new Observable(obs => this.auth0.redirect.signupAndLogin({
       connection: 'Username-Password-Authentication',
       email,
       password,
-    }, err => {
-      if (err) return alert(err.description);
-    });
+    }, (err) => {
+      if (err) {
+        return obs.error();
+      }
+      return obs.complete();
+    }));
   }
 
   public isAuthenticated(): boolean {

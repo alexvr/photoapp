@@ -15,15 +15,15 @@ export class LoginComponent {
 
   allFieldsFilledIn(username, password): boolean {
     if (username == '' && password == '') {
-      this.messages.errorMessage = 'Username and password need to be filled in.';
+      this.messages.errorMessage = 'Username and password need to be filled in!';
       this.messages.succesMessage = '';
       return false;
     } else if (username == '') {
-      this.messages.errorMessage = 'Username need to be filled in.';
+      this.messages.errorMessage = 'Username need to be filled in!';
       this.messages.succesMessage = '';
       return false;
     } else if (password == '') {
-      this.messages.errorMessage = 'Password need to be filled in.';
+      this.messages.errorMessage = 'Password need to be filled in!';
       this.messages.succesMessage = '';
       return false;
     }
@@ -38,9 +38,24 @@ export class LoginComponent {
         this.messages.succesMessage = '';
       }, err => {
         console.log('login error');
-        this.messages.errorMessage = 'An error has occurred while logging in.';
+        this.messages.errorMessage = 'An error has occurred while logging in!';
         this.messages.succesMessage = '';
       });
+    }
+  }
+
+  signUpWithErrorHandling(username, password) {
+    if (this.allFieldsFilledIn(username, password)) {
+      this.authService.signup(username, password).subscribe(data => {
+          console.log('signup succes');
+          this.messages.errorMessage = '';
+          this.messages.succesMessage = 'New user is created!';
+        }, err => {
+          console.log('signup error');
+          this.messages.errorMessage = 'The user already exists!';
+          this.messages.succesMessage = '';
+        }
+      );
     }
   }
 
