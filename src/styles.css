@@ -1,4 +1,57 @@
-/* You can add global styles to this file, and also import other style files */
 html, body{
   height: 100%;
+}
+
+/* Changes checkbox into slider */
+input[type="checkbox"].checker {
+  position: absolute;
+  margin: 8px 0 0 16px;
+}
+
+input[type="checkbox"].checker + label {
+  position: relative;
+  padding: 5px 0 0 50px;
+  line-height: 2.0em;
+}
+
+input[type="checkbox"].checker + label:before {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 0;
+  top: 0;
+  width: 40px; /* x*5 */
+  height: 24px; /* x*3 */
+  border-radius: 16px; /* x*2 */
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+input[type="checkbox"].checker + label:after {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 0px;
+  top: 0px;
+  width: 24px; /* x*3 */
+  height: 24px; /* x*3 */
+  border-radius: 16px; /* x*2 */
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+input[type="checkbox"].checker + label:hover:after {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+input[type="checkbox"].checker:checked + label:after {
+  margin-left: 16px;
+}
+
+input[type="checkbox"].checker:checked + label:before {
+  background: #55D069;
 }
