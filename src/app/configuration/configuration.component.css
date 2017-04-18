@@ -1,25 +1,37 @@
-header{
+:host {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 1rem;
+}
+
+header h2 {
+  margin: 0;
 }
 
 button {
   margin: 3rem;
 }
 
-main{
+main {
   background: #e8e8e8;
-  width: 80%;
-  height: 75%;
-  margin: auto;
+  width: 90%;
+  height: 100%;
+  margin: 0 auto;
 }
 
-.configSteps{
+.configSteps {
   display: flex;
   justify-content: center;
+  margin: 1rem 0 2rem 0;
 }
 
-a{
+a {
   margin: 2rem;
 }

@@ -1,0 +1,12 @@
+:host{
+  padding: 1rem;
+}
+
+h2{
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+.event-details{
+  margin-bottom: 2rem;
+}
