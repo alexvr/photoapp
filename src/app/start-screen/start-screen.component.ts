@@ -1,7 +1,14 @@
 import {Component} from "@angular/core";
 import {Event} from "../model/Event";
 import {Router} from "@angular/router";
-import {ipcRenderer} from 'electron';
+
+let ipcRenderer;
+
+if (typeof window['require'] !== "undefined") {
+  let electron = window['require']("electron");
+  ipcRenderer = electron.ipcRenderer;
+  console.log("ipc renderer", ipcRenderer);
+}
 
 @Component({
   selector: 'start-screen',
@@ -55,8 +62,13 @@ export class StartScreenComponent {
     this.has_ipc = (typeof ipcRenderer != 'undefined');
     // Set listener
     if (this.has_ipc) {
-      ipcRenderer.on('asynchronous-reply', (event, arg) => {
-        console.log(arg); // prints "pong"
+      // Send async message to main process
+      ipcRenderer.send('async', 1);
+
+      // Listen for async-reply message from main process
+      ipcRenderer.on('async-reply', (event, arg) => {
+        // Print 2
+        console.log(arg);
       });
     }
   }

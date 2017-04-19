@@ -58,8 +58,10 @@ app.on('window-all-closed', function () {
   }
 });
 
-// Ipc listening in main process.
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg);  // prints "ping"
-  event.sender.send('asynchronous-reply', 'async pong');
+// Listen for async message from renderer process
+ipcMain.on('async', (event, arg) => {
+  // Print 1
+  console.log(arg);
+  // Reply on async message from renderer process
+  event.sender.send('async-reply', 2);
 });
