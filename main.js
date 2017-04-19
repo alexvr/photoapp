@@ -1,17 +1,17 @@
-// Requirements
-const {app, BrowserWindow} = require('electron');
+// Modules to control application life, create native browser window and access printers.
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
 const printer = require("printer"), util = require('util');
 
-// Load environment variables in .env file.
+// Load environment variables in .env file and live reload when in development.
 require('dotenv').config();
-
-// Live reload when in development.
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
 });
 
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
 let window = null;
 
 app.on('ready', function () {
