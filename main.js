@@ -1,5 +1,5 @@
-// Modules to control application life, create native browser window and access printers.
-const { app, BrowserWindow } = require('electron');
+// Modules to control application life, create native browser window, inter-process communication and access printers.
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 const printer = require("printer"), util = require('util');
@@ -56,4 +56,10 @@ app.on('window-all-closed', function () {
   if (process.platform != 'darwin') {
     app.quit();
   }
+});
+
+// Ipc listening in main process.
+ipcMain.on('asynchronous-message', (event, arg) => {
+  console.log(arg);  // prints "ping"
+  event.sender.send('asynchronous-reply', 'async pong');
 });
