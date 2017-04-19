@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {Event} from "../model/Event";
 import {Router} from "@angular/router";
+import {ipcRenderer} from 'electron';
 
 @Component({
   selector: 'start-screen',
@@ -10,6 +11,8 @@ import {Router} from "@angular/router";
 
 
 export class StartScreenComponent {
+
+  private has_ipc: boolean;
 
   private events: Event[] = [{
     eventName: 'Chaumet',
@@ -54,5 +57,13 @@ export class StartScreenComponent {
       configuration: null
     }];
 
-  constructor(private router: Router){ }
+  constructor(private router: Router) {
+    this.has_ipc = (typeof ipcRenderer != 'undefined');
+    // Set listener
+    if (this.has_ipc) {
+      ipcRenderer.on('asynchronous-reply', (event, arg) => {
+        console.log(arg); // prints "pong"
+      });
+    }
+  }
 }
