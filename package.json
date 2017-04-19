@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^2.3.1",
     "@angular/router": "^3.3.1",
     "angular2-jwt": "^0.2.2",
+    "angular2-useful-swiper": "^4.0.1",
     "auth0-js": "^8.5.0",
     "auth0-lock": "^10.14.0",
     "core-js": "^2.4.1",

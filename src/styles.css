@@ -1,6 +1,8 @@
-html, body{
+html, body {
   height: 100%;
   background: #e8e8e8;
+  margin: 0;
+  padding: 0;
 }
 
 /* Changes checkbox into slider */
@@ -34,8 +36,8 @@ input[type="checkbox"].checker + label:after {
   content: "";
   position: absolute;
   display: block;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   width: 24px; /* x*3 */
   height: 24px; /* x*3 */
   border-radius: 16px; /* x*2 */
