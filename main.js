@@ -1,48 +1,52 @@
-// ./main.js
+// Requirements
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
-const printer = require("/Users/Alexander/Desktop/photoapp/node_modules/printer"), util = require('util');
+const printer = require("printer"), util = require('util');
 
+// Load environment variables in .env file.
 require('dotenv').config();
+
+// Live reload when in development.
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
 });
 
-let win = null;
+let window = null;
 
 app.on('ready', function () {
 
+  // Look for printers installed on this machine.
+  //console.log("installed printers:\n"+util.inspect(printer.getPrinters(), {colors:true, depth:10}));
+
   // Initialize the window to our specified dimensions
-  win = new BrowserWindow({width: 1000, height: 700});
+  window = new BrowserWindow({width: 1000, height: 700});
 
   // Specify entry point
   if (process.env.PACKAGE === 'true') {
-    win.loadURL(url.format({
+    window.loadURL(url.format({
       pathname: path.join(__dirname, 'dist/index.html'),
       protocol: 'file:',
       slashes: true
     }));
   } else {
-    win.loadURL(process.env.HOST);
-    win.webContents.openDevTools();
+    window.loadURL(process.env.HOST);
+    window.webContents.openDevTools();
   }
 
   // Show dev tools
   // Remove this line before distributing
-  win.webContents.openDevTools();
-
-  console.log("installed printers:\n"+util.inspect(printer.getPrinters(), {colors:true, depth:10}));
+  window.webContents.openDevTools();
 
   // Remove window once app is closed
-  win.on('closed', function () {
-    win = null;
+  window.on('closed', function () {
+    window = null;
   });
 
 });
 
 app.on('activate', () => {
-  if (win === null) {
+  if (window === null) {
     createWindow();
   }
 })
