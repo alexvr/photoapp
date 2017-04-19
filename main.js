@@ -2,6 +2,7 @@
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
+const printer = require("/Users/Alexander/Desktop/photoapp/node_modules/printer"), util = require('util');
 
 require('dotenv').config();
 require('electron-reload')(__dirname, {
@@ -30,6 +31,8 @@ app.on('ready', function () {
   // Show dev tools
   // Remove this line before distributing
   win.webContents.openDevTools();
+
+  console.log("installed printers:\n"+util.inspect(printer.getPrinters(), {colors:true, depth:10}));
 
   // Remove window once app is closed
   win.on('closed', function () {

@@ -8,7 +8,9 @@ import {Router} from "@angular/router";
   styleUrls: ['start-screen.component.css']
 })
 
+
 export class StartScreenComponent {
+
   private events: Event[] = [{
     eventName: 'Chaumet',
     eventDate: null,
@@ -46,5 +48,5 @@ export class StartScreenComponent {
       configuration: null
     }];
 
-  constructor(private router: Router){}
+  constructor(private router: Router){ }
 }
