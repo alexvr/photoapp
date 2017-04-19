@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, Input} from "@angular/core";
 @Component({
   selector: 'basic-info',
   templateUrl: 'basic-info.component.html',
@@ -6,5 +6,6 @@ import {Component} from "@angular/core";
 })
 
 export class BasicInfoComponent {
+  @Input() event: Event;
 
 }

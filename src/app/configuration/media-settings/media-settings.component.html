@@ -7,9 +7,15 @@
   <div class="form-group col-xs-6">
     <label for="photoQuality">Photo quality</label>
     <div id="photoQuality">
-      <input class="btn btn-default" type="button" value="Low">
-      <input class="btn btn-default" type="button" value="Medium">
-      <input class="btn btn-default" type="button" value="High">
+      <input class="btn btn-default" type="button" value="Low"
+             (click)="setPhotoQuality(0)"
+             [ngStyle]="setPhotoQualityButtonStyle(0)">
+      <input class="btn btn-default" type="button" value="Medium"
+             (click)="setPhotoQuality(1)"
+             [ngStyle]="setPhotoQualityButtonStyle(1)">
+      <input class="btn btn-default" type="button" value="High"
+             (click)="setPhotoQuality(2)"
+             [ngStyle]="setPhotoQualityButtonStyle(2)">
     </div>
   </div>
 </div>
@@ -18,19 +24,21 @@
   <h2 class="col-xs-12">SFTP storage</h2>
   <div class="form-group col-xs-6">
     <label for="inputUsername">Username</label>
-    <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+    <input type="text" class="form-control" id="inputUsername" placeholder="Username"
+           [(ngModel)]="configuration.ftpUsername">
   </div>
   <div class="form-group col-xs-6">
     <label for="inputPassword">Password</label>
-    <input type="password" class="form-control" id="inputPassword">
+    <input type="password" class="form-control" id="inputPassword" [(ngModel)]="configuration.ftpPassword">
   </div>
   <div class="form-group col-xs-6">
     <label for="inputPort">Port</label>
-    <input type="number" class="form-control" id="inputPort" placeholder="Port">
+    <input type="number" class="form-control" id="inputPort" placeholder="Port" [(ngModel)]="configuration.ftpPort">
   </div>
   <div class="form-group col-xs-6">
     <label for="inputIPAddress">IP address</label>
-    <input type="text" class="form-control" id="inputIPAddress" placeholder="IP address">
+    <input type="text" class="form-control" id="inputIPAddress" placeholder="IP address"
+           [(ngModel)]="configuration.ftpIPAddress">
   </div>
 </div>
 
@@ -38,18 +46,20 @@
   <h2 class="col-xs-12">Printer settings</h2>
   <div class="form-group col-xs-6">
     <label for="inputPrinterName">Printer name</label>
-    <input type="text" class="form-control" id="inputPrinterName" placeholder="Printer name">
+    <input type="text" class="form-control" id="inputPrinterName" placeholder="Printer name"
+           [(ngModel)]="configuration.printerName">
   </div>
   <div class="form-group col-xs-6">
     <label for="inputCopies">Copies</label>
-    <input type="number" class="form-control" id="inputCopies" placeholder="Copies">
+    <input type="number" class="form-control" id="inputCopies" placeholder="Copies"
+           [(ngModel)]="configuration.printerCopies">
   </div>
   <div class="form-group col-xs-3 checker-container">
-    <input id="qrPrinting" class="checker" type="checkbox" checked>
+    <input id="qrPrinting" class="checker" type="checkbox" [(ngModel)]="configuration.qrPrinting">
     <label for="qrPrinting">QR Printing</label>
   </div>
   <div class="form-group col-xs-3 checker-container">
-    <input id="watermark" class="checker" type="checkbox" checked>
+    <input id="watermark" class="checker" type="checkbox" [(ngModel)]="configuration.watermarkPrinting">
     <label for="watermark">Watermark</label>
   </div>
   <div class="form-group col-xs-6">

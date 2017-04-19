@@ -17,7 +17,7 @@ let window = null;
 app.on('ready', function () {
 
   // Look for printers installed on this machine.
-  //console.log("installed printers:\n"+util.inspect(printer.getPrinters(), {colors:true, depth:10}));
+  console.log("installed printers:\n"+util.inspect(printer.getPrinters(), {colors:true, depth:10}));
 
   // Initialize the window to our specified dimensions
   window = new BrowserWindow({width: 1000, height: 700});

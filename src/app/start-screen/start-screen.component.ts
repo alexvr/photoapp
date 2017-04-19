@@ -13,8 +13,10 @@ export class StartScreenComponent {
 
   private events: Event[] = [{
     eventName: 'Chaumet',
-    eventDate: null,
+    eventStartDate: null,
+    eventEndDate: null,
     eventLocation: null,
+    eventAddress: null,
     company: null,
     companyAddress: null,
     contact: null,
@@ -25,8 +27,10 @@ export class StartScreenComponent {
   },
     {
       eventName: 'Fashicon',
-      eventDate: null,
+      eventStartDate: null,
+      eventEndDate: null,
       eventLocation: null,
+      eventAddress: null,
       company: null,
       companyAddress: null,
       contact: null,
@@ -37,8 +41,10 @@ export class StartScreenComponent {
     },
     {
       eventName: 'Porsche',
-      eventDate: null,
+      eventStartDate: null,
+      eventEndDate: null,
       eventLocation: null,
+      eventAddress: null,
       company: null,
       companyAddress: null,
       contact: null,
