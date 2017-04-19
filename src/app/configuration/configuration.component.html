@@ -10,8 +10,8 @@
 </header>
 
 <main>
-  <basic-info *ngIf="activePart === 1"></basic-info>
-  <media-settings *ngIf="activePart === 2"></media-settings>
+  <basic-info [event]="event" *ngIf="activePart === 1"></basic-info>
+  <media-settings [configuration]="event.configuration" *ngIf="activePart === 2"></media-settings>
   <layout-settings *ngIf="activePart === 3"></layout-settings>
 </main>
 

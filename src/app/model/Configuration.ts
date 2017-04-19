@@ -8,8 +8,8 @@ export class Configuration {
   ftpUsername: string;
   ftpPassword: string;
   printerName: string;
-  printingEnabled: boolean;
-  automaticPrinting: boolean;
+  printingEnabled: boolean;     // Necessary?
+  automaticPrinting: boolean;   // Necessary?
   printerCopies: number;
   watermarkPrinting: boolean;
   watermarkImage: string;
