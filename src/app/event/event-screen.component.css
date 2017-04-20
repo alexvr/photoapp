@@ -4,6 +4,22 @@
   flex-direction: column;
 }
 
+.exit-btn {
+  width: 70px;
+  height: 70px;
+  position: fixed;
+  top:0;
+  background: #dddddd;
+}
+
+#exit-btn-1 {
+  left: 0;
+}
+
+#exit-btn-2{
+  right: 0;
+}
+
 header {
   display: flex;
   justify-content: center;

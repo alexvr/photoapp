@@ -1,3 +1,6 @@
+<div class="exit-btn" id="exit-btn-1" (click)="showMenuLeftBtn()"></div>
+<div class="exit-btn" id="exit-btn-2" (click)="showMenuRightBtn()"></div>
+
 <header>
   <div class="logo"></div>
 </header>
@@ -15,7 +18,25 @@
       <div class="swiper-slide">Slide 9</div>
       <div class="swiper-slide">Slide 10</div>
     </div>
-  <div class="swiper-pagination"></div>
+    <div class="swiper-pagination"></div>
   </swiper>
 </main>
 <div class="selected-images"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     [ngClass]="{'in': visibleAnimate}"
+     [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeMenu()"><span
+          aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Menu</h4>
+      </div>
+      <div class="modal-body">
+        <p>test</p>
+      </div>
+    </div>
+  </div>
+</div>
