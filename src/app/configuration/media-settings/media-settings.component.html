@@ -47,7 +47,7 @@
   <h2 class="col-xs-12">Printer settings</h2>
   <div class="form-group col-xs-6">
     <label for="inputPrinterName">Printer name</label>
-    <select class="form-control" id="inputPrinterName" [(ngModel)]="printerService.selectedPrinter">
+    <select class="form-control" id="inputPrinterName" [(ngModel)]="printerService.selectedPrinter" (ngModelChange)="printerService.testPrintPhotoOnPrinter()">
       <option [value]="" disabled selected>Choose printer</option>
       <option *ngFor="let printer of printers" [ngValue]="printer">{{printer}}</option>
     </select>
