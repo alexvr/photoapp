@@ -22,27 +22,24 @@ export class EventScreenComponent {
   private timer;
   private visibleAnimate: boolean = false;
   private visible: boolean = false;
+  @ViewChild('modal-backdrop') backdrop;
 
   showMenuLeftBtn() {
     this.exitCounter++;
-    console.log(this.exitCounter);
     clearTimeout(this.timer);
     this.timer = setTimeout(() => this.exitCounter = 0, 3000);
-    console.log(this.exitCounter);
   }
 
   showMenuRightBtn() {
     if (this.exitCounter >= 3) {
-      console.log("open menu!!");
       this.visibleAnimate = true;
       this.visible = true;
-      console.log(this.visibleAnimate + ' - ' + this.visible);
+      console.log(this.backdrop);
     }
   }
 
   closeMenu(){
     this.visibleAnimate = false;
     this.visible = false;
-    console.log(this.visibleAnimate + ' - ' + this.visible);
   }
 }

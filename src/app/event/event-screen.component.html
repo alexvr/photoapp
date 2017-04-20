@@ -24,10 +24,11 @@
 <div class="selected-images"></div>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      [ngClass]="{'in': visibleAnimate}"
-     [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
-  <div class="modal-dialog" role="document">
+     [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}"
+     data-backdrop="">
+  <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeMenu()"><span
@@ -35,7 +36,9 @@
         <h4 class="modal-title">Menu</h4>
       </div>
       <div class="modal-body">
-        <p>test</p>
+        <button type="button" class="btn btn-default menu-btn" (click)="closeMenu()">Back</button>
+        <button type="button" class="btn btn-default menu-btn" routerLink="/configuration">Edit</button>
+        <button type="button" class="btn btn-default menu-btn" routerLink="/">Exit</button>
       </div>
     </div>
   </div>
