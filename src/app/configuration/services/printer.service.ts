@@ -1,41 +1,58 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
+// Inter Process Communication
 let ipcRenderer;
-
 if (typeof window['require'] !== "undefined") {
   let electron = window['require']("electron");
   ipcRenderer = electron.ipcRenderer;
-  console.log("ipc renderer", ipcRenderer);
+  //console.log("ipc renderer", ipcRenderer);
 }
 
 @Injectable()
 export class PrinterService {
 
-  private has_ipc: boolean;
-  private printers: string[] = [];
-  private selectedPrinter: string = null;
+  private hasIpc: boolean;
+  private selectedPrinter: string;
 
-  /*
-  ngOnInit(): void {
-    console.log(this.printers);
+  /**
+   * Get all printers installed on this machine.
+   * @returns string[] of printers
+   */
+  getAllPrinters(): string[] {
+    let printers: string[] = [];
 
-    this.has_ipc = (typeof ipcRenderer != 'undefined');
+    this.hasIpc = (typeof ipcRenderer != 'undefined');
     // Set listener
-    if (this.has_ipc) {
+    if (this.hasIpc) {
       // Send async message to get all installed printers.
       ipcRenderer.send('async', 'get-all-printers');
       console.log("media-settings - getAllPrinters()");
 
       // Listen for async-reply to get all installed printers.
       ipcRenderer.on('async-get-all-printers', (event, arg) => {
-        if (arg.length > this.printers.length || arg.length < this.printers.length) {
-          this.printers = arg;
-          console.log(this.printers);
-        }
+        printers = arg;
+        console.log("PrinterService - " + printers);
       });
     }
+
+    return printers;
   }
-  */
+
+  /**
+   * Select printer for event.
+   * @param printer
+   */
+  selectPrinter(printer: string): void {
+    this.selectedPrinter = printer;
+  }
+
+  /**
+   * Get selected printer for event.
+   * @returns Name of printer
+   */
+  getSelectedPrinter(): string {
+    return this.selectedPrinter;
+  }
 
 
 }

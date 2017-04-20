@@ -1,6 +1,7 @@
 import {Component, Input} from "@angular/core";
 import {Configuration} from "../../model/Configuration";
 import {PhotoQuality} from "../../model/PhotoQuality";
+import {PrinterService} from "../services/printer.service";
 
 @Component({
   selector: 'media-settings',
@@ -12,7 +13,7 @@ export class MediaSettingsComponent{
 
   @Input() configuration: Configuration;
 
-  constructor() { }
+  constructor(private printerService: PrinterService) { }
 
   setPhotoQuality(x: number) {
     switch (x) {
