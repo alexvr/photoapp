@@ -1,14 +1,18 @@
 import {Component, Input} from "@angular/core";
 import {Configuration} from "../../model/Configuration";
 import {PhotoQuality} from "../../model/PhotoQuality";
+
 @Component({
   selector: 'media-settings',
   templateUrl: 'media-settings.component.html',
   styleUrls: ['media-settings.component.css']
 })
 
-export class MediaSettingsComponent {
+export class MediaSettingsComponent{
+
   @Input() configuration: Configuration;
+
+  constructor() { }
 
   setPhotoQuality(x: number) {
     switch (x) {

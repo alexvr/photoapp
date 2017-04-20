@@ -1,8 +1,10 @@
+'use strict';
+
 // Modules to control application life, create native browser window, inter-process communication and access printers.
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
-const printer = require("printer"), util = require('util');
+const printer = require("printer");
 
 // Load environment variables in .env file and live reload when in development.
 require('dotenv').config();
@@ -14,10 +16,17 @@ require('electron-reload')(__dirname, {
 // be closed automatically when the JavaScript object is garbage collected.
 let window = null;
 
+let isWindows = process.platform === 'win32';
+
+let printers = null;
+
 app.on('ready', function () {
 
-  // Look for printers installed on this machine.
-  console.log("installed printers:\n"+util.inspect(printer.getPrinters(), {colors:true, depth:10}));
+  // Check which OS the machine is on.
+  console.log('Is OS Windows? ', isWindows);
+
+  // Get all installed printers.
+  printers = getAllPrinters();
 
   // Initialize the window to our specified dimensions
   window = new BrowserWindow({width: 1000, height: 700});
@@ -53,15 +62,30 @@ app.on('activate', () => {
 ;
 
 app.on('window-all-closed', function () {
-  if (process.platform != 'darwin') {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-// Listen for async message from renderer process
+// Listen for async message from renderer process.
 ipcMain.on('async', (event, arg) => {
-  // Print 1
-  console.log(arg);
-  // Reply on async message from renderer process
-  event.sender.send('async-reply', 2);
+
+  // getAllPrinters
+  if (arg === 'get-all-printers') {
+    console.log('main.js - getAllPrinters()');
+    event.sender.send('async-get-all-printers', printers);
+  }
+
 });
+
+// Get a list of all installed printers.
+function getAllPrinters() {
+  let printersJSON = printer.getPrinters();
+  let printers = [];
+
+  for (let i = 0; i < printersJSON.length; i++) {
+    printers[i] = printersJSON[i]['name'];
+  }
+
+  return printers;
+}
