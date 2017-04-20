@@ -1,4 +1,4 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {Configuration} from "../../model/Configuration";
 import {PhotoQuality} from "../../model/PhotoQuality";
 import {PrinterService} from "../services/printer.service";
@@ -9,11 +9,16 @@ import {PrinterService} from "../services/printer.service";
   styleUrls: ['media-settings.component.css']
 })
 
-export class MediaSettingsComponent{
+export class MediaSettingsComponent implements OnInit{
 
   @Input() configuration: Configuration;
+  private printers: string[];
 
   constructor(private printerService: PrinterService) { }
+
+  ngOnInit(): void {
+    this.printerService.getAllPrinters().subscribe(p => this.printers = p);
+  }
 
   setPhotoQuality(x: number) {
     switch (x) {

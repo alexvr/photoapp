@@ -1,4 +1,5 @@
-import {Injectable} from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
+import {Observable} from "rxjs/Observable";
 
 // Inter Process Communication
 let ipcRenderer;
@@ -14,28 +15,34 @@ export class PrinterService {
   private hasIpc: boolean;
   private selectedPrinter: string;
 
+  constructor(private zone: NgZone) { }
+
   /**
    * Get all printers installed on this machine.
    * @returns string[] of printers
    */
-  getAllPrinters(): string[] {
-    let printers: string[] = [];
+  getAllPrinters(): Observable<string[]> {
+    return new Observable(observer => {
+      let printers: string[] = [];
+      this.hasIpc = (typeof ipcRenderer != 'undefined');
 
-    this.hasIpc = (typeof ipcRenderer != 'undefined');
-    // Set listener
-    if (this.hasIpc) {
-      // Send async message to get all installed printers.
-      ipcRenderer.send('async', 'get-all-printers');
-      console.log("media-settings - getAllPrinters()");
+      // Set listener
+      if (this.hasIpc) {
+        // Send async message to get all installed printers.
+        ipcRenderer.send('async', 'get-all-printers');
 
-      // Listen for async-reply to get all installed printers.
-      ipcRenderer.on('async-get-all-printers', (event, arg) => {
-        printers = arg;
-        console.log("PrinterService - " + printers);
-      });
-    }
-
-    return printers;
+        // Listen for async-reply to get all installed printers.
+        // NgZone is required because printers are updated asynchronously outside Angular's zone.
+        ipcRenderer.on('async-get-all-printers', (event, arg) => {
+          this.zone.run(() => {
+            printers = arg;
+            console.log("PrinterService1 - " + printers);
+            observer.next(printers);
+            observer.complete();
+          });
+        });
+      }
+    });
   }
 
   /**
@@ -52,6 +59,13 @@ export class PrinterService {
    */
   getSelectedPrinter(): string {
     return this.selectedPrinter;
+  }
+
+  /**
+   * This method is used to test the connected printer.
+   */
+  testPrintPhoto(): void {
+
   }
 
 

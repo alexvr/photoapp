@@ -47,11 +47,9 @@
   <h2 class="col-xs-12">Printer settings</h2>
   <div class="form-group col-xs-6">
     <label for="inputPrinterName">Printer name</label>
-    <select class="form-control" id="inputPrinterName" [(ngModel)]="printerService.selectedPrinter" (focus)="hasFocus = true">
+    <select class="form-control" id="inputPrinterName" [(ngModel)]="printerService.selectedPrinter">
       <option [value]="" disabled selected>Choose printer</option>
-      <ng-container *ngIf="hasFocus">
-        <option [ngValue]="printer" *ngFor="let printer of printerService.getAllPrinters()">{{printer}}</option>
-      </ng-container>
+      <option *ngFor="let printer of printers" [ngValue]="printer">{{printer}}</option>
     </select>
   </div>
 

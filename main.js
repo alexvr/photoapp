@@ -18,18 +18,13 @@ let window = null;
 
 let isWindows = process.platform === 'win32';
 
-let printers = null;
-
 app.on('ready', function () {
 
   // Check which OS the machine is on.
   console.log('Is OS Windows? ', isWindows);
 
-  // Get all installed printers.
-  printers = getAllPrinters();
-
   // Initialize the window to our specified dimensions
-  window = new BrowserWindow({width: 1000, height: 700});
+  window = new BrowserWindow({width: 1000, height: 900});
 
   // Specify entry point
   if (process.env.PACKAGE === 'true') {
@@ -70,10 +65,16 @@ app.on('window-all-closed', function () {
 // Listen for async message from renderer process.
 ipcMain.on('async', (event, arg) => {
 
-  // getAllPrinters
+  // PrinterService - getAllPrinters()
   if (arg === 'get-all-printers') {
     console.log('main.js - getAllPrinters()');
-    event.sender.send('async-get-all-printers', printers);
+    event.sender.send('async-get-all-printers', getAllPrinters());
+  }
+
+  // PrinterService - testPrintPhoto()
+  if (arg === 'test-print-photo') {
+    console.log('main.js - testPrintPhoto()');
+
   }
 
 });
@@ -81,11 +82,11 @@ ipcMain.on('async', (event, arg) => {
 // Get a list of all installed printers.
 function getAllPrinters() {
   let printersJSON = printer.getPrinters();
-  let printers = [];
+  let installedPrinters = [];
 
   for (let i = 0; i < printersJSON.length; i++) {
-    printers[i] = printersJSON[i]['name'];
+    installedPrinters[i] = printersJSON[i]['name'];
   }
 
-  return printers;
+  return installedPrinters;
 }
