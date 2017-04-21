@@ -1,7 +1,7 @@
 'use strict';
 
 // Modules to control application life, create native browser window, inter-process communication and access printers.
-const {app, BrowserWindow, ipcMain} = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 const printer = require("printer");
@@ -67,21 +67,28 @@ app.on('window-all-closed', function () {
 // Listen for async message from renderer process.
 ipcMain.on('async', (event, arg) => {
 
+  console.log("ipcMain - incoming argument: " + arg);
+
   // PrinterService - getAllPrinters()
   if (arg === 'get-all-printers') {
     console.log('main.js - getAllPrinters()');
     event.sender.send('async-get-all-printers', getAllPrinters());
   }
 
-  // PrinterService - testPrintPhoto()
-  if (arg === 'test-print-photo') {
-    console.log('main.js - testPrintPhoto()');
-
+  // PrinterService - testPrintPhotoOnPrinter()
+  if (arg[0] === 'test-print-photo-on-printer') {
+    console.log('main.js - testPrintPhotoOnPrinter()');
+    console.log("printer - " + arg[1]);
+    testPrintPhotoOnPrinter(arg[1]);
+    event.sender.send('async-test-print-photo-on-printer', "Photo has been sent to printer!");
   }
 
 });
 
-// Get a list of all installed printers.
+/**
+ * Get a list of all installed printers.
+ * @returns {Array}
+ */
 function getAllPrinters() {
   let printersJSON = printer.getPrinters();
   let installedPrinters = [];
@@ -93,3 +100,31 @@ function getAllPrinters() {
   return installedPrinters;
 }
 
+function testPrintPhotoOnPrinter(argumentPrinter) {
+  let usedPrinter = argumentPrinter;
+  let filename = "./src/assets/images/photo.jpg";
+
+  if( process.platform !== 'win32') {
+    printer.printFile({filename:filename,
+      printer: usedPrinter, // printer name, if missing then will print to default printer
+      success:function(jobID){
+        console.log("main.js - job sent to printer (" + usedPrinter + ") with ID: " + jobID);
+      },
+      error:function(err){
+        console.log(err);
+      }
+    });
+  } else {
+    // not yet implemented, use printDirect and text
+    let fs = require('fs');
+    printer.printDirect({data:fs.readFileSync(filename),
+      printer: process.env[3], // printer name, if missing then will print to default printer
+      success:function(jobID){
+        console.log("sent to printer with ID: "+jobID);
+      },
+      error:function(err){
+        console.log(err);
+      }
+    });
+  }
+}

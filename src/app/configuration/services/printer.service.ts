@@ -15,7 +15,8 @@ export class PrinterService {
   private hasIpc: boolean;
   private selectedPrinter: string;
 
-  constructor(private zone: NgZone) { }
+  constructor(private zone: NgZone) {
+  }
 
   /**
    * Get all printers installed on this machine.
@@ -65,7 +66,34 @@ export class PrinterService {
    * This method is used to test the connected printer.
    */
   testPrintPhoto(): void {
+    this.hasIpc = (typeof ipcRenderer != 'undefined');
 
+    // Set listener
+    if (this.hasIpc) {
+      // Send async message to print test photo.
+      ipcRenderer.send('async', 'test-print-photo');
+
+      // Listen for async-reply to print test photo.
+      ipcRenderer.on('async-test-print-photo', (event, arg) => {
+        console.log(arg);
+      });
+    }
+  }
+
+  testPrintPhotoOnPrinter(): void {
+    this.hasIpc = (typeof ipcRenderer != 'undefined');
+
+    // Set listener
+    if (this.hasIpc) {
+      // Send async message to print test photo.
+      let printerArguments: string[] = ['test-print-photo-on-printer', this.selectedPrinter];
+      ipcRenderer.send('async', printerArguments);
+
+      // Listen for async-reply to print test photo.
+      ipcRenderer.on('async-test-print-photo-on-printer', (event, arg) => {
+        console.log(arg);
+      });
+    }
   }
 
 
