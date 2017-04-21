@@ -4,7 +4,16 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
-const printer = require("printer");
+const printerConfiguration = require('./printer-configuration');
+
+let ftpd = require('ftpd');
+let fs = require('fs');
+let server;
+let options = {
+  host: process.env.IP || '127.0.0.1',
+  port: process.env.PORT || 7002,
+  tls: null,
+};
 const qrCodeGenerator = require('./qrGenerator');
 
 // Load environment variables in .env file and live reload when in development.
@@ -17,12 +26,10 @@ require('electron-reload')(__dirname, {
 // be closed automatically when the JavaScript object is garbage collected.
 let window = null;
 
-let isWindows = process.platform === 'win32';
-
 app.on('ready', function () {
 
   // Check which OS the machine is on.
-  console.log('Is OS Windows? ', isWindows);
+  console.log('Is OS Windows? ', process.platform === 'win32');
 
   // Initialize the window to our specified dimensions
   window = new BrowserWindow({width: 1000, height: 900});
@@ -71,60 +78,58 @@ ipcMain.on('async', (event, arg) => {
 
   // PrinterService - getAllPrinters()
   if (arg === 'get-all-printers') {
-    console.log('main.js - getAllPrinters()');
-    event.sender.send('async-get-all-printers', getAllPrinters());
+    event.sender.send('async-get-all-printers', printerConfiguration.getAllPrinters());
   }
 
   // PrinterService - testPrintPhotoOnPrinter()
   if (arg[0] === 'test-print-photo-on-printer') {
-    console.log('main.js - testPrintPhotoOnPrinter()');
-    console.log("printer - " + arg[1]);
-    testPrintPhotoOnPrinter(arg[1]);
+    printerConfiguration.testPrintPhotoOnPrinter(arg[1]);
     event.sender.send('async-test-print-photo-on-printer', "Photo has been sent to printer!");
   }
 
 });
 
-/**
- * Get a list of all installed printers.
- * @returns {Array}
- */
-function getAllPrinters() {
-  let printersJSON = printer.getPrinters();
-  let installedPrinters = [];
+server = new ftpd.FtpServer(options.host, {
+  getInitialCwd: function() {
+    return '/';
+  },
+  getRoot: function() {
+    return process.cwd();
+  },
+  pasvPortRangeStart: 1025,
+  pasvPortRangeEnd: 1050,
+  tlsOptions: options.tls,
+  allowUnauthorizedTls: true,
+  useWriteFile: false,
+  useReadFile: false,
+  uploadMaxSlurpSize: 7000, // N/A unless 'useWriteFile' is true.
+});
 
-  for (let i = 0; i < printersJSON.length; i++) {
-    installedPrinters[i] = printersJSON[i]['name'];
-  }
+server.on('error', function(error) {
+  console.log('FTP Server error:', error);
+});
 
-  return installedPrinters;
-}
+server.on('client:connected', function(connection) {
+  let username = null;
+  console.log('client connected: ' + connection.remoteAddress);
+  connection.on('command:user', function(user, success, failure) {
+    if (user) {
+      username = user;
+      success();
+    } else {
+      failure();
+    }
+  });
 
-function testPrintPhotoOnPrinter(argumentPrinter) {
-  let usedPrinter = argumentPrinter;
-  let filename = "./src/assets/images/photo.jpg";
+  connection.on('command:pass', function(pass, success, failure) {
+    if (pass) {
+      success(username);
+    } else {
+      failure();
+    }
+  });
+});
 
-  if( process.platform !== 'win32') {
-    printer.printFile({filename:filename,
-      printer: usedPrinter, // printer name, if missing then will print to default printer
-      success:function(jobID){
-        console.log("main.js - job sent to printer (" + usedPrinter + ") with ID: " + jobID);
-      },
-      error:function(err){
-        console.log(err);
-      }
-    });
-  } else {
-    // not yet implemented, use printDirect and text
-    let fs = require('fs');
-    printer.printDirect({data:fs.readFileSync(filename),
-      printer: process.env[3], // printer name, if missing then will print to default printer
-      success:function(jobID){
-        console.log("sent to printer with ID: "+jobID);
-      },
-      error:function(err){
-        console.log(err);
-      }
-    });
-  }
-}
+server.debugging = 4;
+server.listen(options.port);
+console.log('Listening on port ' + options.port);
