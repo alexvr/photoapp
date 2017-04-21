@@ -1,10 +1,11 @@
 'use strict';
 
 // Modules to control application life, create native browser window, inter-process communication and access printers.
-const { app, BrowserWindow, ipcMain } = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
 const printer = require("printer");
+const qrCodeGenerator = require('./qrGenerator');
 
 // Load environment variables in .env file and live reload when in development.
 require('dotenv').config();
@@ -47,6 +48,7 @@ app.on('ready', function () {
     window = null;
   });
 
+  qrCodeGenerator.generate();
 });
 
 app.on('activate', () => {
@@ -90,3 +92,4 @@ function getAllPrinters() {
 
   return installedPrinters;
 }
+

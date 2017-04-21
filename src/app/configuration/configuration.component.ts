@@ -42,6 +42,10 @@ export class ConfigurationComponent {
     }
   }
 
+  /*
+  * Changes the visible component.
+  * 1 = basic-info, 2 = media-settings, 3 = layout-settings
+  * */
   changeActivePart(newActivePart: number) {
     this.activePart = newActivePart;
   }
