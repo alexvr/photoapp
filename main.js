@@ -6,16 +6,6 @@ const path = require('path');
 const url = require('url');
 const printerConfiguration = require('./printer-configuration');
 
-let ftpd = require('ftpd');
-let fs = require('fs');
-let server;
-let options = {
-  host: process.env.IP || '127.0.0.1',
-  port: process.env.PORT || 7002,
-  tls: null,
-};
-const qrCodeGenerator = require('./qrGenerator');
-
 // Load environment variables in .env file and live reload when in development.
 require('dotenv').config();
 require('electron-reload')(__dirname, {
@@ -54,8 +44,6 @@ app.on('ready', function () {
   window.on('closed', function () {
     window = null;
   });
-
-  qrCodeGenerator.generate();
 });
 
 app.on('activate', () => {
@@ -74,7 +62,7 @@ app.on('window-all-closed', function () {
 // Listen for async message from renderer process.
 ipcMain.on('async', (event, arg) => {
 
-  console.log("ipcMain - incoming argument: " + arg);
+  console.log('ipcMain - incoming argument: ' + arg);
 
   // PrinterService - getAllPrinters()
   if (arg === 'get-all-printers') {
@@ -84,57 +72,6 @@ ipcMain.on('async', (event, arg) => {
   // PrinterService - testPrintPhotoOnPrinter()
   if (arg[0] === 'test-print-photo-on-printer') {
     printerConfiguration.testPrintPhotoOnPrinter(arg[1]);
-    event.sender.send('async-test-print-photo-on-printer', "Photo has been sent to printer!");
+    event.sender.send('async-test-print-photo-on-printer', 'Photo has been sent to printer!');
   }
-
-  // QrCodeService - getQrCode()
-  if (arg === 'get-qr-code') {
-    // make qr code
-  }
-
 });
-
-server = new ftpd.FtpServer(options.host, {
-  getInitialCwd: function () {
-    return '/';
-  },
-  getRoot: function () {
-    return process.cwd();
-  },
-  pasvPortRangeStart: 7000,
-  pasvPortRangeEnd: 7050,
-  tlsOptions: options.tls,
-  allowUnauthorizedTls: true,
-  useWriteFile: false,
-  useReadFile: false,
-  uploadMaxSlurpSize: 7000, // N/A unless 'useWriteFile' is true.
-});
-
-server.on('error', function (error) {
-  console.log('FTP Server error:', error);
-});
-
-server.on('client:connected', function (connection) {
-  let username = null;
-  console.log('client connected: ' + connection.remoteAddress);
-  connection.on('command:user', function (user, success, failure) {
-    if (user) {
-      username = user;
-      success();
-    } else {
-      failure();
-    }
-  });
-
-  connection.on('command:pass', function (pass, success, failure) {
-    if (pass) {
-      success(username);
-    } else {
-      failure();
-    }
-  });
-});
-
-server.debugging = 4;
-server.listen(options.port);
-console.log('Listening on port ' + options.port);

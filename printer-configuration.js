@@ -1,4 +1,4 @@
-const printer = require('printer');
+const printer = require('printer'), util = require('util');
 
 /**
  * Get a list of all installed printers.
@@ -25,13 +25,13 @@ exports.testPrintPhotoOnPrinter = function testPrintPhotoOnPrinter(argumentPrint
   console.log('printer-configuration.js - testPrintPhotoOnPrinter()');
 
   let usedPrinter = argumentPrinter;
-  let filename = "./src/assets/images/photo.jpg";
+  let filename = './src/assets/images/photo.jpg';
 
   if( process.platform !== 'win32') {
     printer.printFile({filename:filename,
       printer: usedPrinter, // printer name, if missing then will print to default printer
       success:function(jobID){
-        console.log("printer-configuration.js - job sent to printer (" + usedPrinter + ") with ID: " + jobID);
+        console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
       },
       error:function(err){
         console.log(err);
@@ -43,7 +43,7 @@ exports.testPrintPhotoOnPrinter = function testPrintPhotoOnPrinter(argumentPrint
     printer.printDirect({data:fs.readFileSync(filename),
       printer: usedPrinter, // printer name, if missing then will print to default printer
       success:function(jobID){
-        console.log("printer-configuration.js - job sent to printer (" + usedPrinter + ") with ID: " + jobID);
+        console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
       },
       error:function(err){
         console.log(err);
