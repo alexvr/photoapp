@@ -1,26 +1,28 @@
-<button id="fetchAllEvents" type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
-  Fetch all events
-</button>
-
 <div class="event-container">
-  <event-icon *ngFor="let e of events" [event]="e" routerLink="/event"></event-icon>
+  <event-icon *ngFor="let e of events" [event]="e" (click)="showEventMenu(e)"></event-icon>
   <div id="addEvent">
     <a id="addEvent-btn" class="btn btn-primary" href="#" role="button" routerLink="/configuration">+</a>
     <h3>Add event</h3>
   </div>
 </div>
 
+<!-- Event modal -->
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="">
-  <div class="modal-dialog" role="document">
+<div class="modal fade bs-example-modal-sm" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     [ngClass]="{'in': visibleAnimate}"
+     [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}"
+     data-backdrop="">
+  <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeMenu()"><span
           aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Log in</h4>
+        <h4 class="modal-title">Menu</h4>
       </div>
       <div class="modal-body">
-        <login></login>
+        <button type="button" class="btn btn-default menu-btn"  routerLink="/event-dashboard">Start</button>
+        <button type="button" class="btn btn-default menu-btn" routerLink="/configuration">Edit</button>
+        <button type="button" class="btn btn-default menu-btn" (click)="closeMenu()">Back</button>
       </div>
     </div>
   </div>

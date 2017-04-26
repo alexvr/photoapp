@@ -8,32 +8,35 @@ import {SwiperModule}     from "angular2-useful-swiper";
 
 // Components
 import {AppComponent}           from './app.component';
-import {EventScreenComponent} from "./event/event-screen.component";
+import {EventOverviewComponent} from "./event/event-overview/event-overview.component";
 import {StartScreenComponent} from "./start-screen/start-screen.component";
 import {EventIconComponent} from "./start-screen/event-icon/event-icon.component";
 import {LoginComponent} from "./login/login.component";
-import {OnlineEventOverviewComponent} from "./online-event-overview/online-event-overview.component";
 import {ConfigurationComponent}   from "./configuration/configuration.component";
 import {BasicInfoComponent}       from "./configuration/basic-info/basic-info.component";
 import {MediaSettingsComponent}   from "./configuration/media-settings/media-settings.component";
 import {LayoutSettingsComponent}  from "./configuration/layout-settings/layout-settings.component";
+import {EventDashboardComponent} from "./event-dashboard/event-dashboard.component";
 
 // Services
 import {AuthService}    from "./login/auth.service";
 import {PrinterService} from "./configuration/services/printer.service";
+import {EventDetailComponent} from "./event/event-detail/event-detail.component";
+import {QrCodeService} from "./event/services/qr-code.service";
 
 @NgModule({
   declarations: [
     AppComponent,
     StartScreenComponent,
-    EventScreenComponent,
+    EventOverviewComponent,
+    EventDetailComponent,
     EventIconComponent,
-    OnlineEventOverviewComponent,
     LoginComponent,
     ConfigurationComponent,
     BasicInfoComponent,
     MediaSettingsComponent,
-    LayoutSettingsComponent
+    LayoutSettingsComponent,
+    EventDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import {PrinterService} from "./configuration/services/printer.service";
   ],
   providers: [
     AuthService,
-    PrinterService
+    PrinterService,
+    QrCodeService
   ],
   bootstrap: [AppComponent]
 })

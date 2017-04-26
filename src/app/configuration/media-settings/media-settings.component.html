@@ -20,31 +20,9 @@
   </div>
 </div>
 
-<div class="sftp-storage col-xs-12">
-  <h2 class="col-xs-12">SFTP storage</h2>
-  <div class="form-group col-xs-6">
-    <label for="inputUsername">Username</label>
-    <input type="text" class="form-control" id="inputUsername" placeholder="Username"
-           [(ngModel)]="configuration.ftpUsername">
-  </div>
-  <div class="form-group col-xs-6">
-    <label for="inputPassword">Password</label>
-    <input type="password" class="form-control" id="inputPassword" [(ngModel)]="configuration.ftpPassword">
-  </div>
-  <div class="form-group col-xs-6">
-    <label for="inputPort">Port</label>
-    <input type="number" class="form-control" id="inputPort" placeholder="Port" [(ngModel)]="configuration.ftpPort">
-  </div>
-  <div class="form-group col-xs-6">
-    <label for="inputIPAddress">IP address</label>
-    <input type="text" class="form-control" id="inputIPAddress" placeholder="IP address"
-           [(ngModel)]="configuration.ftpIPAddress">
-  </div>
-</div>
+<div class="printer-details col-xs-12">
 
-<div class="printer-settings col-xs-12">
-
-  <h2 class="col-xs-12">Printer settings</h2>
+  <h2 class="col-xs-12">Printer details</h2>
   <div class="form-group col-xs-6">
     <label for="inputPrinterName">Printer name</label>
     <select class="form-control" id="inputPrinterName" [(ngModel)]="printerService.selectedPrinter" (ngModelChange)="printerService.testPrintPhotoOnPrinter()">
@@ -52,7 +30,6 @@
       <option *ngFor="let printer of printers" [ngValue]="printer">{{printer}}</option>
     </select>
   </div>
-
   <div class="form-group col-xs-6">
     <label for="inputCopies">Copies</label>
     <input type="number" class="form-control" id="inputCopies" placeholder="Copies"
@@ -62,12 +39,27 @@
     <input id="qrPrinting" class="checker" type="checkbox" [(ngModel)]="configuration.qrPrinting">
     <label for="qrPrinting">QR Printing</label>
   </div>
+  <div class="form-group col-xs-3">
+    <label for="qrImage">QR image</label>
+    <input type="file" id="qrImage">
+  </div>
   <div class="form-group col-xs-3 checker-container">
     <input id="watermark" class="checker" type="checkbox" [(ngModel)]="configuration.watermarkPrinting">
     <label for="watermark">Watermark</label>
   </div>
-  <div class="form-group col-xs-6">
-    <label for="watermarkImage">Watermark image</label>
+
+</div>
+
+<div class="sharing-details col-xs-12">
+
+  <h2 class="col-xs-12">Sharing details</h2>
+  <div class="form-group col-xs-3 checker-container">
+    <input id="watermarkSharing" class="checker" type="checkbox" >
+    <label for="watermarkSharing">Watermark</label>
+  </div>
+  <div class="form-group col-xs-3">
+    <label for="watermarkImage">Watermark</label>
     <input type="file" id="watermarkImage">
   </div>
+
 </div>

@@ -1,12 +1,12 @@
 import {Component, ViewChild, ElementRef} from "@angular/core";
 
 @Component({
-  selector: 'event-screen',
-  templateUrl: 'event-screen.component.html',
-  styleUrls: ['event-screen.component.css']
+  selector: 'event-overview',
+  templateUrl: 'event-overview.component.html',
+  styleUrls: ['event-overview.component.css']
 })
 
-export class EventScreenComponent {
+export class EventOverviewComponent {
 
   /*
    * Configuration of carousel

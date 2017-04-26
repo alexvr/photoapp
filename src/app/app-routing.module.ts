@@ -1,15 +1,15 @@
 import {NgModule}               from '@angular/core';
 import {RouterModule, Routes}   from '@angular/router';
-import {OnlineEventOverviewComponent} from './online-event-overview/online-event-overview.component';
 import {StartScreenComponent} from "./start-screen/start-screen.component";
 import {ConfigurationComponent} from "./configuration/configuration.component";
-import {EventScreenComponent} from "./event/event-screen.component";
+import {EventDashboardComponent} from "./event-dashboard/event-dashboard.component";
+import {LoginComponent} from "./login/login.component";
 
 export const routes: Routes = [
-  {path: 'online-event-overview', component: OnlineEventOverviewComponent},
+  {path: 'event-overview', component: StartScreenComponent},
   {path: 'configuration', component: ConfigurationComponent},
-  {path: 'event', component: EventScreenComponent},
-  {path: '', component: StartScreenComponent},
+  {path: 'event-dashboard', component: EventDashboardComponent},
+  {path: '', component: LoginComponent},
   {path: '**', redirectTo: ''}
 ];
 

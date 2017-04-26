@@ -1,7 +1,7 @@
 'use strict';
 
 // Modules to control application life, create native browser window, inter-process communication and access printers.
-const { app, BrowserWindow, ipcMain } = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
 const printerConfiguration = require('./printer-configuration');
@@ -87,17 +87,22 @@ ipcMain.on('async', (event, arg) => {
     event.sender.send('async-test-print-photo-on-printer', "Photo has been sent to printer!");
   }
 
+  // QrCodeService - getQrCode()
+  if (arg === 'get-qr-code') {
+    // make qr code
+  }
+
 });
 
 server = new ftpd.FtpServer(options.host, {
-  getInitialCwd: function() {
+  getInitialCwd: function () {
     return '/';
   },
-  getRoot: function() {
+  getRoot: function () {
     return process.cwd();
   },
-  pasvPortRangeStart: 1025,
-  pasvPortRangeEnd: 1050,
+  pasvPortRangeStart: 7000,
+  pasvPortRangeEnd: 7050,
   tlsOptions: options.tls,
   allowUnauthorizedTls: true,
   useWriteFile: false,
@@ -105,14 +110,14 @@ server = new ftpd.FtpServer(options.host, {
   uploadMaxSlurpSize: 7000, // N/A unless 'useWriteFile' is true.
 });
 
-server.on('error', function(error) {
+server.on('error', function (error) {
   console.log('FTP Server error:', error);
 });
 
-server.on('client:connected', function(connection) {
+server.on('client:connected', function (connection) {
   let username = null;
   console.log('client connected: ' + connection.remoteAddress);
-  connection.on('command:user', function(user, success, failure) {
+  connection.on('command:user', function (user, success, failure) {
     if (user) {
       username = user;
       success();
@@ -121,7 +126,7 @@ server.on('client:connected', function(connection) {
     }
   });
 
-  connection.on('command:pass', function(pass, success, failure) {
+  connection.on('command:pass', function (pass, success, failure) {
     if (pass) {
       success(username);
     } else {

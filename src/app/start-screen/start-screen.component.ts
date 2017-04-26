@@ -53,5 +53,22 @@ export class StartScreenComponent {
       configuration: null
     }];
 
-  constructor(private router: Router) { }
+  private visibleAnimate: boolean = false;  // necessary for activating bootstrap modal in Typescript code.
+  private visible: boolean = false;         // necessary for activating bootstrap modal in Typescript code.
+
+  constructor(private router: Router) {
+  }
+
+  showEventMenu(e: Event) {
+    console.log(e);
+    this.visibleAnimate = true;
+    this.visible = true;
+  }
+
+
+  closeMenu() {
+    this.visibleAnimate = false;
+    this.visible = false;
+  }
 }
+
