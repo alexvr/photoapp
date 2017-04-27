@@ -5,24 +5,88 @@
   </button>
 </header>
 <main class="container">
+
   <div class="row">
+
+    <!-- SERVER DETAILS -->
     <div class="col-xs-6 dashboard-section">
-      <h2>server details</h2>
-      <div class="dashboard-container"></div>
+      <h2>server details<span class="active-marker"></span></h2>
+      <div class="dashboard-container">
+        <div class="form-group col-xs-9">
+          <label for="host">Host</label>
+          <input type="text" class="form-control" id="host" placeholder="host">
+        </div>
+        <div class="form-group col-xs-3">
+          <label for="port">Port</label>
+          <input type="text" class="form-control" id="port" placeholder="port">
+        </div>
+        <div class="form-group col-xs-12">
+          <label for="clients">Connected clients</label>
+          <ul id="clients" class="pre-scrollable">
+            <li>client 1</li>
+            <li>client 2</li>
+            <li>client 3</li>
+          </ul>
+        </div>
+      </div>
     </div>
+
+    <!-- EVENT LOGS-->
     <div class="col-xs-6 dashboard-section">
       <h2>event logs</h2>
-      <div class="dashboard-container"></div>
+      <div class="dashboard-container">
+        <div class="form-group col-xs-12 event-log-form-group">
+          <ul class="pre-scrollable event-log-ul">
+            <li>Started</li>
+            <li>Something</li>
+            <li>Ended</li>
+          </ul>
+        </div>
+      </div>
     </div>
+
   </div>
-  <div class="row">
+  <div class="row bottom-row">
+
+    <!-- PRINTER DETAILS -->
     <div class="col-xs-6 dashboard-section">
-      <h2>printer details</h2>
-      <div class="dashboard-container"></div>
+      <h2>printer details<span class="inactive-marker"></span></h2>
+      <div class="dashboard-container">
+        <div class="form-group col-xs-8 printer-details-top">
+          <label for="selectedPrinter">Selected printer</label>
+          <select class="form-control" id="selectedPrinter">
+            <option>printer</option>
+          </select>
+        </div>
+        <div class="form-group col-xs-4 printer-details-top">
+          <label for="printStatus">Status</label>
+          <h4 id="printStatus">Active</h4>
+        </div>
+        <div class="form-group col-xs-6 checker-container">
+          <input id="qrPrinting" class="checker" type="checkbox">
+          <label for="qrPrinting">QR Printing</label>
+        </div>
+        <div class="form-group col-xs-6 checker-container">
+          <input id="watermark" class="checker" type="checkbox">
+          <label for="watermark">Watermark</label>
+        </div>
+      </div>
     </div>
+
+    <!--  STATISTICS -->
     <div class="col-xs-6 dashboard-section">
       <h2>statistics</h2>
-      <div class="dashboard-container"></div>
+      <div class="dashboard-container">
+        <label for="printCounter" class="col-xs-4 statistics">Print counter</label>
+        <p id="printCounter" class="col-xs-8 statistics">0</p>
+        <label for="shareCounter" class="col-xs-4 statistics">Share counter</label>
+        <p id="shareCounter" class="col-xs-8 statistics">0</p>
+        <label for="photoCounter" class="col-xs-4 statistics">Photo counter</label>
+        <p id="photoCounter" class="col-xs-8 statistics">0</p>
+        <label for="eventDuration" class="col-xs-4 statistics">Event duration</label>
+        <p id="eventDuration" class="col-xs-8">0</p>
+      </div>
     </div>
   </div>
+
 </main>

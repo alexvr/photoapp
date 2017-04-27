@@ -1,7 +1,15 @@
-h1 {
+:host {
+}
+
+header {
+  height: 10%;
+}
+
+header > h1 {
   text-align: center;
   font-size: 30px;
-  margin: 2rem;
+  margin: 0;
+  padding: 2rem;
 }
 
 button {
@@ -16,28 +24,87 @@ main {
 }
 
 .row {
-  margin: auto auto 0.5rem;
-  height: 50%;
+  height: 48%;
+  margin-bottom: 1rem;
 }
 
-.col-xs-6 {
-  width: 48%;
+.bottom-row {
+  height: 35%;
 }
 
 .dashboard-section {
-  margin: 1rem 0;
   height: 100%;
 }
 
 .dashboard-section > h2 {
   font-size: 2rem;
-  height: 10%;
+  margin: 0;
+  padding-bottom: 1rem;
 }
 
 .dashboard-container {
   background: #ffffff;
   border-radius: 10px;
-  height: 90%;
+  height: 85%;
+  padding: 2rem 0.5rem;
 }
+
+/* ACTIVE MARKERS */
+.active-marker {
+  background: #1fcc2a;
+  width: 1rem;
+  display: inline-block;
+  height: 1rem;
+  margin-left: 1rem;
+  border-radius: 100%;
+}
+
+.inactive-marker {
+  background: #ff403e;
+  width: 1rem;
+  display: inline-block;
+  height: 1rem;
+  margin-left: 1rem;
+  border-radius: 100%;
+}
+
+/* SERVER DETAILS */
+ul {
+  list-style: none;
+  padding-left: 0;
+  border: 1px solid #cccccc;
+}
+
+#clients {
+  height: 12rem;
+}
+
+li {
+  padding: 1rem;
+}
+
+/* EVENT LOGS */
+.event-log-form-group, .event-log-ul {
+  height: 100%;
+}
+
+/* PRINTER DETAILS */
+.printer-details-top {
+  margin-bottom: 3rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+  border: 1px solid #cccccc;
+  padding: 0.8rem;
+  text-align: center;
+  margin: 0;
+}
+
+/* STATISTICS */
+.statistics {
+  padding-bottom: 1rem;
+}
+
 
 
