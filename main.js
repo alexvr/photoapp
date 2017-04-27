@@ -5,6 +5,7 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
 const printerConfiguration = require('./printer-configuration');
+const serverConfiguration = require('./server-configuration');
 
 // Load environment variables in .env file and live reload when in development.
 require('dotenv').config();
@@ -61,7 +62,6 @@ app.on('window-all-closed', function () {
 
 // Listen for async message from renderer process.
 ipcMain.on('async', (event, arg) => {
-
   console.log('ipcMain - incoming argument: ' + arg);
 
   // PrinterService - getAllPrinters()
@@ -73,5 +73,10 @@ ipcMain.on('async', (event, arg) => {
   if (arg[0] === 'test-print-photo-on-printer') {
     printerConfiguration.testPrintPhotoOnPrinter(arg[1]);
     event.sender.send('async-test-print-photo-on-printer', 'Photo has been sent to printer!');
+  }
+
+  // ServerService - startServer()
+  if (arg === 'start-server') {
+    event.sender.send('async-start-server', serverConfiguration.startServer());
   }
 });
