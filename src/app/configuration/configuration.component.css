@@ -37,3 +37,9 @@ main {
 a {
   margin: 2rem;
 }
+
+@media screen and (max-height: 600px) {
+  main {
+    margin: 3rem auto;
+  }
+}

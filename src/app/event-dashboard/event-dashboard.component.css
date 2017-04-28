@@ -1,6 +1,3 @@
-:host {
-}
-
 header {
   height: 10%;
 }
@@ -105,6 +102,21 @@ h4 {
 .statistics {
   padding-bottom: 1rem;
 }
+
+/* SMALLER SCREENS */
+@media screen and (max-height: 700px) {
+  header{
+    height: 8rem;
+  }
+  .row {
+    height: 30rem;
+  }
+
+  .bottom-row {
+    height: 20rem;
+  }
+}
+
 
 
 
