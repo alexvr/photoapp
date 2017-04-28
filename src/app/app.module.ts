@@ -7,22 +7,23 @@ import {AppRoutingModule} from "./app-routing.module";
 import {SwiperModule}     from "angular2-useful-swiper";
 
 // Components
-import {AppComponent}           from './app.component';
-import {EventOverviewComponent} from "./event/event-overview/event-overview.component";
-import {StartScreenComponent} from "./start-screen/start-screen.component";
-import {EventIconComponent} from "./start-screen/event-icon/event-icon.component";
-import {LoginComponent} from "./login/login.component";
-import {ConfigurationComponent}   from "./configuration/configuration.component";
-import {BasicInfoComponent}       from "./configuration/basic-info/basic-info.component";
-import {MediaSettingsComponent}   from "./configuration/media-settings/media-settings.component";
-import {LayoutSettingsComponent}  from "./configuration/layout-settings/layout-settings.component";
+import {AppComponent}            from './app.component';
+import {EventOverviewComponent}  from "./event/event-overview/event-overview.component";
+import {StartScreenComponent}    from "./start-screen/start-screen.component";
+import {EventIconComponent}      from "./start-screen/event-icon/event-icon.component";
+import {LoginComponent}          from "./login/login.component";
+import {ConfigurationComponent}  from "./configuration/configuration.component";
+import {BasicInfoComponent}      from "./configuration/basic-info/basic-info.component";
+import {MediaSettingsComponent}  from "./configuration/media-settings/media-settings.component";
+import {LayoutSettingsComponent} from "./configuration/layout-settings/layout-settings.component";
 import {EventDashboardComponent} from "./event-dashboard/event-dashboard.component";
 
 // Services
 import {AuthService}    from "./login/auth.service";
 import {PrinterService} from "./configuration/services/printer.service";
 import {EventDetailComponent} from "./event/event-detail/event-detail.component";
-import {QrCodeService} from "./event/services/qr-code.service";
+import {QrCodeService}  from "./event/services/qr-code.service";
+import {ServerService}  from "./event-dashboard/services/server.service";
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {QrCodeService} from "./event/services/qr-code.service";
   providers: [
     AuthService,
     PrinterService,
-    QrCodeService
+    QrCodeService,
+    ServerService
   ],
   bootstrap: [AppComponent]
 })
