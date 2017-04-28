@@ -1,16 +1,31 @@
-:host{
-  padding: 1rem;
+:host {
+  padding: 2rem;
 }
 
-h2{
+h2 {
   margin-top: 0;
   font-size: 2rem;
 }
 
-.media-settings, .printer-details{
+.media-settings, .printer-details {
   margin-bottom: 2rem;
 }
 
-.checker-container{
+.checker-container {
   margin-top: 1rem;
 }
+
+.checker-container > p {
+  margin: 0.5rem 0;
+}
+
+.glyphicon-cog {
+  margin-right: 1rem;
+  color: #2880d0;
+}
+
+.sharing-checker-container{
+  margin-top: 1rem;
+}
+
+
