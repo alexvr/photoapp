@@ -2,21 +2,19 @@
 const socketApp = require('http').createServer(handler);
 const io = require('socket.io')(socketApp);
 const fs = require('fs');
+const internalIp = require('internal-ip');
 
 /**
- * Start web sockets server on 127.0.0.1:3001
- * @returns {boolean}
+ * Start web sockets server on current network IP4 address on port 3001.
+ * @returns {number} Current network IP4 address
  */
 exports.startServer = function startServer() {
   console.log('server-configuration.js - startServer()');
-  let serverStarted = false;
 
-  socketApp.listen(3001, function () {
-    console.log('server-configuration.js - Server listening on 127.0.0.1:3001');
-    serverStarted = true;
-  });
+  socketApp.listen(3001);
+  console.log('server-configuration.js - Server listening on ' + internalIp.v4() + ':3001');
 
-  return serverStarted;
+  return internalIp.v4();
 };
 
 // Socket.io functions

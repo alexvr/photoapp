@@ -18,27 +18,29 @@ export class ServerService {
   }
 
   /**
-   * Start web sockets server on 127.0.0.1:3001
+   * Starts a server on the current network IP4 address on port 3001.
+   * @returns {number} Network IP4 address
    */
-  startServer(): boolean {
-    let serverStarted = false;
-    this.hasIpc = (typeof ipcRenderer != 'undefined');
+  startServer(): Observable<number> {
+    return new Observable(observer => {
+      let serverHost = 0;
+      this.hasIpc = (typeof ipcRenderer != 'undefined');
 
-    if (this.hasIpc) {
-      // Send async message to start the server.
-      ipcRenderer.send('async', 'start-server');
+      if (this.hasIpc) {
+        // Send async message to start the server.
+        ipcRenderer.send('async', 'start-server');
 
-      // Listen to response from the main process.
-      ipcRenderer.on('async-start-server', (event, arg) => {
-        this.zone.run(() => {
-          if (arg === "true") {
-            serverStarted = true;
-          }
+        // Listen to response from the main process.
+        ipcRenderer.on('async-start-server', (event, arg) => {
+          this.zone.run(() => {
+            serverHost = arg;
+            console.log("ServerService - " + serverHost);
+            observer.next(serverHost);
+            observer.complete();
+          });
         });
-      });
-    }
-
-    return serverStarted;
+      }
+    });
   }
 
 }

@@ -66,7 +66,8 @@ ipcMain.on('async', (event, arg) => {
 
   // PrinterService - getAllPrinters()
   if (arg === 'get-all-printers') {
-    event.sender.send('async-get-all-printers', printerConfiguration.getAllPrinters());
+    let allPrinters = printerConfiguration.getAllPrinters();
+    event.sender.send('async-get-all-printers', allPrinters);
   }
 
   // PrinterService - testPrintPhotoOnPrinter()
@@ -77,6 +78,7 @@ ipcMain.on('async', (event, arg) => {
 
   // ServerService - startServer()
   if (arg === 'start-server') {
-    event.sender.send('async-start-server', serverConfiguration.startServer());
+    let serverHost = serverConfiguration.startServer();
+    event.sender.send('async-start-server', serverHost);
   }
 });
