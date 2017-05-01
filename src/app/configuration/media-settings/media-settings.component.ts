@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {Configuration} from "../../model/Configuration";
 import {PhotoQuality} from "../../model/PhotoQuality";
 import {PrinterService} from "../services/printer.service";
+import {ConfigurationService} from "../services/configuration.service";
 
 @Component({
   selector: 'media-settings',
@@ -9,14 +10,16 @@ import {PrinterService} from "../services/printer.service";
   styleUrls: ['media-settings.component.css']
 })
 
-export class MediaSettingsComponent implements OnInit{
+export class MediaSettingsComponent implements OnInit {
 
-  @Input() configuration: Configuration;
+  private configuration: Configuration;
   private printers: string[];
 
-  constructor(private printerService: PrinterService) { }
+  constructor(private configService: ConfigurationService, private printerService: PrinterService) {
+  }
 
   ngOnInit(): void {
+    this.configuration = this.configService.getEvent().configuration;
     this.printerService.getAllPrinters().subscribe(p => this.printers = p);
   }
 

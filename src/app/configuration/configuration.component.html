@@ -1,22 +1,20 @@
 <header>
-  <button type="button" class="btn btn-default" aria-label="Left Align" routerLink="/event-overview">
+  <button type="button" class="btn btn-default" aria-label="Left Align" [routerLink]="['/event-overview']">
     <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
     Back
   </button>
   <h2>{{event.eventName}}</h2>
-  <button type="button" class="btn btn-default" aria-label="Left Align" routerLink="/event-overview">
+  <button type="button" class="btn btn-default" aria-label="Left Align" [routerLink]="['/event-overview']">
     Save event
   </button>
 </header>
 
 <main>
-  <basic-info [event]="event" *ngIf="activePart === 1"></basic-info>
-  <media-settings [configuration]="event.configuration" *ngIf="activePart === 2"></media-settings>
-  <layout-settings *ngIf="activePart === 3"></layout-settings>
+  <router-outlet></router-outlet>
 </main>
 
 <div class="configSteps">
-  <a (click)="changeActivePart(1)">Basic info</a>
-  <a (click)="changeActivePart(2)">Media settings</a>
-  <a (click)="changeActivePart(3)">Layout</a>
+  <a [routerLink]="['basic-info']">Basic info</a>
+  <a [routerLink]="['media-settings']">Media settings</a>
+  <a [routerLink]="['layout']">Layout</a>
 </div>
