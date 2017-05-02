@@ -34,7 +34,6 @@ export class ServerService {
         ipcRenderer.on('async-start-server', (event, arg) => {
           this.zone.run(() => {
             serverHost = arg;
-            console.log("ServerService - " + serverHost);
             observer.next(serverHost);
             observer.complete();
           });

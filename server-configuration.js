@@ -1,6 +1,6 @@
 // Modules to start the socket.io server.
-const socketApp = require('http').createServer(handler);
-const io = require('socket.io')(socketApp);
+const app = require('http').createServer(handler);
+const io = require('socket.io')(app);
 const fs = require('fs');
 const internalIp = require('internal-ip');
 
@@ -11,7 +11,7 @@ const internalIp = require('internal-ip');
 exports.startServer = function startServer() {
   console.log('server-configuration.js - startServer()');
 
-  socketApp.listen(3001);
+  app.listen(3001);
   console.log('server-configuration.js - Server listening on ' + internalIp.v4() + ':3001');
 
   return internalIp.v4();
