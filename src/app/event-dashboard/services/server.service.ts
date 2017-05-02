@@ -23,7 +23,7 @@ export class ServerService {
    */
   startServer(): Observable<number> {
     return new Observable(observer => {
-      let serverHost = 0;
+      let serverHost = '127.0.0.1';
       this.hasIpc = (typeof ipcRenderer != 'undefined');
 
       if (this.hasIpc) {

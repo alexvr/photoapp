@@ -15,4 +15,6 @@ export class Event {
   overviewLayout: OverviewLayout;
   detailLayout: DetailLayout;
   configuration: Configuration;
+
+  constructor() { }
 }

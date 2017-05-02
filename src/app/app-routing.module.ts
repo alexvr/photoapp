@@ -22,7 +22,8 @@ export const routes: Routes = [
     ]
   },
   {path: 'event-dashboard', component: EventDashboardComponent},
-  {path: '', component: LoginComponent},
+  /*{path: '', component: LoginComponent},*/
+  {path: '' , component: StartScreenComponent},
   {path: '**', redirectTo: ''}
 ];
 

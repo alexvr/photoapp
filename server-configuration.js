@@ -38,3 +38,10 @@ io.on('connection', function (socket) {
     console.log('A client device disconnected!');
   });
 });
+
+exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
+  io.emit('overview-layout', overviewLayout);
+  io.emit('detail-layout', detailLayout);
+
+  return 'main.js - OverviewLayout sent to all clients!';
+};

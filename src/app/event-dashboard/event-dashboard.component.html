@@ -20,6 +20,9 @@
           <label for="port">Port</label>
           <input type="text" class="form-control" id="port" placeholder="{{serverPort}}">
         </div>
+
+        <p (click)="sendLayout();">Send layout</p>
+
         <div class="form-group col-xs-12">
           <label for="clients">Connected clients</label>
           <ul id="clients" class="pre-scrollable">
