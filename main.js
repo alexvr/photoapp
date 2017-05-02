@@ -1,5 +1,3 @@
-'use strict';
-
 // Modules to control application life, create native browser window, inter-process communication and access printers.
 const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
