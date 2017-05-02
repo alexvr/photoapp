@@ -1,0 +1,35 @@
+.watermark-config {
+}
+
+.toMediaSettings {
+  margin: 3rem 0;
+  display: inline-block;
+}
+
+#save {
+  float: right;
+}
+
+label > span {
+  padding: 1rem;
+  font-weight: 300;
+}
+
+.watermark-view {
+}
+
+img {
+  display: none;
+}
+
+canvas {
+  background-color: #ececec;
+  width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 767px) {
+  canvas {
+    width: 60%;
+  }
+}
