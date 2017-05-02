@@ -41,7 +41,7 @@ import {WatermarkConfigComponent} from "./configuration/media-settings/watermark
     MediaSettingsComponent,
     LayoutSettingsComponent,
     EventDashboardComponent,
-    WatermarkConfigComponent
+    WatermarkConfigComponent,
   ],
   imports: [
     BrowserModule,
