@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-sm-7 watermark-config">
+<div class="col-xs-12 col-sm-7 watermark-config-section">
   <div class="watermark-config-nav">
     <div class="toMediaSettings">
       <a [routerLink]="['/configuration/media-settings']"> <span
@@ -20,6 +20,7 @@
   </div>
   <!-- ACCORDION -->
   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <!-- -->
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="headingOne">
         <h4 class="panel-title">
@@ -32,17 +33,29 @@
       <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
         <div class="panel-body">
           <!-- LOGO SETTINGS -->
-          <div class="form-group">
+          <div class="form-group col-xs-12">
+            <label for="logoFile">File input</label>
+            <div id="logoFile" class="input-group">
+              <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Browse&hellip; <input type="file" style="display: none;" multiple
+                                              (change)="onFileSelected($event, 'logo')">
+                    </span>
+              </label>
+              <input type="text" class="form-control" readonly>
+            </div>
+          </div>
+          <div class="form-group col-xs-12">
             <label for="logoX">X <span>{{imageWatermark.logoX}}</span></label>
             <input id="logoX" type="range" min="0" max="{{imageWatermark.width}}" [(ngModel)]="imageWatermark.logoX"
                    (change)="draw()"/>
           </div>
-          <div class="form-group">
+          <div class="form-group col-xs-12">
             <label for="logoY">Y <span>{{imageWatermark.logoY}}</span></label>
             <input id="logoY" type="range" min="0" max="{{imageWatermark.height}}" [(ngModel)]="imageWatermark.logoY"
                    (change)="draw()"/>
           </div>
-          <div class="form-group">
+          <div class="form-group col-xs-12">
             <label for="logoScale">Scale <span>{{imageWatermark.logoScale}} %</span></label>
             <input id="logoScale" type="range" min="0" max="100" [(ngModel)]="imageWatermark.logoScale"
                    (change)="draw()"/>
@@ -50,6 +63,7 @@
         </div>
       </div>
     </div>
+    <!-- -->
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="headingTwo">
         <h4 class="panel-title">
@@ -62,19 +76,31 @@
       <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
         <div class="panel-body">
           <!-- OVERLAY SETTINGS -->
-          <div class="form-group">
+          <div class="form-group col-xs-12">
+            <label for="overlayFile">File input</label>
+            <div id="overlayFile" class="input-group">
+              <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Browse&hellip; <input type="file" style="display: none;" multiple
+                                              (change)="onFileSelected($event, 'overlay')">
+                    </span>
+              </label>
+              <input type="text" class="form-control" readonly>
+            </div>
+          </div>
+          <div class="form-group col-xs-12">
             <label for="overlayX">X <span>{{imageWatermark.overlayX}}</span></label>
             <input id="overlayX" type="range" min="0" max="{{imageWatermark.width}}"
                    [(ngModel)]="imageWatermark.overlayX"
                    (change)="draw()"/>
           </div>
-          <div class="form-group">
+          <div class="form-group col-xs-12">
             <label for="overlayY">Y <span>{{imageWatermark.overlayY}}</span></label>
             <input id="overlayY" type="range" min="0" max="{{imageWatermark.height}}"
                    [(ngModel)]="imageWatermark.overlayY"
                    (change)="draw()"/>
           </div>
-          <div class="form-group">
+          <div class="form-group col-xs-12">
             <label for="overlayScale">Scale <span>{{imageWatermark.overlayScale}} %</span></label>
             <input id="overlayScale" type="range" min="0" max="100" [(ngModel)]="imageWatermark.overlayScale"
                    (change)="draw()"/>
@@ -82,6 +108,7 @@
         </div>
       </div>
     </div>
+    <!-- -->
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="headingThree">
         <h4 class="panel-title">
@@ -94,17 +121,17 @@
       <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
         <div class="panel-body">
           <!-- IMAGE SETTINGS -->
-          <div class="form-group">
+          <div class="form-group col-xs-12">
             <label for="imageX">X <span>{{imageWatermark.imageX}}</span></label>
             <input id="imageX" type="range" min="0" max="{{imageWatermark.width}}" [(ngModel)]="imageWatermark.imageX"
                    (change)="draw()"/>
           </div>
-          <div class="form-group">
+          <div class="form-group col-xs-12">
             <label for="imageY">Y <span>{{imageWatermark.imageY}}</span></label>
             <input id="imageY" type="range" min="0" max="{{imageWatermark.height}}" [(ngModel)]="imageWatermark.imageY"
                    (change)="draw()"/>
           </div>
-          <div class="form-group">
+          <div class="form-group col-xs-12">
             <label for="imageScale">Scale <span>{{imageWatermark.imageScale}} %</span></label>
             <input id="imageScale" type="range" min="0" max="100" [(ngModel)]="imageWatermark.imageScale"
                    (change)="draw()"/>

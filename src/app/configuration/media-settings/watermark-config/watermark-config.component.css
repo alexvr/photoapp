@@ -1,4 +1,22 @@
-.watermark-config {
+:host {
+  height: 100%;
+}
+
+.watermark-config-section {
+
+}
+
+.canvasDimensions > h3 {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+}
+
+.canvasDimensions label {
+  margin-right: 1rem;
+}
+
+.canvasDimensions label:last-child {
+  margin-left: 1rem;
 }
 
 .toMediaSettings {
@@ -10,12 +28,14 @@
   float: right;
 }
 
-label > span {
+.form-group > label > span {
   padding: 1rem;
   font-weight: 300;
 }
 
 .watermark-view {
+  overflow: auto;
+  height: 100%;
 }
 
 img {
@@ -26,6 +46,8 @@ canvas {
   background-color: #ececec;
   width: 100%;
   height: auto;
+  display: block;
+  margin: 1rem;
 }
 
 @media screen and (max-width: 767px) {

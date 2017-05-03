@@ -14,6 +14,7 @@ import {QrCodeService}        from "./event/services/qr-code.service";
 import {ServerService}        from "./event-dashboard/services/server.service";
 import {ConfigurationService} from "./configuration/services/configuration.service";
 import {TestEventService}     from "./event/services/test-event.service";
+import {WatermarkConfigService} from "./configuration/services/watermark-config.service";
 
 // Components
 import {AppComponent}            from './app.component';
@@ -56,7 +57,8 @@ import {WatermarkConfigComponent} from "./configuration/media-settings/watermark
     QrCodeService,
     ServerService,
     ConfigurationService,
-    TestEventService
+    TestEventService,
+    WatermarkConfigService
   ],
   bootstrap: [AppComponent]
 })
