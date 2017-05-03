@@ -85,4 +85,10 @@ ipcMain.on('async', (event, arg) => {
     let message = serverConfiguration.sendLayout(arg[1], arg[2]);
     event.sender.send('async-send-layout', message);
   }
+
+  // Send a test photo to all connected clients.
+  if (arg === 'send-test-photo') {
+    let message = serverConfiguration.sendTestPhoto();
+    event.sender.send('async-send-test-photo', message);
+  }
 });

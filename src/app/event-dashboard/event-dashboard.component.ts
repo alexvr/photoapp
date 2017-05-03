@@ -31,8 +31,12 @@ export class EventDashboardComponent {
   /**
    * Send the layout to the clients.
    */
-  sendLayout(): void {
-    this.testEventService.sendLayout(this.event.overviewLayout, this.event.detailLayout).subscribe(() => { });
+  testSendLayout(): void {
+    this.testEventService.testSendLayout(this.event.overviewLayout, this.event.detailLayout).subscribe(() => { });
+  }
+
+  testSendPhoto(): void {
+    this.testEventService.testSendPhoto().subscribe(() => { });
   }
 
 }

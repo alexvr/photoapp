@@ -45,3 +45,12 @@ exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
 
   return 'main.js - OverviewLayout sent to all clients!';
 };
+
+exports.sendTestPhoto = function testPhoto() {
+  let filename = './src/assets/images/photo2.jpg';
+  fs.readFile(filename, function(err, data) {
+    io.emit('test-image', "data:image/jpg;base64," + data.toString("base64"));
+  });
+
+  return 'main.js - Test photo sent to all clients!';
+};

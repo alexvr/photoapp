@@ -49,7 +49,7 @@ export class TestEventService {
    * @param detailLayout
    * @returns {Observable}
    */
-  sendLayout(overviewLayout: OverviewLayout, detailLayout: DetailLayout): Observable<any> {
+  testSendLayout(overviewLayout: OverviewLayout, detailLayout: DetailLayout): Observable<any> {
     return new Observable(() => {
       this.hasIpc = (typeof ipcRenderer != 'undefined');
 
@@ -60,6 +60,26 @@ export class TestEventService {
 
         // Listen for async-reply to sent layout.
         ipcRenderer.on('async-send-layout', (event, arg) => {
+          console.log(arg);
+        });
+      }
+    });
+  }
+
+  /**
+   * Send a test photo to all connected clients.
+   * @returns {Observable}
+   */
+  testSendPhoto(): Observable<any> {
+    return new Observable(() => {
+      this.hasIpc = (typeof ipcRenderer != 'undefined');
+
+      if (this.hasIpc) {
+        // Send async message to send a test-photo to all connected clients.
+        ipcRenderer.send('async', 'send-test-photo');
+
+        // Listen for async-reply to sent photo.
+        ipcRenderer.on('async-send-test-photo', (event, arg) => {
           console.log(arg);
         });
       }

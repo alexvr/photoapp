@@ -44,6 +44,7 @@ main {
   border-radius: 10px;
   height: 85%;
   padding: 2rem 0.5rem;
+  overflow: scroll;
 }
 
 /* ACTIVE MARKERS */
