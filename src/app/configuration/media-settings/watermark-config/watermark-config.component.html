@@ -9,17 +9,34 @@
       <a [routerLink]="['/configuration/media-settings']">Save</a>
     </div>
   </div>
-  <div class="canvasDimensions">
-    <h3>Dimensions</h3>
-    <div class="form-group">
-      <label for="canvasWidth">width</label>
-      <input type="number" id="canvasWidth" [(ngModel)]="imageWatermark.width">
-      <label for="canvasHeight">height</label>
-      <input type="number" id="canvasHeight" [(ngModel)]="imageWatermark.height">
-    </div>
-  </div>
   <!-- ACCORDION -->
   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+    <!-- -->
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingFour">
+        <h4 class="panel-title">
+          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour"
+             aria-expanded="false" aria-controls="collapseFour">
+            Canvas dimensions
+          </a>
+        </h4>
+      </div>
+      <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+        <div class="panel-body">
+          <!-- CANVAS SETTINGS -->
+          <div class="form-group canvas-dimensions">
+            <label for="canvasWidth">Width</label>
+            <input type="number" id="canvasWidth" [(ngModel)]="imageWatermark.width" (change)="draw()">
+          </div>
+          <div class="form-group canvas-dimensions">
+            <label for="canvasHeight">Height</label>
+            <input type="number" id="canvasHeight" [(ngModel)]="imageWatermark.height" (change)="draw()">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- -->
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="headingOne">

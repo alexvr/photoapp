@@ -2,21 +2,8 @@
   height: 100%;
 }
 
-.watermark-config-section {
-
-}
-
-.canvasDimensions > h3 {
-  margin: 0 0 1rem 0;
-  font-size: 2rem;
-}
-
-.canvasDimensions label {
+.canvas-dimensions label {
   margin-right: 1rem;
-}
-
-.canvasDimensions label:last-child {
-  margin-left: 1rem;
 }
 
 .toMediaSettings {
@@ -34,8 +21,9 @@
 }
 
 .watermark-view {
-  overflow: auto;
+  /*overflow: auto;
   height: 100%;
+*/
 }
 
 img {
