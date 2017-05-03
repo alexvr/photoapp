@@ -4,26 +4,6 @@ const io = require('socket.io')(app);
 const fs = require('fs');
 const internalIp = require('internal-ip');
 
-// Module to watch FTP directory.
-const chokidar = require('chokidar');
-
-// Set the FTP folder to watch for new photos.
-let watcher = chokidar.watch('/Users/Alexander/Desktop/testFTP', {
-  ignored: /(^|[\/\\])\../,
-  persistent: true
-});
-
-// Configure watch events.
-watcher
-  .on('add', path => {
-    console.log('File ' + path + ' has been added!');
-    testSendPhotoWithUrl(path);
-  })
-  .on('unlink', path => {
-    console.log('File ' + path + ' has been removed!');
-    // Remove foto from clients.
-  });
-
 /**
  * Start web sockets server on current network IP4 address on port 3001.
  * @returns {number} Current network IP4 address
@@ -33,6 +13,8 @@ exports.startServer = function startServer() {
 
   app.listen(3001);
   console.log('server-configuration.js - Server listening on ' + internalIp.v4() + ':3001');
+
+  initializeWatcher();
 
   return internalIp.v4();
 };
@@ -96,4 +78,29 @@ function testSendPhotoWithUrl(path) {
   });
 
   return 'main.js - Photo from FTP sent to all clients!';
+}
+
+/**
+ * Start watching a specific folder.
+ */
+function initializeWatcher() {
+  // Module to watch FTP directory.
+  const chokidar = require('chokidar');
+
+  // Set the FTP folder to watch for new photos.
+  let watcher = chokidar.watch('/Users/Alexander/Desktop/testFTP', {
+    ignored: /(^|[\/\\])\../,
+    persistent: true
+  });
+
+  // Configure watch events.
+  watcher
+    .on('add', path => {
+      console.log('File ' + path + ' has been added!');
+      testSendPhotoWithUrl(path);
+    })
+    .on('unlink', path => {
+      console.log('File ' + path + ' has been removed!');
+      // Remove foto from clients.
+    });
 }

@@ -52,6 +52,7 @@
     "@types/node": "^6.0.42",
     "angular-cli": "1.0.0-beta.28.3",
     "bootstrap": "^3.3.7",
+    "build-electron-app": "github:j-f1/build-electron-app",
     "codelyzer": "~2.0.0-beta.1",
     "devtron": "^1.4.0",
     "electron": "^1.6.5",
