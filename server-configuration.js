@@ -4,6 +4,26 @@ const io = require('socket.io')(app);
 const fs = require('fs');
 const internalIp = require('internal-ip');
 
+// Module to watch FTP directory.
+const chokidar = require('chokidar');
+
+// Set the FTP folder to watch for new photos.
+let watcher = chokidar.watch('/Users/Alexander/Desktop/testFTP', {
+  ignored: /(^|[\/\\])\../,
+  persistent: true
+});
+
+// Configure watch events.
+watcher
+  .on('add', path => {
+    console.log('File ' + path + ' has been added!');
+    testSendPhotoWithUrl(path);
+  })
+  .on('unlink', path => {
+    console.log('File ' + path + ' has been removed!');
+    // Remove foto from clients.
+  });
+
 /**
  * Start web sockets server on current network IP4 address on port 3001.
  * @returns {number} Current network IP4 address
@@ -39,6 +59,12 @@ io.on('connection', function (socket) {
   });
 });
 
+/**
+ * Sends the OverviewLayout and DetailLayout to all connected clients.
+ * @param overviewLayout
+ * @param detailLayout
+ * @returns {string}
+ */
 exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
   io.emit('overview-layout', overviewLayout);
   io.emit('detail-layout', detailLayout);
@@ -46,6 +72,10 @@ exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
   return 'main.js - OverviewLayout sent to all clients!';
 };
 
+/**
+ * [TEST] Sends a photo from a local directory to all connected clients.
+ * @returns {string}
+ */
 exports.sendTestPhoto = function testPhoto() {
   let filename = './src/assets/images/photo2.jpg';
   fs.readFile(filename, function(err, data) {
@@ -54,3 +84,16 @@ exports.sendTestPhoto = function testPhoto() {
 
   return 'main.js - Test photo sent to all clients!';
 };
+
+/**
+ * Sends photo from a specific path to all connected clients.
+ * @param path
+ * @returns {string}
+ */
+function testSendPhotoWithUrl(path) {
+  fs.readFile(path, function(err, data) {
+    io.emit('test-image', "data:image/jpg;base64," + data.toString("base64"));
+  });
+
+  return 'main.js - Photo from FTP sent to all clients!';
+}
