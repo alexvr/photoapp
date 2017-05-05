@@ -71,6 +71,10 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
     let ctx = this.canvasRef.nativeElement.getContext("2d");
     ctx.clearRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
 
+    // IMAGE RECTANGLE
+    ctx.fillStyle="#2e87fe";
+    ctx.fillRect(0,0,this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
+
     // IMAGE
     ctx.drawImage(this.image,
       this.imageWatermark.imageX, this.imageWatermark.imageY,
@@ -88,10 +92,26 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This function loads in a file via input and uses it in the canvas
-   * @param event, a reference to the file
+   * This function gets an image, with the use of Electron and nodeJS, through a choose-file dialog of the OS. The image is sent as a URI.
    * @param imageType, the type of image that is imported (logo, overlay, ...)
    */
+  getImage(imageType) {
+    this.watermarkConfigService.getImage().subscribe(x => {
+      switch (imageType) {
+        case 'logo':
+          this.logo.src = x;
+          this.imageWatermark.logoLocation = x;
+          this.logo.onload = (() => this.draw());
+          break;
+        case 'overlay':
+          this.overlay.src = x;
+          this.imageWatermark.overlayLocation = x;
+          this.overlay.onload = (() => this.draw());
+          break;
+      }
+    });
+  }
+
   /*
    onFileSelected(event, imageType) {
    let selectedFile = event.target.files[0];
@@ -117,25 +137,4 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
    break;
    }
    }*/
-
-  /**
-   * This function gets an image, with the use of Electron and nodeJS, through a choose-file dialog of the OS. The image is sent as a URI.
-   * @param imageType, the type of image that is imported (logo, overlay, ...)
-   */
-  getImage(imageType) {
-    this.watermarkConfigService.getImage().subscribe(x => {
-      switch (imageType) {
-        case 'logo':
-          this.logo.src = x;
-          this.imageWatermark.logoLocation = x;
-          this.logo.onload = (() => this.draw());
-          break;
-        case 'overlay':
-          this.overlay.src = x;
-          this.imageWatermark.overlayLocation = x;
-          this.overlay.onload = (() => this.draw());
-          break;
-      }
-    });
-  }
 }

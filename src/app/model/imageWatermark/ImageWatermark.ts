@@ -15,8 +15,8 @@ export class ImageWatermark {
   imageScale: number;
 
   constructor() {
-    this.width = 500;
-    this.height = 700;
+    this.width = 400;
+    this.height = 300;
 
     this.logoX = 0;
     this.logoY = 0;
