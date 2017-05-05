@@ -46,6 +46,6 @@ a {
 
 @media screen and (max-height: 769px) {
   main {
-    height: auto;
+   /* height: auto;*/
   }
 }
