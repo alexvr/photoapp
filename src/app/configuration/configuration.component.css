@@ -45,11 +45,13 @@ a {
 }
 
 @media screen and (max-height: 768px) {
-  :host {
+  main {
     height: auto;
   }
+}
 
-  main {
+@media screen and (max-width: 768px){
+  :host {
     height: auto;
   }
 }
