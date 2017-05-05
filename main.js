@@ -4,6 +4,7 @@ const path = require('path');
 const url = require('url');
 const printerConfiguration = require('./printer-configuration');
 const serverConfiguration = require('./server-configuration');
+const watermarkConfiguration = require('./watermark-configuration');
 
 // Load environment variables in .env file and live reload when in development.
 require('dotenv').config();
@@ -90,5 +91,10 @@ ipcMain.on('async', (event, arg) => {
   if (arg === 'send-test-photo') {
     let message = serverConfiguration.sendTestPhoto();
     event.sender.send('async-send-test-photo', message);
+  }
+
+  // Get watermark image asset
+  if (arg === 'get-watermark-image-asset') {
+    watermarkConfiguration.readFile(event);
   }
 });

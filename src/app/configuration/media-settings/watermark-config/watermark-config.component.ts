@@ -18,7 +18,8 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
   private overlay = new Image();
 
   constructor(private watermarkConfigService: WatermarkConfigService, private activatedRoute: ActivatedRoute) {
-    this.image.src = "../../../../assets/images/photo.jpg";
+    this.image.src = "assets/images/photo.jpg";
+
     this.imageWatermark = new ImageWatermark();
   }
 
@@ -35,7 +36,17 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
           this.imageWatermark = this.watermarkConfigService.getWebWatermark();
         }
       }
-      this.image.onload = (() => this.draw());
+      this.image.onload = (() => {
+        if (this.imageWatermark != null) {
+          if (this.imageWatermark.logoLocation != null) {
+            this.logo.src = this.imageWatermark.logoLocation;
+          }
+          if (this.imageWatermark.overlayLocation != null) {
+            this.overlay.src = this.imageWatermark.overlayLocation;
+          }
+        }
+        this.draw();
+      });
     });
   }
 
@@ -81,27 +92,50 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
    * @param event, a reference to the file
    * @param imageType, the type of image that is imported (logo, overlay, ...)
    */
-  onFileSelected(event, imageType) {
-    let selectedFile = event.target.files[0];
-    let reader = new FileReader();
-    let tempImg = new Image();
+  /*
+   onFileSelected(event, imageType) {
+   let selectedFile = event.target.files[0];
+   let reader = new FileReader();
+   let tempImg = new Image();
 
-    console.log(event.target.files[0]);
+   console.log(event.target.files[0]);
+   console.log(event.target.files[0].path);
 
-    tempImg.title = selectedFile.name;
-    reader.onload = (() => tempImg.src = reader.result);
+   tempImg.title = selectedFile.name;
+   reader.onload = (() => tempImg.src = reader.result);
 
-    reader.readAsDataURL(selectedFile);
+   reader.readAsDataURL(selectedFile);
 
-    switch (imageType) {
-      case 'logo':
-        this.logo = tempImg;
-        this.logo.onload = (() => this.draw());
-        break;
-      case 'overlay':
-        this.overlay = tempImg;
-        this.overlay.onload = (() => this.draw());
-        break;
-    }
+   switch (imageType) {
+   case 'logo':
+   this.logo = tempImg;
+   this.logo.onload = (() => this.draw());
+   break;
+   case 'overlay':
+   this.overlay = tempImg;
+   this.overlay.onload = (() => this.draw());
+   break;
+   }
+   }*/
+
+  /**
+   * This function gets an image, with the use of Electron and nodeJS, through a choose-file dialog of the OS. The image is sent as a URI.
+   * @param imageType, the type of image that is imported (logo, overlay, ...)
+   */
+  getImage(imageType) {
+    this.watermarkConfigService.getImage().subscribe(x => {
+      switch (imageType) {
+        case 'logo':
+          this.logo.src = x;
+          this.imageWatermark.logoLocation = x;
+          this.logo.onload = (() => this.draw());
+          break;
+        case 'overlay':
+          this.overlay.src = x;
+          this.imageWatermark.overlayLocation = x;
+          this.overlay.onload = (() => this.draw());
+          break;
+      }
+    });
   }
 }

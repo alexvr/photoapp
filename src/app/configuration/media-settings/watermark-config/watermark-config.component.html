@@ -50,7 +50,7 @@
       <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
         <div class="panel-body">
           <!-- LOGO SETTINGS -->
-          <div class="form-group col-xs-12">
+          <!--<div class="form-group col-xs-12">
             <label for="logoFile">File input</label>
             <div id="logoFile" class="input-group">
               <label class="input-group-btn">
@@ -61,6 +61,9 @@
               </label>
               <input type="text" class="form-control" readonly>
             </div>
+          </div>-->
+          <div class="form-group col-xs-12">
+            <button type="button" class="btn btn-primary" (click)="getImage('logo')">Load Image</button>
           </div>
           <div class="form-group col-xs-12">
             <label for="logoX">X <span>{{imageWatermark.logoX}}</span></label>
@@ -93,7 +96,7 @@
       <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
         <div class="panel-body">
           <!-- OVERLAY SETTINGS -->
-          <div class="form-group col-xs-12">
+          <!--<div class="form-group col-xs-12">
             <label for="overlayFile">File input</label>
             <div id="overlayFile" class="input-group">
               <label class="input-group-btn">
@@ -104,6 +107,9 @@
               </label>
               <input type="text" class="form-control" readonly>
             </div>
+          </div>-->
+          <div class="form-group col-xs-12">
+            <button type="button" class="btn btn-primary" (click)="getImage('overlay')">Load Image</button>
           </div>
           <div class="form-group col-xs-12">
             <label for="overlayX">X <span>{{imageWatermark.overlayX}}</span></label>
