@@ -44,8 +44,12 @@ a {
   }
 }
 
-@media screen and (max-height: 769px) {
+@media screen and (max-height: 768px) {
+  :host {
+    height: auto;
+  }
+
   main {
-   /* height: auto;*/
+    height: auto;
   }
 }
