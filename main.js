@@ -93,8 +93,13 @@ ipcMain.on('async', (event, arg) => {
     event.sender.send('async-send-test-photo', message);
   }
 
-  // Get watermark image asset
-  if (arg === 'get-watermark-image-asset') {
-    watermarkConfiguration.readFile(event);
+  // Get watermark image path
+  if (arg === 'get-watermark-image-path') {
+    watermarkConfiguration.getImagePath(event);
+  }
+
+  // Get watermark image dataURI
+  if (arg[0] === 'get-watermark-image-dataURI') {
+    let dataURI = watermarkConfiguration.getImageDataUri(arg[1], event);
   }
 });

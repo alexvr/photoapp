@@ -13,13 +13,10 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
   @ViewChild('myCanvas') canvasRef: ElementRef;
   private isPrint: boolean = false;
   private imageWatermark: ImageWatermark;
-  private image = new Image();
   private logo = new Image();
   private overlay = new Image();
 
   constructor(private watermarkConfigService: WatermarkConfigService, private activatedRoute: ActivatedRoute) {
-    this.image.src = "assets/images/photo.jpg";
-
     this.imageWatermark = new ImageWatermark();
   }
 
@@ -36,17 +33,15 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
           this.imageWatermark = this.watermarkConfigService.getWebWatermark();
         }
       }
-      this.image.onload = (() => {
-        if (this.imageWatermark != null) {
-          if (this.imageWatermark.logoLocation != null) {
-            this.logo.src = this.imageWatermark.logoLocation;
-          }
-          if (this.imageWatermark.overlayLocation != null) {
-            this.overlay.src = this.imageWatermark.overlayLocation;
-          }
+      if (this.imageWatermark != null) {
+        if (this.imageWatermark.logoLocation != null) {
+          this.logo.src = this.imageWatermark.logoLocation;
         }
-        this.draw();
-      });
+        if (this.imageWatermark.overlayLocation != null) {
+          this.overlay.src = this.imageWatermark.overlayLocation;
+        }
+      }
+      this.draw();
     });
   }
 
@@ -67,18 +62,13 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
    * This function draws the watermark on the canvas
    */
   draw() {
-    console.log("draw!");
     let ctx = this.canvasRef.nativeElement.getContext("2d");
     ctx.clearRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
 
     // IMAGE RECTANGLE
-    ctx.fillStyle="#2e87fe";
-    ctx.fillRect(0,0,this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
-
-    // IMAGE
-    ctx.drawImage(this.image,
-      this.imageWatermark.imageX, this.imageWatermark.imageY,
-      (this.image.width / 100 * this.imageWatermark.imageScale), (this.image.height / 100 * this.imageWatermark.imageScale));
+    ctx.fillStyle = "#2e87fe";
+    ctx.fillRect(this.imageWatermark.imageX, this.imageWatermark.imageY,
+      (this.imageWatermark.imageWidth / 100 * this.imageWatermark.imageScale), (this.imageWatermark.imageHeight / 100 * this.imageWatermark.imageScale));
 
     // OVERLAY
     ctx.drawImage(this.overlay,
@@ -93,48 +83,24 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
 
   /**
    * This function gets an image, with the use of Electron and nodeJS, through a choose-file dialog of the OS. The image is sent as a URI.
-   * @param imageType, the type of image that is imported (logo, overlay, ...)
+   * @param imageType, the type of image that is imported (logo or overlay)
    */
   getImage(imageType) {
     this.watermarkConfigService.getImage().subscribe(x => {
-      switch (imageType) {
-        case 'logo':
-          this.logo.src = x;
-          this.imageWatermark.logoLocation = x;
-          this.logo.onload = (() => this.draw());
-          break;
-        case 'overlay':
-          this.overlay.src = x;
-          this.imageWatermark.overlayLocation = x;
-          this.overlay.onload = (() => this.draw());
-          break;
-      }
+      this.watermarkConfigService.getImageDataURI(x).subscribe(y => {
+        switch (imageType) {
+          case 'logo':
+            this.logo.src = y;
+            this.imageWatermark.logoLocation = y;
+            this.logo.onload = (() => this.draw());
+            break;
+          case 'overlay':
+            this.overlay.src = y;
+            this.imageWatermark.overlayLocation = y;
+            this.overlay.onload = (() => this.draw());
+            break;
+        }
+      });
     });
   }
-
-  /*
-   onFileSelected(event, imageType) {
-   let selectedFile = event.target.files[0];
-   let reader = new FileReader();
-   let tempImg = new Image();
-
-   console.log(event.target.files[0]);
-   console.log(event.target.files[0].path);
-
-   tempImg.title = selectedFile.name;
-   reader.onload = (() => tempImg.src = reader.result);
-
-   reader.readAsDataURL(selectedFile);
-
-   switch (imageType) {
-   case 'logo':
-   this.logo = tempImg;
-   this.logo.onload = (() => this.draw());
-   break;
-   case 'overlay':
-   this.overlay = tempImg;
-   this.overlay.onload = (() => this.draw());
-   break;
-   }
-   }*/
 }

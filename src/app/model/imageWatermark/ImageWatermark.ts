@@ -10,6 +10,8 @@ export class ImageWatermark {
   overlayX: number;
   overlayY: number;
   overlayScale: number;
+  imageWidth: number;
+  imageHeight: number;
   imageX: number;
   imageY: number;
   imageScale: number;
@@ -26,6 +28,8 @@ export class ImageWatermark {
     this.overlayY = 0;
     this.overlayScale = 100;
 
+    this.imageWidth = this.width;
+    this.imageHeight = this.height;
     this.imageX = 0;
     this.imageY = 0;
     this.imageScale = 100;

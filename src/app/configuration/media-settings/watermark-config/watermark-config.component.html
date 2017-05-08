@@ -50,18 +50,6 @@
       <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
         <div class="panel-body">
           <!-- LOGO SETTINGS -->
-          <!--<div class="form-group col-xs-12">
-            <label for="logoFile">File input</label>
-            <div id="logoFile" class="input-group">
-              <label class="input-group-btn">
-                    <span class="btn btn-primary">
-                        Browse&hellip; <input type="file" style="display: none;" multiple
-                                              (change)="onFileSelected($event, 'logo')">
-                    </span>
-              </label>
-              <input type="text" class="form-control" readonly>
-            </div>
-          </div>-->
           <div class="form-group col-xs-12">
             <button type="button" class="btn btn-primary" (click)="getImage('logo')">Load Image</button>
           </div>
@@ -83,6 +71,7 @@
         </div>
       </div>
     </div>
+
     <!-- -->
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="headingTwo">
@@ -96,18 +85,6 @@
       <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
         <div class="panel-body">
           <!-- OVERLAY SETTINGS -->
-          <!--<div class="form-group col-xs-12">
-            <label for="overlayFile">File input</label>
-            <div id="overlayFile" class="input-group">
-              <label class="input-group-btn">
-                    <span class="btn btn-primary">
-                        Browse&hellip; <input type="file" style="display: none;" multiple
-                                              (change)="onFileSelected($event, 'overlay')">
-                    </span>
-              </label>
-              <input type="text" class="form-control" readonly>
-            </div>
-          </div>-->
           <div class="form-group col-xs-12">
             <button type="button" class="btn btn-primary" (click)="getImage('overlay')">Load Image</button>
           </div>
@@ -131,6 +108,7 @@
         </div>
       </div>
     </div>
+
     <!-- -->
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="headingThree">
@@ -144,6 +122,14 @@
       <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
         <div class="panel-body">
           <!-- IMAGE SETTINGS -->
+          <div class="form-group canvas-dimensions">
+            <label for="imageWidth">Width</label>
+            <input type="number" id="imageWidth" [(ngModel)]="imageWatermark.imageWidth" (change)="draw()">
+          </div>
+          <div class="form-group canvas-dimensions">
+            <label for="imageHeight">Height</label>
+            <input type="number" id="imageHeight" [(ngModel)]="imageWatermark.imageHeight" (change)="draw()">
+          </div>
           <div class="form-group col-xs-12">
             <label for="imageX">X <span>{{imageWatermark.imageX}}</span></label>
             <input id="imageX" type="range" min="0" max="{{imageWatermark.width}}" [(ngModel)]="imageWatermark.imageX"
