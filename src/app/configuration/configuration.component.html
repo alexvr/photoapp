@@ -1,10 +1,12 @@
 <header>
-  <button type="button" class="btn btn-default" aria-label="Left Align" [routerLink]="['/event-overview']">
+  <button id="back-btn" type="button" class="btn btn-default" aria-label="Left Align"
+          [routerLink]="['/event-overview']">
     <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
     Back
   </button>
   <h2>{{event.eventName}}</h2>
-  <button type="button" class="btn btn-default" aria-label="Left Align" [routerLink]="['/event-overview']">
+  <button id="save-event-btn" type="button" class="btn btn-default" aria-label="Left Align"
+          [routerLink]="['/event-overview']">
     Save event
   </button>
 </header>
@@ -14,7 +16,7 @@
 </main>
 
 <div class="configSteps">
-  <a [routerLink]="['basic-info']">Basic info</a>
-  <a [routerLink]="['media-settings']">Media settings</a>
-  <a [routerLink]="['layout']">Layout</a>
+  <a id="basic-info" [routerLink]="['basic-info']">Basic info</a>
+  <a id="media-settings" [routerLink]="['media-settings']">Media settings</a>
+  <a id="layout" [routerLink]="['layout']">Layout</a>
 </div>
