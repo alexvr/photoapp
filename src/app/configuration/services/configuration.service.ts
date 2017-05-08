@@ -33,6 +33,8 @@ export class ConfigurationService {
         watermarkPrinting: null,
         watermarkImage: null,
         qrPrinting: null,
+        printWatermark: null,
+        webWatermark: null
       }
     };
   }

@@ -45,7 +45,6 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
     });
   }
 
-
   ngOnDestroy(): void {
     this.activatedRoute.params.subscribe(params => {
         this.imageWatermark.print = this.isPrint;
@@ -62,6 +61,7 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
    * This function draws the watermark on the canvas
    */
   draw() {
+    console.log('draw');
     let ctx = this.canvasRef.nativeElement.getContext("2d");
     ctx.clearRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
 

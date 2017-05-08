@@ -1,4 +1,5 @@
 import {PhotoQuality} from "./PhotoQuality";
+import {ImageWatermark} from "./imageWatermark/ImageWatermark";
 
 export class Configuration {
   mediastorage: string;
@@ -14,4 +15,6 @@ export class Configuration {
   watermarkPrinting: boolean;
   watermarkImage: string;
   qrPrinting: boolean;
+  printWatermark: ImageWatermark;
+  webWatermark: ImageWatermark;
 }
