@@ -1,0 +1,10 @@
+.layout-nav {
+  color: #737373;
+  font-size: 1.5rem;
+}
+
+.active-marker {
+  text-decoration: underline;
+  color: #337ab7;
+
+}

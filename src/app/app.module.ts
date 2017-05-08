@@ -28,6 +28,10 @@ import {MediaSettingsComponent}  from "./configuration/media-settings/media-sett
 import {LayoutSettingsComponent} from "./configuration/layout-settings/layout-settings.component";
 import {EventDashboardComponent} from "./event-dashboard/event-dashboard.component";
 import {WatermarkConfigComponent} from "./configuration/media-settings/watermark-config/watermark-config.component";
+import {OverviewLayoutChooserComponent} from "./configuration/layout-settings/overview-layout-chooser/overview-layout-chooser.component";
+import {DetailLayoutChooserComponent} from "./configuration/layout-settings/detail-layout-chooser/detail-layout-chooser.component";
+import {OverviewLayoutConfigComponent} from "./configuration/layout-settings/overview-layout-config/overview-layout-config.component";
+import {DetailLayoutConfigComponent} from "./configuration/layout-settings/detail-layout-config/detail-layout-config.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +47,10 @@ import {WatermarkConfigComponent} from "./configuration/media-settings/watermark
     LayoutSettingsComponent,
     EventDashboardComponent,
     WatermarkConfigComponent,
+    OverviewLayoutChooserComponent,
+    DetailLayoutChooserComponent,
+    OverviewLayoutConfigComponent,
+    DetailLayoutConfigComponent
   ],
   imports: [
     BrowserModule,

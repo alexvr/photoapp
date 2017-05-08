@@ -8,6 +8,10 @@ import {BasicInfoComponent} from "./configuration/basic-info/basic-info.componen
 import {LayoutSettingsComponent} from "./configuration/layout-settings/layout-settings.component";
 import {MediaSettingsComponent} from "./configuration/media-settings/media-settings.component";
 import {WatermarkConfigComponent} from "./configuration/media-settings/watermark-config/watermark-config.component";
+import {OverviewLayoutChooserComponent} from "./configuration/layout-settings/overview-layout-chooser/overview-layout-chooser.component";
+import {DetailLayoutChooserComponent} from "./configuration/layout-settings/detail-layout-chooser/detail-layout-chooser.component";
+import {DetailLayoutConfigComponent} from "./configuration/layout-settings/detail-layout-config/detail-layout-config.component";
+import {OverviewLayoutConfigComponent} from "./configuration/layout-settings/overview-layout-config/overview-layout-config.component";
 
 export const routes: Routes = [
   {path: 'event-overview', component: StartScreenComponent},
@@ -16,14 +20,23 @@ export const routes: Routes = [
     children: [
       {path: '', redirectTo: 'basic-info', pathMatch: 'full'},
       {path: 'basic-info', component: BasicInfoComponent},
-      {path: 'layout', component: LayoutSettingsComponent},
+      {
+        path: 'layout', component: LayoutSettingsComponent,
+        children: [
+          {path: '', redirectTo: 'overview-layout-chooser', pathMatch: 'full'},
+          {path: 'overview-layout-chooser', component: OverviewLayoutChooserComponent},
+          {path: 'detail-layout-chooser', component: DetailLayoutChooserComponent},
+          {path: 'detail-layout-config', component: DetailLayoutConfigComponent},
+          {path: 'overview-layout-config', component: OverviewLayoutConfigComponent},
+        ]
+      },
       {path: 'media-settings', component: MediaSettingsComponent},
       {path: 'watermark-config/:id', component: WatermarkConfigComponent},
     ]
   },
   {path: 'event-dashboard', component: EventDashboardComponent},
   /*{path: '', component: LoginComponent},*/
-  {path: '' , component: StartScreenComponent},
+  {path: '', component: StartScreenComponent},
   {path: '**', redirectTo: ''}
 ];
 
