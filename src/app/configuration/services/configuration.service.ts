@@ -42,7 +42,7 @@ export class ConfigurationService {
         selectionContainerColor: null,
         selectionContainerBorderColor: null,
         selectionContainerBorderWidth: 0,
-        selectBtnText: null,
+        selectBtnText: 'select',
         navigationColor: null,
         activeNavigationColor: null,
       },

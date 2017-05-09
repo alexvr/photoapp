@@ -102,4 +102,15 @@ export class EventOverviewComponent {
     }
   }
 
+  setSelectButton(): any {
+    if (this.overviewLayout != null && this.overviewLayout.btnImage == null) {
+      return {
+        'background': this.overviewLayout.btnColor,
+        'border': this.overviewLayout.btnBorderWidth + 'px solid ' + this.overviewLayout.btnBorderColor
+      }
+    } else {
+      return {'background': 'none', 'border': 'none'}
+    }
+  }
+
 }
