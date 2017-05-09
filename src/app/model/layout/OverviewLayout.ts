@@ -6,6 +6,7 @@ export class OverviewLayout extends Layout {
   imageContainerBorderColor: string;
   imageContainerBorderWidth: number;
   selectionIcon: string;
+  selectionContainer: boolean;
   selectionContainerColor: string;
   selectionContainerBorderColor: string;
   selectionContainerBorderWidth: number;

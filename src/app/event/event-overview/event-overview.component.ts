@@ -1,4 +1,5 @@
-import {Component } from "@angular/core";
+import {Component, ViewChild, ElementRef, Input} from "@angular/core";
+import {OverviewLayout} from "../../model/layout/OverviewLayout";
 
 @Component({
   selector: 'event-overview',
@@ -7,8 +8,9 @@ import {Component } from "@angular/core";
 })
 
 export class EventOverviewComponent {
+  @Input() overviewLayout: OverviewLayout;
 
-  /*
+  /**
    * Configuration of carousel
    * */
   private config: Object = {
@@ -46,4 +48,58 @@ export class EventOverviewComponent {
     this.visibleAnimate = false;
     this.visible = false;
   }
+
+  /**
+   * Functions to customize the layout style.
+   */
+
+  setLogo(): any {
+    switch (this.overviewLayout.logoPosition) {
+      case 0:
+        return {'justify-content': 'flex-start'};
+      case 1:
+        return {'justify-content': 'center'};
+      case 2:
+        return {'justify-content': 'flex-end'};
+    }
+  }
+
+  setImageContainerStyle(): any {
+    if (this.overviewLayout != null && this.overviewLayout.imageContainer) {
+      return {
+        'background-color': this.overviewLayout.imageContainerColor,
+        'border': this.overviewLayout.imageContainerBorderWidth + "px solid " + this.overviewLayout.imageContainerBorderColor
+      }
+    } else {
+      return {
+        'background': 'none',
+        'border': 'none'
+      }
+    }
+  }
+
+  setImageStyle(): any {
+    if (this.overviewLayout != null) {
+      return {
+        'border': this.overviewLayout.imageBorderWidth + 'px solid ' + this.overviewLayout.imageBorderColor
+      }
+    } else {
+      return {'border': 'none'}
+    }
+  }
+
+  setSelectionContainerStyle(): any {
+    if (this.overviewLayout != null && this.overviewLayout.selectionContainer) {
+      return {
+        'background-color': this.overviewLayout.selectionContainerColor,
+        'border': this.overviewLayout.selectionContainerBorderWidth + 'px solid ' + this.overviewLayout.selectionContainerBorderColor
+      }
+    } else {
+      return {
+        'background': 'none',
+        'border': 'none'
+      }
+    }
+  }
+
 }

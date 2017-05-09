@@ -15,13 +15,15 @@
         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
           <div class="panel-body">
             <!-- LOGO -->
-            <div class="form-group col-xs-12">
+            <div class="form-group col-xs-12 section-end">
               <button type="button" class="btn btn-primary">Choose logo</button>
             </div>
             <div class="form-group col-xs-12">
-              <button type="button" class="btn btn-default">Left</button>
-              <button type="button" class="btn btn-default">Center</button>
-              <button type="button" class="btn btn-default">Right</button>
+              <button type="button" [ngClass]="setActiveLogoPositionClass(0)" (click)="setLogoPosition(0)">Left</button>
+              <button type="button" [ngClass]="setActiveLogoPositionClass(1)" (click)="setLogoPosition(1)">Center
+              </button>
+              <button type="button" [ngClass]="setActiveLogoPositionClass(2)" (click)="setLogoPosition(2)">Right
+              </button>
             </div>
           </div>
         </div>
@@ -39,19 +41,36 @@
         <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
           <div class="panel-body">
             <!-- IMAGES -->
-            <div class="form-group col-xs-4 col-md-3 checker-container">
-              <input id="imageContainer" class="checker" type="checkbox">
-              <label for="imageContainer">Image container</label>
+            <div class="form-group col-xs-12">
+              <label for="imageBorderColor">Image border-color</label>
+              <input id="imageBorderColor" type="color" [(ngModel)]="overviewLayout.imageBorderColor">
+            </div>
+            <div class="form-group col-xs-12 section-end">
+              <label for="imageBorderWidth">Image border-width</label>
+              <input id="imageBorderWidth" type="number"
+                     [(ngModel)]="overviewLayout.imageBorderWidth">
+            </div>
+            <div class="form-group col-xs-12 checker-container">
+              <input id="imageContainer" class="checker" type="checkbox" [(ngModel)]="overviewLayout.imageContainer">
+              <label for="imageContainer">Image-container</label>
             </div>
             <div class="form-group col-xs-12">
-              <label for="imageContainerColor">Image container color</label>
-              <input id="imageContainerColor" type="color">
+              <label for="imageContainerColor" [ngClass]="{'no-image-container': !overviewLayout.imageContainer}">Image-container
+                color</label>
+              <input id="imageContainerColor" type="color" [(ngModel)]="overviewLayout.imageContainerColor"
+                     *ngIf="overviewLayout.imageContainer">
             </div>
             <div class="form-group col-xs-12">
-              <label for="imageContainerBorderColor">Image container border-color</label>
-              <input id="imageContainerBorderColor" type="color">
-              <label for="imageContainerBorderWidth">Image container border-width</label>
-              <input id="imageContainerBorderWidth" type="number">
+              <label for="imageContainerBorderColor" [ngClass]="{'no-image-container': !overviewLayout.imageContainer}">Image-container
+                border-color</label>
+              <input id="imageContainerBorderColor" type="color" [(ngModel)]="overviewLayout.imageContainerBorderColor"
+                     *ngIf="overviewLayout.imageContainer">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="imageContainerBorderWidth" [ngClass]="{'no-image-container': !overviewLayout.imageContainer}">Image-container
+                border-width</label>
+              <input id="imageContainerBorderWidth" type="number"
+                     [(ngModel)]="overviewLayout.imageContainerBorderWidth" *ngIf="overviewLayout.imageContainer">
             </div>
           </div>
         </div>
@@ -69,35 +88,57 @@
         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
           <div class="panel-body">
             <!-- SELECTION -->
-            <div class="form-group col-xs-12">
+            <div class="form-group col-xs-12 section-end">
               <button type="button" class="btn btn-primary">Choose selection icon</button>
             </div>
-            <div class="form-group col-xs-12">
-              <label for="selectionContainerColor">Selection container color</label>
-              <input id="selectionContainerColor" type="color">
+            <div class="form-group col-xs-12 checker-container">
+              <input id="selectionContainer" class="checker" type="checkbox"
+                     [(ngModel)]="overviewLayout.selectionContainer">
+              <label for="selectionContainer">Selection-container</label>
             </div>
             <div class="form-group col-xs-12">
-              <label for="selectionContainerBorderColor">Selection container border-color</label>
-              <input id="selectionContainerBorderColor" type="color">
-              <label for="selectionContainerBorderWidth">Selection container border-width</label>
-              <input id="selectionContainerBorderWidth" type="number">
+              <label for="selectionContainerColor"
+                     [ngClass]="{'no-selection-container': !overviewLayout.selectionContainer}">Selection-container
+                color</label>
+              <input id="selectionContainerColor" type="color" [(ngModel)]="overviewLayout.selectionContainerColor"
+                     *ngIf="overviewLayout.selectionContainer">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="selectionContainerBorderColor"
+                     [ngClass]="{'no-selection-container': !overviewLayout.selectionContainer}">Selection-container
+                border-color</label>
+              <input id="selectionContainerBorderColor" type="color"
+                     [(ngModel)]="overviewLayout.selectionContainerBorderColor"
+                     *ngIf="overviewLayout.selectionContainer">
+            </div>
+            <div class="form-group col-xs-12 section-end">
+              <label for="selectionContainerBorderWidth"
+                     [ngClass]="{'no-selection-container': !overviewLayout.selectionContainer}">Selection-container
+                border-width</label>
+              <input id="selectionContainerBorderWidth" type="number"
+                     [(ngModel)]="overviewLayout.selectionContainerBorderWidth"
+                     *ngIf="overviewLayout.selectionContainer">
             </div>
 
             <!-- selection button -->
-            <div class="form-group col-xs-12">
-              <button type="button" class="btn btn-primary">Choose select button</button>
+            <div class="form-group col-xs-12 section-end">
+              <button type="button" class="btn btn-primary">Choose select-button</button>
             </div>
             <div class="form-group col-xs-12">
-              <label for="buttonText">Select button text</label>
-              <input id="buttonText" type="text">
-              <label for="buttonColor">Select button color</label>
-              <input id="buttonColor" type="color">
+              <label for="buttonText">Select-button text</label>
+              <input id="buttonText" type="text" [(ngModel)]="overviewLayout.selectBtnText">
             </div>
             <div class="form-group col-xs-12">
-              <label for="buttonBorderColor">Select button border-color</label>
-              <input id="buttonBorderColor" type="color">
-              <label for="buttonBorderWidth">Select button border-width</label>
-              <input id="buttonBorderWidth" type="number">
+              <label for="buttonColor">Select-button color</label>
+              <input id="buttonColor" type="color" [(ngModel)]="overviewLayout.btnColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="buttonBorderColor">Select-button border-color</label>
+              <input id="buttonBorderColor" type="color" [(ngModel)]="overviewLayout.btnBorderColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="buttonBorderWidth">Select-button border-width</label>
+              <input id="buttonBorderWidth" type="number" [(ngModel)]="overviewLayout.btnBorderWidth">
             </div>
           </div>
         </div>
@@ -117,11 +158,11 @@
             <!-- NAVIGATION -->
             <div class="form-group col-xs-12">
               <label for="navigationColor">Navigation color</label>
-              <input id="navigationColor" type="color">
+              <input id="navigationColor" type="color" [(ngModel)]="overviewLayout.navigationColor">
             </div>
             <div class="form-group col-xs-12">
               <label for="activeNavigationColor">Active navigation color</label>
-              <input id="activeNavigationColor" type="color">
+              <input id="activeNavigationColor" type="color" [(ngModel)]="overviewLayout.activeNavigationColor">
             </div>
           </div>
         </div>
@@ -139,12 +180,12 @@
         <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
           <div class="panel-body">
             <!-- BACKGROUND -->
-            <div class="form-group col-xs-12">
-              <label for="backgroundColor">Background color</label>
-              <input id="backgroundColor" type="color">
+            <div class="form-group col-xs-12 section-end">
+              <button type="button" class="btn btn-primary">Choose background image</button>
             </div>
             <div class="form-group col-xs-12">
-              <button type="button" class="btn btn-primary">Choose background image</button>
+              <label for="backgroundColor">Background color</label>
+              <input id="backgroundColor" type="color" [(ngModel)]="overviewLayout.backgroundColor">
             </div>
           </div>
         </div>
@@ -155,7 +196,7 @@
 
   <!-- EVENT-OVERVIEW PREVIEW -->
   <div class="col-md-8 event-overview-container">
-    <event-overview></event-overview>
+    <event-overview [overviewLayout]="overviewLayout"
+                    [ngStyle]="{'background': overviewLayout.backgroundColor}"></event-overview>
   </div>
-
 </div>

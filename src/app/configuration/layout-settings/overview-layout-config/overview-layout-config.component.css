@@ -1,4 +1,35 @@
-event-overview{
+event-overview {
   height: 30rem;
   border: 2px solid #cecece;
 }
+
+.form-group {
+  margin-bottom: 0.7rem;
+  padding: 0;
+}
+
+input[type="color"], input[type="number"] {
+  width: 3rem;
+  margin: 0 0 0 1rem;
+  float: right;
+}
+
+input[type="text"] {
+  width: 10rem;
+  margin: 0 0 0 1rem;
+  float: right;
+}
+
+label {
+  font-weight: 300;
+  font-size: 1.4rem;
+}
+
+.section-end{
+  margin-bottom: 1.2rem;
+}
+
+.no-image-container, .no-selection-container{
+  color: #ababab;
+}
+

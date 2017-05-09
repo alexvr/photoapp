@@ -38,20 +38,18 @@ a {
   margin: 2rem;
 }
 
-@media screen and (max-height: 600px) {
+@media screen and (max-width: 600px) {
   main {
     margin: 3rem auto;
   }
 }
 
-@media screen and (max-height: 768px) {
-  main {
+@media screen and (max-width: 991px) {
+  :host {
     height: auto;
   }
-}
 
-@media screen and (max-width: 768px){
-  :host {
+  main {
     height: auto;
   }
 }
