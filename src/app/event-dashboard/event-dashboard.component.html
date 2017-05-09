@@ -1,9 +1,10 @@
 <header>
-  <h1>Event name</h1>
+  <h1>{{event.eventName}}</h1>
   <button type="button" class="btn btn-default" aria-label="Left Align" [routerLink]="['/start-screen']">
     Stop event
   </button>
 </header>
+
 <main class="container">
 
   <div class="row">
@@ -20,9 +21,6 @@
           <label for="port">Port</label>
           <h4 id="port">{{serverPort}}</h4>
         </div>
-
-        <p (click)="testSendLayout();">Send layout</p>
-        <p (click)="testSendPhoto();">Send picture</p>
 
         <div class="form-group col-xs-12">
           <label for="clients">Connected clients</label>
@@ -57,23 +55,16 @@
       <h2>printer details<span class="inactive-marker"></span></h2>
       <div class="dashboard-container">
         <div class="form-group col-xs-8 printer-details-top">
-          <label for="selectedPrinter">Selected printer</label>
-          <select class="form-control" id="selectedPrinter">
-            <option>printer</option>
-          </select>
+          <div class="form-group col-xs-9">
+            <label for="printer">Printer</label>
+            <h4 id="printer">{{printer}}</h4>
+          </div>
         </div>
         <div class="form-group col-xs-4 printer-details-top">
           <label for="printStatus">Status</label>
-          <h4 id="printStatus">Active</h4>
+          <h4 id="printStatus">{{printerState}}</h4>
         </div>
-        <div class="form-group col-xs-6 checker-container">
-          <input id="qrPrinting" class="checker" type="checkbox">
-          <label for="qrPrinting">QR Printing</label>
-        </div>
-        <div class="form-group col-xs-6 checker-container">
-          <input id="watermark" class="checker" type="checkbox">
-          <label for="watermark">Watermark</label>
-        </div>
+        <p (click)="sendTestPrint()">Send testprint</p>
       </div>
     </div>
 

@@ -1,7 +1,7 @@
 <div class="event-container">
   <event-icon *ngFor="let e of events" [event]="e" (click)="showEventMenu(e)"></event-icon>
   <div id="addEvent">
-    <a id="addEvent-btn" class="btn btn-primary" href="#" role="button" routerLink="/configuration">+</a>
+    <a id="addEvent-btn" class="btn btn-primary" href="#" role="button" [routerLink]="['/configuration']">+</a>
     <h3>Add event</h3>
   </div>
 </div>
@@ -20,8 +20,8 @@
         <h4 class="modal-title">Menu</h4>
       </div>
       <div class="modal-body">
-        <button type="button" class="btn btn-default menu-btn"  routerLink="/event-dashboard">Start</button>
-        <button type="button" class="btn btn-default menu-btn" routerLink="/configuration">Edit</button>
+        <button type="button" class="btn btn-default menu-btn"  (click)="openEventDashboard()">Start</button>
+        <button type="button" class="btn btn-default menu-btn" [routerLink]="['/configuration']">Edit</button>
         <button type="button" class="btn btn-default menu-btn" (click)="closeMenu()">Back</button>
       </div>
     </div>

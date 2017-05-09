@@ -56,6 +56,7 @@ export class StartScreenComponent {
     }];*/
 
   private events: Event[] = [];
+  private selectedEvent: Event;
 
   private visibleAnimate = false;  // necessary for activating bootstrap modal in Typescript code.
   private visible = false;         // necessary for activating bootstrap modal in Typescript code.
@@ -71,10 +72,15 @@ export class StartScreenComponent {
 
   showEventMenu(e: Event) {
     console.log(e);
+    this.selectedEvent = e;
     this.visibleAnimate = true;
     this.visible = true;
   }
 
+  openEventDashboard(): void {
+    this.eventService.setSelectedEvent(this.selectedEvent);
+    this.router.navigate(['/event-dashboard']).then(() => { });
+  }
 
   closeMenu() {
     this.visibleAnimate = false;

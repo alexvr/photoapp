@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {Configuration} from "../../model/Configuration";
-import {PhotoQuality} from "../../model/PhotoQuality";
-import {PrinterService} from "../services/printer.service";
-import {ConfigurationService} from "../services/configuration.service";
+import {Component, OnInit} from '@angular/core';
+import {Configuration} from '../../model/Configuration';
+import {PhotoQuality} from '../../model/PhotoQuality';
+import {PrinterService} from '../services/printer.service';
+import {ConfigurationService} from '../services/configuration.service';
 
 @Component({
   selector: 'media-settings',
@@ -19,7 +19,7 @@ export class MediaSettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.configuration = this.configService.getEvent().configuration;
+    this.configuration = this.configService.getEvent().config;
     this.printerService.getAllPrinters().subscribe(p => this.printers = p);
   }
 
@@ -43,13 +43,13 @@ export class MediaSettingsComponent implements OnInit {
         'background': '#2880d0',
         'border-color': '#245988',
         'color': '#fff',
-      }
+      };
     } else {
       return {
         'background': '#fff',
         'border-color': '#ccc',
         'color': '#333',
-      }
+      };
     }
   }
 }
