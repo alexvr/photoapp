@@ -7,7 +7,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {SwiperModule}     from "angular2-useful-swiper";
 
 // Services
-import {AuthService}          from "./login/auth.service";
+import {AuthService}          from "./login/services/auth.service";
 import {PrinterService}       from "./configuration/services/printer.service";
 import {EventDetailComponent} from "./event/event-detail/event-detail.component";
 import {QrCodeService}        from "./event/services/qr-code.service";
@@ -15,6 +15,8 @@ import {ServerService}        from "./event-dashboard/services/server.service";
 import {ConfigurationService} from "./configuration/services/configuration.service";
 import {TestEventService}     from "./event/services/test-event.service";
 import {WatermarkConfigService} from "./configuration/services/watermark-config.service";
+import {EventService} from "./event/services/event.service";
+import {AuthHttpImpl} from "./login/services/auth-http-impl";
 
 // Components
 import {AppComponent}            from './app.component';
@@ -65,8 +67,10 @@ import {DetailLayoutConfigComponent} from "./configuration/layout-settings/detai
     QrCodeService,
     ServerService,
     ConfigurationService,
+    EventService,
     TestEventService,
-    WatermarkConfigService
+    WatermarkConfigService,
+    AuthHttpImpl
   ],
   bootstrap: [AppComponent]
 })

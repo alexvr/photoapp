@@ -1,20 +1,21 @@
-import {NgModule}               from '@angular/core';
-import {RouterModule, Routes}   from '@angular/router';
-import {StartScreenComponent} from "./start-screen/start-screen.component";
-import {ConfigurationComponent} from "./configuration/configuration.component";
-import {EventDashboardComponent} from "./event-dashboard/event-dashboard.component";
-import {LoginComponent} from "./login/login.component";
-import {BasicInfoComponent} from "./configuration/basic-info/basic-info.component";
-import {LayoutSettingsComponent} from "./configuration/layout-settings/layout-settings.component";
-import {MediaSettingsComponent} from "./configuration/media-settings/media-settings.component";
-import {WatermarkConfigComponent} from "./configuration/media-settings/watermark-config/watermark-config.component";
-import {OverviewLayoutChooserComponent} from "./configuration/layout-settings/overview-layout-chooser/overview-layout-chooser.component";
-import {DetailLayoutChooserComponent} from "./configuration/layout-settings/detail-layout-chooser/detail-layout-chooser.component";
-import {DetailLayoutConfigComponent} from "./configuration/layout-settings/detail-layout-config/detail-layout-config.component";
-import {OverviewLayoutConfigComponent} from "./configuration/layout-settings/overview-layout-config/overview-layout-config.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {StartScreenComponent} from './start-screen/start-screen.component';
+import {ConfigurationComponent} from './configuration/configuration.component';
+import {EventDashboardComponent} from './event-dashboard/event-dashboard.component';
+import {LoginComponent} from './login/login.component';
+import {BasicInfoComponent} from './configuration/basic-info/basic-info.component';
+import {LayoutSettingsComponent} from './configuration/layout-settings/layout-settings.component';
+import {MediaSettingsComponent} from './configuration/media-settings/media-settings.component';
+import {WatermarkConfigComponent} from './configuration/media-settings/watermark-config/watermark-config.component';
+import {OverviewLayoutChooserComponent} from './configuration/layout-settings/overview-layout-chooser/overview-layout-chooser.component';
+import {DetailLayoutChooserComponent} from './configuration/layout-settings/detail-layout-chooser/detail-layout-chooser.component';
+import {DetailLayoutConfigComponent} from './configuration/layout-settings/detail-layout-config/detail-layout-config.component';
+import {OverviewLayoutConfigComponent} from './configuration/layout-settings/overview-layout-config/overview-layout-config.component';
 
 export const routes: Routes = [
-  {path: 'event-overview', component: StartScreenComponent},
+  {path: '', component: LoginComponent},
+  {path: 'start-screen', component: StartScreenComponent},
   {
     path: 'configuration', component: ConfigurationComponent,
     children: [
@@ -35,8 +36,6 @@ export const routes: Routes = [
     ]
   },
   {path: 'event-dashboard', component: EventDashboardComponent},
-  /*{path: '', component: LoginComponent},*/
-  {path: '', component: StartScreenComponent},
   {path: '**', redirectTo: ''}
 ];
 

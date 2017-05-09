@@ -1,6 +1,8 @@
-import {Component} from "@angular/core";
-import {Event} from "../model/Event";
-import {Router} from "@angular/router";
+import {Component} from '@angular/core';
+import {Event} from '../model/Event';
+import {Router} from '@angular/router';
+import {EventService} from '../event/services/event.service';
+import {Response} from '@angular/http';
 
 @Component({
   selector: 'start-screen',
@@ -10,7 +12,7 @@ import {Router} from "@angular/router";
 
 export class StartScreenComponent {
 
-  private events: Event[] = [{
+  /*private events: Event[] = [{
     eventName: 'Chaumet',
     eventStartDate: null,
     eventEndDate: null,
@@ -51,12 +53,20 @@ export class StartScreenComponent {
       overviewLayout: null,
       detailLayout: null,
       configuration: null
-    }];
+    }];*/
 
-  private visibleAnimate: boolean = false;  // necessary for activating bootstrap modal in Typescript code.
-  private visible: boolean = false;         // necessary for activating bootstrap modal in Typescript code.
+  private events: Event[] = [];
 
-  constructor(private router: Router) {
+  private visibleAnimate = false;  // necessary for activating bootstrap modal in Typescript code.
+  private visible = false;         // necessary for activating bootstrap modal in Typescript code.
+
+  constructor(private router: Router, private eventService: EventService) {
+    // Get all events for User.
+    this.eventService.getAllEvents().map((res: Response) => res.json())
+      .subscribe((events) => {
+        this.events = events;
+        console.log(events);
+      });
   }
 
   showEventMenu(e: Event) {

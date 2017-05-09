@@ -1,11 +1,11 @@
-import { Injectable }      from '@angular/core';
+import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
-import { Router }          from '@angular/router';
-import { Observable }      from "rxjs/Observable";
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 // Avoid name not found warnings
-declare let auth0: any;
-let Auth0Lock = require('auth0-lock').default;
+declare const auth0: any;
+const Auth0Lock = require('auth0-lock').default;
 
 /**
  * This service is used for User authentication.
@@ -28,7 +28,7 @@ export class AuthService {
 
   constructor(private router: Router) {
     // Add callback for lock `authenticated` event
-    this.lock.on("authenticated", (authResult) => {
+    this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
     });
   }
@@ -39,7 +39,7 @@ export class AuthService {
   public handleAuthentication(): void {
     this.auth0.parseHash({ _idTokenVerification: false }, (err, authResult) => {
       if (err) {
-        alert(`Error: ${err.errorDescription}`)
+        alert(`Error: ${err.errorDescription}`);
       }
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
@@ -65,10 +65,9 @@ export class AuthService {
     }, (err, authResult) => {
       if (err) {
         return obs.error();
-      }
-      else if (authResult && authResult.idToken && authResult.accessToken) {
+      } else if (authResult && authResult.idToken && authResult.accessToken) {
         this.setUser(authResult);
-        this.router.navigate(['/event-overview']);
+        this.router.navigate(['/start-screen']);
         return obs.complete();
       }
     }));

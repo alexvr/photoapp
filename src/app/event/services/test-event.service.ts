@@ -1,15 +1,14 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Event }          from '../../model/Event';
-import { Observable }     from "rxjs/Observable";
-import { DetailLayout } from "../../model/layout/DetailLayout";
-import { OverviewLayout } from "../../model/layout/OverviewLayout";
+import { Event } from '../../model/Event';
+import { Observable } from 'rxjs/Observable';
+import { DetailLayout } from '../../model/layout/DetailLayout';
+import { OverviewLayout } from '../../model/layout/OverviewLayout';
 
 // Inter Process Communication
 let ipcRenderer;
-if (typeof window['require'] !== "undefined") {
-  let electron = window['require']("electron");
+if (typeof window['require'] !== 'undefined') {
+  const electron = window['require']('electron');
   ipcRenderer = electron.ipcRenderer;
-  //console.log("ipc renderer", ipcRenderer);
 }
 
 @Injectable()
@@ -19,10 +18,10 @@ export class TestEventService {
   private testEvent: Event;
 
   constructor(zone: NgZone) {
-    let overviewLayout: OverviewLayout = new OverviewLayout();
+    const overviewLayout: OverviewLayout = new OverviewLayout();
     overviewLayout.backgroundColor = 'green';
 
-    let detailLayout: DetailLayout = new DetailLayout();
+    const detailLayout: DetailLayout = new DetailLayout();
     detailLayout.backgroundColor = 'yellow';
 
     this.testEvent = new Event();
@@ -51,11 +50,11 @@ export class TestEventService {
    */
   testSendLayout(overviewLayout: OverviewLayout, detailLayout: DetailLayout): Observable<any> {
     return new Observable(() => {
-      this.hasIpc = (typeof ipcRenderer != 'undefined');
+      this.hasIpc = (typeof ipcRenderer !== 'undefined');
 
       if (this.hasIpc) {
         // Send async message to send OverviewLayout to all connected clients.
-        let overviewLayoutArguments: any[] = ['send-layout', overviewLayout, detailLayout];
+        const overviewLayoutArguments: any[] = ['send-layout', overviewLayout, detailLayout];
         ipcRenderer.send('async', overviewLayoutArguments);
 
         // Listen for async-reply to sent layout.
@@ -72,7 +71,7 @@ export class TestEventService {
    */
   testSendPhoto(): Observable<any> {
     return new Observable(() => {
-      this.hasIpc = (typeof ipcRenderer != 'undefined');
+      this.hasIpc = (typeof ipcRenderer !== 'undefined');
 
       if (this.hasIpc) {
         // Send async message to send a test-photo to all connected clients.

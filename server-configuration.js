@@ -59,9 +59,11 @@ exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
  * @returns {string}
  */
 exports.sendTestPhoto = function testPhoto() {
-  let filename = './src/assets/images/photo2.jpg';
+  let filename = '/Users/Alexander/Desktop/photoapp/src/assets/images/photo.jpg';
+
   fs.readFile(filename, function(err, data) {
-    io.emit('test-image', "data:image/jpg;base64," + data.toString("base64"));
+    let imageBase64 = new Buffer(data).toString('base64');
+    io.emit('test-image', "data:image/jpg;base64," + imageBase64);
   });
 
   return 'main.js - Test photo sent to all clients!';

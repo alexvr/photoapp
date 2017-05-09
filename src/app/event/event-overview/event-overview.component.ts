@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef} from "@angular/core";
+import {Component } from "@angular/core";
 
 @Component({
   selector: 'event-overview',
@@ -21,9 +21,9 @@ export class EventOverviewComponent {
   constructor() {
   }
 
-  /*
+  /**
    *  Show the menu on 3 clicks in left corner and 1 in the right corner.
-   *  */
+   */
   private exitCounter = 0;
   private timer;
   private visibleAnimate: boolean = false;  // necessary for activating bootstrap modal in Typescript code.
