@@ -12,6 +12,7 @@ import {OverviewLayoutChooserComponent} from './configuration/layout-settings/ov
 import {DetailLayoutChooserComponent} from './configuration/layout-settings/detail-layout-chooser/detail-layout-chooser.component';
 import {DetailLayoutConfigComponent} from './configuration/layout-settings/detail-layout-config/detail-layout-config.component';
 import {OverviewLayoutConfigComponent} from './configuration/layout-settings/overview-layout-config/overview-layout-config.component';
+import {EventOverviewComponent} from "./event/event-overview/event-overview.component";
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -35,6 +36,7 @@ export const routes: Routes = [
       {path: 'watermark-config/:id', component: WatermarkConfigComponent},
     ]
   },
+  {path: 'temp-event-overview', component: EventOverviewComponent},
   {path: 'event-dashboard', component: EventDashboardComponent},
   {path: '**', redirectTo: ''}
 ];

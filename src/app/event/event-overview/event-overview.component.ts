@@ -1,5 +1,6 @@
-import {Component, ViewChild, ElementRef, Input} from "@angular/core";
+import {Component, ViewChild, ElementRef, Input, OnInit} from "@angular/core";
 import {OverviewLayout} from "../../model/layout/OverviewLayout";
+import {Position} from "../../model/layout/Position";
 
 @Component({
   selector: 'event-overview',
@@ -7,7 +8,7 @@ import {OverviewLayout} from "../../model/layout/OverviewLayout";
   styleUrls: ['event-overview.component.css']
 })
 
-export class EventOverviewComponent {
+export class EventOverviewComponent implements OnInit{
   @Input() overviewLayout: OverviewLayout;
 
   /**
@@ -21,6 +22,39 @@ export class EventOverviewComponent {
   };
 
   constructor() {
+    // TEMP overviewlayout for temp-event-overview testing
+    this.overviewLayout = {
+      id: 0,
+      logo: null,
+      logoPosition: Position.CENTER,
+      backgroundColor: '#565fe8',
+      backgroundImage: null,
+      btnColor: null,
+      btnImage: null,
+      btnBorderColor: null,
+      btnBorderWidth: 0,
+      btnPressedColor: null,
+      btnPressedImage: null,
+      btnPressedBorderColor: null,
+      imageBorderColor: null,
+      imageBorderWidth: 0,
+      imageContainer: true,
+      imageContainerColor: '#fff',
+      imageContainerBorderColor: null,
+      imageContainerBorderWidth: 0,
+      selectionIcon: null,
+      selectionContainer: true,
+      selectionContainerColor: '#fff',
+      selectionContainerBorderColor: null,
+      selectionContainerBorderWidth: 0,
+      selectBtnText: 'select',
+      navigationColor: null,
+      activeNavigationColor: null,
+    };
+  }
+
+
+  ngOnInit(): void {
   }
 
   /**

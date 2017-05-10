@@ -22,9 +22,12 @@
     <div class="swiper-pagination"></div>
   </swiper>
 </main>
-<div class="selected-images"
-     [ngStyle]="setSelectionContainerStyle()"></div>
-<button class="btn btn-default select-btn" [ngStyle]="setSelectButton()">{{overviewLayout.selectBtnText}}</button>
+<footer>
+  <div class="selected-images"
+       [ngStyle]="setSelectionContainerStyle()"></div>
+  <button class="btn btn-default select-btn" [ngStyle]="setSelectButton()">{{overviewLayout.selectBtnText}}</button>
+</footer>
+
 
 <!-- Modal -->
 <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

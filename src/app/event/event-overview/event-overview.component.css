@@ -23,10 +23,11 @@
 header {
   display: flex;
   justify-content: center;
-  margin: 3rem 0;
+  height: 25%;
 }
 
 .logo {
+  margin: auto 0;
   background: #ffffff;
   width: 100px;
   height: 50px;
@@ -35,9 +36,9 @@ header {
 main {
   background: #ffffff;
   width: 100%;
-  height: 100%;
+  height: 50%;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 2rem 1rem 5rem 1rem;
   overflow: hidden;
   position: relative;
 }
@@ -72,12 +73,18 @@ swiper {
   align-items: center;
 }
 
+footer {
+  height: 25%;
+  position: relative;
+}
+
 .selected-images {
-  height: 20%;
   width: 50%;
+  height: 50%;
+  position: absolute;
+  bottom: 0;
+  left: 25%;
   background: #ffffff;
-  margin: auto;
-  margin-top: 4rem;
 }
 
 .menu-btn {
@@ -87,9 +94,9 @@ swiper {
   margin: 2rem auto;
 }
 
-.select-btn{
+.select-btn {
   position: absolute;
   right: 0;
   bottom: 0;
-  margin: 1rem;
+  margin: 2rem;
 }
