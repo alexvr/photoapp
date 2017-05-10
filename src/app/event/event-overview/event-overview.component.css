@@ -29,8 +29,7 @@ header {
 .logo {
   margin: auto 0;
   background: #ffffff;
-  width: 100px;
-  height: 50px;
+  max-height: 50%;
 }
 
 main {

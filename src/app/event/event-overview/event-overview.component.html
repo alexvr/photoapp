@@ -2,7 +2,7 @@
 <div class="exit-btn" id="exit-btn-2" (click)="showMenuRightBtn()"></div>
 
 <header [ngStyle]="setLogo()">
-  <div class="logo"></div>
+  <img *ngIf="overviewLayout != null && overviewLayout.logo != null" class="logo" src="{{overviewLayout.logo}}">
 </header>
 <main
   [ngStyle]="setImageContainerStyle()">

@@ -88,13 +88,15 @@ export class EventOverviewComponent implements OnInit{
    */
 
   setLogo(): any {
-    switch (this.overviewLayout.logoPosition) {
-      case 0:
-        return {'justify-content': 'flex-start'};
-      case 1:
-        return {'justify-content': 'center'};
-      case 2:
-        return {'justify-content': 'flex-end'};
+    if(this.overviewLayout != null && this.overviewLayout.logo != null){
+      switch (this.overviewLayout.logoPosition) {
+        case 0:
+          return {'justify-content': 'flex-start'};
+        case 1:
+          return {'justify-content': 'center'};
+        case 2:
+          return {'justify-content': 'flex-end'};
+      }
     }
   }
 
