@@ -1,12 +1,11 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 // Inter Process Communication
 let ipcRenderer;
-if (typeof window['require'] !== "undefined") {
-  let electron = window['require']("electron");
+if (typeof window['require'] !== 'undefined') {
+  const electron = window['require']('electron');
   ipcRenderer = electron.ipcRenderer;
-  //console.log("ipc renderer", ipcRenderer);
 }
 
 @Injectable()
@@ -24,7 +23,7 @@ export class ServerService {
   startServer(): Observable<number> {
     return new Observable(observer => {
       let serverHost = '127.0.0.1';
-      this.hasIpc = (typeof ipcRenderer != 'undefined');
+      this.hasIpc = (typeof ipcRenderer !== 'undefined');
 
       if (this.hasIpc) {
         // Send async message to start the server.

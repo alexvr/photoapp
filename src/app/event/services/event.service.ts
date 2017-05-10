@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Http, Headers, RequestOptions, Response} from '@angular/http';
 import {BACKEND_BASEURL} from '../../../assets/globals';
+import {Event} from '../../model/Event';
 
 // Inter Process Communication
 let ipcRenderer;
@@ -12,6 +13,8 @@ if (typeof window['require'] !== 'undefined') {
 
 @Injectable()
 export class EventService {
+
+  private selectedEvent: Event;
 
   constructor(private http: Http) {
   }
@@ -27,6 +30,14 @@ export class EventService {
 
   private handleError(error: any): Observable<any> {
     return new Observable(() => console.log('EventService - ' + error));
+  }
+
+  public setSelectedEvent(event: Event): void {
+    this.selectedEvent = event;
+  }
+
+  public getSelectedEvent(): Event {
+    return this.selectedEvent;
   }
 
 }

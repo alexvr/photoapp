@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {PhotoQuality} from "../../model/PhotoQuality";
-import {Event} from "../../model/Event";
-import {Position} from "../../model/layout/Position";
+import {Injectable} from '@angular/core';
+import {PhotoQuality} from '../../model/PhotoQuality';
+import {Event} from '../../model/Event';
+import {Position} from '../../model/layout/Position';
 
 @Injectable()
 export class ConfigurationService {
@@ -10,6 +10,7 @@ export class ConfigurationService {
   constructor() {
     this.event = {
       eventName: 'Chaumet',
+      eventLogo: 'none',
       eventStartDate: null,
       eventEndDate: null,
       eventLocation: null,
@@ -47,7 +48,7 @@ export class ConfigurationService {
         activeNavigationColor: null,
       },
       detailLayout: null,
-      configuration: {
+      config: {
         mediastorage: null,
         photoQuality: PhotoQuality.HIGH,
         ftpIPAddress: null,

@@ -1,12 +1,11 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 // Inter Process Communication
 let ipcRenderer;
-if (typeof window['require'] !== "undefined") {
-  let electron = window['require']("electron");
+if (typeof window['require'] !== 'undefined') {
+  const electron = window['require']('electron');
   ipcRenderer = electron.ipcRenderer;
-  //console.log("ipc renderer", ipcRenderer);
 }
 
 @Injectable()
@@ -37,7 +36,7 @@ export class PrinterService {
         ipcRenderer.on('async-get-all-printers', (event, arg) => {
           this.zone.run(() => {
             printers = arg;
-            console.log("PrinterService1 - " + printers);
+            console.log('PrinterService1 - ' + printers);
             observer.next(printers);
             observer.complete();
           });
@@ -66,7 +65,7 @@ export class PrinterService {
    * This method is used to test the connected printer.
    */
   testPrintPhoto(): void {
-    this.hasIpc = (typeof ipcRenderer != 'undefined');
+    this.hasIpc = (typeof ipcRenderer !== 'undefined');
 
     // Set listener
     if (this.hasIpc) {
@@ -81,16 +80,32 @@ export class PrinterService {
   }
 
   testPrintPhotoOnPrinter(): void {
-    this.hasIpc = (typeof ipcRenderer != 'undefined');
+    this.hasIpc = (typeof ipcRenderer !== 'undefined');
 
     // Set listener
     if (this.hasIpc) {
       // Send async message to print test photo.
-      let printerArguments: string[] = ['test-print-photo-on-printer', this.selectedPrinter];
+      const printerArguments: string[] = ['test-print-photo-on-printer', this.selectedPrinter];
       ipcRenderer.send('async', printerArguments);
 
       // Listen for async-reply to print test photo.
       ipcRenderer.on('async-test-print-photo-on-printer', (event, arg) => {
+        console.log(arg);
+      });
+    }
+  }
+
+  testPrintPhotoOnPrinterWithName(printerName: string): void {
+    this.hasIpc = (typeof ipcRenderer !== 'undefined');
+
+    // Set listener
+    if (this.hasIpc) {
+      // Send async message to print test photo.
+      const printerArguments: string[] = ['test-print-photo-on-printer-with-name', printerName];
+      ipcRenderer.send('async', printerArguments);
+
+      // Listen for async-reply to print test photo.
+      ipcRenderer.on('async-test-print-photo-on-printer-with-name', (event, arg) => {
         console.log(arg);
       });
     }

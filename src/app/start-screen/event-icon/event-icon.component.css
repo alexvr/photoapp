@@ -3,11 +3,17 @@
 }
 
 .event-image {
-  background: gray;
+  background: white;
   width: 7rem;
   height: 7rem;
   border-radius: 4px;
   margin: auto;
+}
+
+.event-image img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
 }
 
 h3 {

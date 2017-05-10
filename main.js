@@ -75,6 +75,12 @@ ipcMain.on('async', (event, arg) => {
     event.sender.send('async-test-print-photo-on-printer', 'Photo has been sent to printer!');
   }
 
+  // PrinterService - testPrintPhotoOnPrinter()
+  if (arg[0] === 'test-print-photo-on-printer-with-name') {
+    printerConfiguration.testPrintPhotoOnPrinter(arg[1]);
+    event.sender.send('async-test-print-photo-on-printer-with-name', 'Photo has been sent to printer!');
+  }
+
   // ServerService - startServer()
   if (arg === 'start-server') {
     let serverHost = serverConfiguration.startServer();

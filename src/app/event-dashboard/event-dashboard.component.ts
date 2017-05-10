@@ -1,7 +1,8 @@
-import {Component, NgZone} from "@angular/core";
-import {Event} from "../model/Event";
-import {ServerService}     from "./services/server.service";
-import {TestEventService}  from "../event/services/test-event.service";
+import {Component} from '@angular/core';
+import {ServerService} from './services/server.service';
+import {EventService} from '../event/services/event.service';
+import {Event} from '../model/Event';
+import {PrinterService} from '../configuration/services/printer.service';
 
 @Component({
   selector: 'event-dashboard',
@@ -13,30 +14,25 @@ export class EventDashboardComponent {
 
   private serverHost: number;
   private serverPort: number;
+  private printer: string;
+  private printerState: string;
   private event: Event;
 
-  constructor(private serverService: ServerService,
-              private testEventService: TestEventService,
-              private zone: NgZone) {
-    this.zone.run(() => {
-      // Get the event.
-      this.testEventService.getEventByName('Chaumet').subscribe(e => this.event = e);
+  constructor(private serverService: ServerService, private eventService: EventService, private printerService: PrinterService) {
+    // Get the Event.
+    this.event = this.eventService.getSelectedEvent();
 
-      // Start the server.
-      this.serverService.startServer().subscribe(host => this.serverHost = host);
-      this.serverPort = 3001;
-    });
+    // Get printer information.
+    this.printer = this.event.config.printerName;
+    this.printerState = 'Active';
+
+    // Start the server and retrieve information.
+    this.serverService.startServer().subscribe(host => this.serverHost = host);
+    this.serverPort = 3001;
   }
 
-  /**
-   * Send the layout to the clients.
-   */
-  testSendLayout(): void {
-    this.testEventService.testSendLayout(this.event.overviewLayout, this.event.detailLayout).subscribe(() => { });
-  }
-
-  testSendPhoto(): void {
-    this.testEventService.testSendPhoto().subscribe(() => { });
+  private sendTestPrint(): void {
+    this.printerService.testPrintPhotoOnPrinterWithName(this.printer);
   }
 
 }
