@@ -16,7 +16,7 @@
           <div class="panel-body">
             <!-- LOGO -->
             <div class="form-group col-xs-12 section-end">
-              <button type="button" class="btn btn-primary">Choose logo</button>
+              <button type="button" class="btn btn-primary" (click)="chooseLogoImage()">Choose logo</button>
             </div>
             <div class="form-group col-xs-12">
               <button type="button" [ngClass]="setActiveLogoPositionClass(0)" (click)="setLogoPosition(0)">Left</button>

@@ -5,6 +5,7 @@ const url = require('url');
 const printerConfiguration = require('./printer-configuration');
 const serverConfiguration = require('./server-configuration');
 const watermarkConfiguration = require('./watermark-configuration');
+const layoutConfiguration = require('./layout-configuration');
 
 // Load environment variables in .env file and live reload when in development.
 require('dotenv').config();
@@ -107,5 +108,10 @@ ipcMain.on('async', (event, arg) => {
   // Get watermark image dataURI
   if (arg[0] === 'get-watermark-image-dataURI') {
     let dataURI = watermarkConfiguration.getImageDataUri(arg[1], event);
+  }
+
+  // Upload layout-assets
+  if(arg[0] === 'upload-layout-asset'){
+    layoutConfiguration.uploadFile(event, arg[1]);
   }
 });
