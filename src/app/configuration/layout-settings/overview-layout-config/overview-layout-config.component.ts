@@ -1,7 +1,7 @@
-import {Component} from "@angular/core";
-import {ConfigurationService} from "../../services/configuration.service";
-import {OverviewLayout} from "../../../model/layout/OverviewLayout";
-import {LayoutService} from "../../services/layout.service";
+import {Component} from '@angular/core';
+import {ConfigurationService} from '../../services/configuration.service';
+import {OverviewLayout} from '../../../model/layout/OverviewLayout';
+import {LayoutService} from '../../services/layout.service';
 
 @Component({
   selector: 'overview-layout-config',
@@ -23,9 +23,9 @@ export class OverviewLayoutConfigComponent {
    */
   setActiveLogoPositionClass(value) {
     if (value === this.overviewLayout.logoPosition) {
-      return "btn btn-primary"
+      return 'btn btn-primary';
     } else {
-      return "btn btn-default"
+      return 'btn btn-default';
     }
   }
 
@@ -38,7 +38,7 @@ export class OverviewLayoutConfigComponent {
   }
 
   chooseLogoImage() {
-    this.layoutService.uploadLayoutAsset(this.configurationService.getEvent().eventName + '/assets/logo').subscribe(val => {
+    this.layoutService.uploadLayoutAsset(this.configurationService.getConfiguredEvent().eventName + '/assets/logo').subscribe(val => {
       this.overviewLayout.logo = val;
       console.log(val);
       console.log(this.overviewLayout.logo);
