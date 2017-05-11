@@ -10,7 +10,6 @@ if (typeof window['require'] !== 'undefined') {
 
 @Injectable()
 export class LayoutService {
-  private hasIpc: boolean;
 
   constructor(private zone: NgZone) {
 
@@ -18,17 +17,25 @@ export class LayoutService {
 
   uploadLayoutAsset(path): Observable<string> {
     return new Observable(observable => {
-      this.hasIpc = (typeof ipcRenderer != 'undefined');
-
-      if (this.hasIpc) {
-        let layoutArguments: string[] = ['upload-layout-asset', path];
-        ipcRenderer.send('async', layoutArguments);
-        ipcRenderer.on('async-upload-layout-asset', (event, arg) => {
+      if (typeof ipcRenderer != 'undefined') {
+        const params: string[] = ['upload-cloudinary-file', path];
+        ipcRenderer.send('async', params);
+        ipcRenderer.on('async-upload-cloudinary-file', (event, arg) => {
           console.log(arg);
-          observable.next(arg.url);
+          observable.next(arg.secure_url);
           observable.complete();
         });
       }
     });
+  }
+
+  deleteLayoutAsset(path) {
+    if (typeof ipcRenderer != 'undefined') {
+      const params: string[] = ['delete-cloudinary-file', path];
+      ipcRenderer.send('async', params);
+      ipcRenderer.on('async-delete-cloudinary-file', (event, arg) => {
+        console.log(arg);
+      })
+    }
   }
 }

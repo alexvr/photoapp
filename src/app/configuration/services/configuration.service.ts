@@ -3,6 +3,8 @@ import {Event} from '../../model/Event';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import {BACKEND_BASEURL} from '../../../assets/globals';
 import {Observable} from 'rxjs/Observable';
+import {PhotoQuality} from "../../model/PhotoQuality";
+import {Position} from "../../model/layout/Position";
 
 let ipcRenderer;
 if (typeof window['require'] !== 'undefined') {
@@ -18,7 +20,7 @@ export class ConfigurationService {
   private hasIpc: boolean;
 
   constructor(public http: Http) {
-    /*this.event = {
+   /* this.configuredEvent = {
       eventName: 'Chaumet',
       eventLogo: 'none',
       eventStartDate: null,
@@ -59,7 +61,7 @@ export class ConfigurationService {
       },
       detailLayout: null,
       config: {
-        mediastorage: null,
+        mediaStorage: null,
         photoQuality: PhotoQuality.HIGH,
         ftpIPAddress: null,
         ftpPort: 22,
@@ -71,7 +73,9 @@ export class ConfigurationService {
         printerCopies: null,
         watermarkPrinting: null,
         watermarkImage: null,
+        watermarkSharing: null,
         qrPrinting: null,
+        qrImage: null,
         printWatermark: null,
         webWatermark: null
       }

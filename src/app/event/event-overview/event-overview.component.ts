@@ -148,5 +148,4 @@ export class EventOverviewComponent implements OnInit{
       return {'background': 'none', 'border': 'none'}
     }
   }
-
 }

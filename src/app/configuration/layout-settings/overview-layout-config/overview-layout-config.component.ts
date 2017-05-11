@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ConfigurationService} from '../../services/configuration.service';
+import {Event} from '../../../model/Event';
 import {OverviewLayout} from '../../../model/layout/OverviewLayout';
 import {LayoutService} from '../../services/layout.service';
 
@@ -10,38 +11,81 @@ import {LayoutService} from '../../services/layout.service';
 })
 
 export class OverviewLayoutConfigComponent {
+  private event: Event;
   private overviewLayout: OverviewLayout;
 
-  constructor(private configurationService: ConfigurationService, private layoutService: LayoutService) {
-    this.overviewLayout = this.configurationService.getConfiguredEvent().overviewLayout;
+  constructor(public configurationService: ConfigurationService, public layoutService: LayoutService) {
+    this.event = this.configurationService.getConfiguredEvent();
+    this.overviewLayout = this.event.overviewLayout;
   }
 
-  /**
-   * This function defines the style of the logo-position buttons by returning the correct class.
-   * @param value: The position-value (0=left, 1=center, 2=right)
-   * @return class: The right class for the desired style
-   */
-  setActiveLogoPositionClass(value) {
-    if (value === this.overviewLayout.logoPosition) {
+  // Logo
+  setActiveLogoPositionClass(position) {
+    if (position === this.overviewLayout.logoPosition) {
       return 'btn btn-primary';
     } else {
       return 'btn btn-default';
     }
   }
 
-  /**
-   * Sets the logo-position.
-   * @param value: The position-value (0=left, 1=center, 2=right)
-   */
-  setLogoPosition(value) {
-    this.overviewLayout.logoPosition = value;
+  setLogoPosition(position) {
+    this.overviewLayout.logoPosition = position;
   }
 
-  chooseLogoImage() {
-    this.layoutService.uploadLayoutAsset(this.configurationService.getConfiguredEvent().eventName + '/assets/logo').subscribe(val => {
-      this.overviewLayout.logo = val;
-      console.log(val);
-      console.log(this.overviewLayout.logo);
+  setLogoImage() {
+    this.layoutService.uploadLayoutAsset(this.event.eventName + '/assets/logo').subscribe(data => {
+      this.overviewLayout.logo = data;
     });
+  }
+
+  deleteLogoImage() {
+    this.overviewLayout.logo = null;
+    this.layoutService.deleteLayoutAsset(this.event.eventName + '/assets/logo');
+  }
+
+  // Selection
+  setSelectionIcon() {
+    this.layoutService.uploadLayoutAsset(this.event.eventName + '/assets/selectionIcon').subscribe(data => {
+      this.overviewLayout.selectionIcon = data;
+    })
+  }
+
+  deleteSelectionIcon() {
+    this.overviewLayout.selectionIcon = null;
+    this.layoutService.deleteLayoutAsset(this.event.eventName + '/assets/selectionIcon');
+  }
+
+  setSelectButton() {
+    this.layoutService.uploadLayoutAsset(this.event.eventName + '/assets/selectButton').subscribe(data => {
+      this.overviewLayout.btnImage = data;
+    })
+  }
+
+  deleteSelectButton() {
+    this.overviewLayout.btnImage = null;
+    this.layoutService.deleteLayoutAsset(this.event.eventName + '/assets/selectButton');
+  }
+
+  // Background
+  setBackgroundImage() {
+    this.layoutService.uploadLayoutAsset(this.event.eventName + '/assets/background').subscribe(
+      data => {
+        this.overviewLayout.backgroundImage = data;
+      }
+    )
+  }
+
+  deleteBackgroundImage() {
+    this.overviewLayout.backgroundImage = null;
+    this.layoutService.deleteLayoutAsset(this.event.eventName + '/assets/background');
+  }
+
+  // The styling of the background has to happen here, because it has to happen on the :host element
+  setBackground(): any {
+    if (this.overviewLayout != null && this.overviewLayout.backgroundImage) {
+      return {'background-image': 'url(' + this.overviewLayout.backgroundImage + ')', 'background-cover': 'cover'}
+    } else {
+      return {'background': this.overviewLayout.backgroundColor};
+    }
   }
 }
