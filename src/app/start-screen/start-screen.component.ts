@@ -3,6 +3,7 @@ import {Event} from '../model/Event';
 import {Router} from '@angular/router';
 import {EventService} from '../event/services/event.service';
 import {Response} from '@angular/http';
+import {ConfigurationService} from "../configuration/services/configuration.service";
 
 @Component({
   selector: 'start-screen',
@@ -61,7 +62,7 @@ export class StartScreenComponent {
   private visibleAnimate = false;  // necessary for activating bootstrap modal in Typescript code.
   private visible = false;         // necessary for activating bootstrap modal in Typescript code.
 
-  constructor(private router: Router, private eventService: EventService) {
+  constructor(private router: Router, private eventService: EventService, private configurationService: ConfigurationService) {
     // Get all events for User.
     this.eventService.getAllEvents().map((res: Response) => res.json())
       .subscribe((events) => {
@@ -80,6 +81,11 @@ export class StartScreenComponent {
   openEventDashboard(): void {
     this.eventService.setSelectedEvent(this.selectedEvent);
     this.router.navigate(['/event-dashboard']).then(() => { });
+  }
+
+  openEventConfiguration(): void {
+    this.configurationService.setConfiguredEvent(this.selectedEvent);
+    this.router.navigate(['/configuration']).then(() => { });
   }
 
   closeMenu() {

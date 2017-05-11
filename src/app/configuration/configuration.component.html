@@ -1,12 +1,12 @@
 <header>
-  <button id="back-btn" type="button" class="btn btn-default" aria-label="Left Align"
-          [routerLink]="['/start-screen']">
+  <button id="back-btn" type="button" class="btn btn-default" aria-label="Left Align" [routerLink]="['/start-screen']">
     <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
     Back
   </button>
+
   <h2>{{event.eventName}}</h2>
-  <button id="save-event-btn" type="button" class="btn btn-default" aria-label="Left Align"
-          [routerLink]="['/start-screen']">
+
+  <button id="save-event-btn" type="button" class="btn btn-default" aria-label="Left Align" (click)="saveEvent()" [routerLink]="['/start-screen']">
     Save event
   </button>
 </header>

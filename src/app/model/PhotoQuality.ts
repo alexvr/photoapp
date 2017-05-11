@@ -1,3 +1,3 @@
-export enum PhotoQuality{
+export enum PhotoQuality {
   LOW, MEDIUM, HIGH
 }

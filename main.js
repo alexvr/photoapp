@@ -2,6 +2,7 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
+const {dialog} = require('electron');
 const printerConfiguration = require('./printer-configuration');
 const serverConfiguration = require('./server-configuration');
 const watermarkConfiguration = require('./watermark-configuration');
@@ -107,5 +108,23 @@ ipcMain.on('async', (event, arg) => {
   // Get watermark image dataURI
   if (arg[0] === 'get-watermark-image-dataURI') {
     let dataURI = watermarkConfiguration.getImageDataUri(arg[1], event);
+  }
+
+  // Get directory path
+  if (arg === 'get-directory-path') {
+    dialog.showOpenDialog({
+      properties: ['openDirectory']
+    }, selectedDirectory => {
+      event.sender.send('async-get-directory-path', selectedDirectory.toString());
+    });
+  }
+
+  // Get file path
+  if (arg === 'get-file-path') {
+    dialog.showOpenDialog({
+      properties: ['openFile']
+    }, selectedDirectory => {
+      event.sender.send('async-get-file-path', selectedDirectory.toString());
+    });
   }
 });

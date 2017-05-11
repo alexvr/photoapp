@@ -14,8 +14,31 @@ import {DetailLayoutConfigComponent} from './configuration/layout-settings/detai
 import {OverviewLayoutConfigComponent} from './configuration/layout-settings/overview-layout-config/overview-layout-config.component';
 
 export const routes: Routes = [
-  {path: '', component: LoginComponent},
+  /*{path: '', component: LoginComponent},
   {path: 'start-screen', component: StartScreenComponent},
+  {
+    path: 'configuration', component: ConfigurationComponent,
+    children: [
+      {path: '', redirectTo: 'basic-info', pathMatch: 'full'},
+      {path: 'basic-info', component: BasicInfoComponent},
+      {
+        path: 'layout', component: LayoutSettingsComponent,
+        children: [
+          {path: '', redirectTo: 'overview-layout-chooser', pathMatch: 'full'},
+          {path: 'overview-layout-chooser', component: OverviewLayoutChooserComponent},
+          {path: 'detail-layout-chooser', component: DetailLayoutChooserComponent},
+          {path: 'detail-layout-config', component: DetailLayoutConfigComponent},
+          {path: 'overview-layout-config', component: OverviewLayoutConfigComponent},
+        ]
+      },
+      {path: 'media-settings', component: MediaSettingsComponent},
+      {path: 'watermark-config/:id', component: WatermarkConfigComponent},
+    ]
+  },
+  {path: 'event-dashboard', component: EventDashboardComponent},
+  {path: '**', redirectTo: ''}*/
+  {path: 'fdqs', component: LoginComponent},
+  {path: '', component: StartScreenComponent},
   {
     path: 'configuration', component: ConfigurationComponent,
     children: [

@@ -5,8 +5,8 @@ import {Configuration} from './Configuration';
 export class Event {
   eventName: string;
   eventLogo: string;
-  eventStartDate: Date;
-  eventEndDate: Date;
+  eventStartDate: string;
+  eventEndDate: string;
   eventLocation: string;
   eventAddress: string;
   company: string;

@@ -1,8 +1,8 @@
-import {PhotoQuality} from "./PhotoQuality";
-import {ImageWatermark} from "./imageWatermark/ImageWatermark";
+import {PhotoQuality} from './PhotoQuality';
+import {ImageWatermark} from './imageWatermark/ImageWatermark';
 
 export class Configuration {
-  mediastorage: string;
+  mediaStorage: string;
   photoQuality: PhotoQuality;
   ftpIPAddress: string;
   ftpPort: number;
@@ -15,6 +15,8 @@ export class Configuration {
   watermarkPrinting: boolean;
   watermarkImage: string;
   qrPrinting: boolean;
+  qrImage: string;
   printWatermark: ImageWatermark;
+  watermarkSharing: boolean;
   webWatermark: ImageWatermark;
 }

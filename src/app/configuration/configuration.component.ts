@@ -1,6 +1,7 @@
-import {Component, OnInit} from "@angular/core";
-import {Event} from "../model/Event";
-import {ConfigurationService} from "./services/configuration.service";
+import {Component, OnInit} from '@angular/core';
+import {Event} from '../model/Event';
+import {ConfigurationService} from './services/configuration.service';
+
 @Component({
   selector: 'configuration',
   templateUrl: 'configuration.component.html',
@@ -8,13 +9,19 @@ import {ConfigurationService} from "./services/configuration.service";
 })
 
 export class ConfigurationComponent implements OnInit {
-  private activePart: number = 1;
+
+  private activePart = 1;
   private event: Event;
 
   constructor(private configService: ConfigurationService) {
   }
 
   ngOnInit(): void {
-    this.event = this.configService.getEvent();
+    this.event = this.configService.getConfiguredEvent();
   }
+
+  public saveEvent(): void {
+    this.configService.saveEvent().subscribe(() => { });
+  }
+
 }

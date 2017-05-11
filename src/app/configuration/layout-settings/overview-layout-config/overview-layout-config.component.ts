@@ -12,7 +12,7 @@ export class OverviewLayoutConfigComponent {
   private overviewLayout: OverviewLayout;
 
   constructor(private configurationService: ConfigurationService) {
-    this.overviewLayout = this.configurationService.getEvent().overviewLayout;
+    this.overviewLayout = this.configurationService.getConfiguredEvent().overviewLayout;
   }
 
   /**

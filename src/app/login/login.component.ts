@@ -3,7 +3,7 @@ import { AuthService } from './services/auth.service';
 import { LoginMessage } from './LoginMessage';
 
 @Component({
-  selector: 'login',
+  selector: 'app-login',
   templateUrl: 'login.component.html',
   styleUrls: ['login.component.css']
 })
@@ -12,7 +12,7 @@ export class LoginComponent {
 
   private messages: LoginMessage = {errorMessage: '', succesMessage: ''};
 
-  constructor(private authService: AuthService) {}
+  constructor(public authService: AuthService) {}
 
   /**
    * Checks if the username and password are correctly filled in.

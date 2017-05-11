@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {ConfigurationService} from "../services/configuration.service";
-import {Event} from "../../model/Event";
+import {Component, OnInit} from '@angular/core';
+import {ConfigurationService} from '../services/configuration.service';
+import {Event} from '../../model/Event';
 
 @Component({
   selector: 'basic-info',
@@ -9,14 +9,13 @@ import {Event} from "../../model/Event";
 })
 
 export class BasicInfoComponent implements OnInit {
+
   private event: Event;
 
-  constructor(private configService: ConfigurationService) {
-
-  }
-
+  constructor(private configService: ConfigurationService) { }
 
   ngOnInit(): void {
-    this.event = this.configService.getEvent();
+    this.event = this.configService.getConfiguredEvent();
   }
+
 }

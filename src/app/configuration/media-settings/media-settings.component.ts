@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Configuration} from '../../model/Configuration';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {Event} from '../../model/Event';
 import {PhotoQuality} from '../../model/PhotoQuality';
 import {PrinterService} from '../services/printer.service';
 import {ConfigurationService} from '../services/configuration.service';
@@ -12,33 +12,51 @@ import {ConfigurationService} from '../services/configuration.service';
 
 export class MediaSettingsComponent implements OnInit {
 
-  private configuration: Configuration;
+  public event: Event;
   private printers: string[];
 
-  constructor(private configService: ConfigurationService, private printerService: PrinterService) {
+  constructor(public configService: ConfigurationService, public printerService: PrinterService, public zone: NgZone) {
   }
 
   ngOnInit(): void {
-    this.configuration = this.configService.getEvent().config;
+    this.event = this.configService.getConfiguredEvent();
+    this.setPhotoQualityEvent(this.event.config.photoQuality);
     this.printerService.getAllPrinters().subscribe(p => this.printers = p);
   }
 
-  setPhotoQuality(x: number) {
-    switch (x) {
-      case 0:
-        this.configuration.photoQuality = PhotoQuality.LOW;
+  public setPhotoQualityEvent(quality: any): void {
+    switch (quality) {
+      case 'LOW':
+        this.event.config.photoQuality = PhotoQuality.LOW;
+        this.setPhotoQuality(0);
         break;
-      case 1:
-        this.configuration.photoQuality = PhotoQuality.MEDIUM;
+      case 'MEDIUM':
+        this.event.config.photoQuality = PhotoQuality.MEDIUM;
+        this.setPhotoQuality(1);
         break;
-      case 2:
-        this.configuration.photoQuality = PhotoQuality.HIGH;
+      case 'HIGH':
+        this.event.config.photoQuality = PhotoQuality.HIGH;
+        this.setPhotoQuality(2);
         break;
     }
   }
 
-  setPhotoQualityButtonStyle(x: number) {
-    if (this.configuration.photoQuality != null && x == this.configuration.photoQuality) {
+  public setPhotoQuality(x: number) {
+    switch (x) {
+      case 0:
+        this.event.config.photoQuality = PhotoQuality.LOW;
+        break;
+      case 1:
+        this.event.config.photoQuality = PhotoQuality.MEDIUM;
+        break;
+      case 2:
+        this.event.config.photoQuality = PhotoQuality.HIGH;
+        break;
+    }
+  }
+
+  public setPhotoQualityButtonStyle(x: number) {
+    if (this.event.config.photoQuality != null && x === this.event.config.photoQuality) {
       return {
         'background': '#2880d0',
         'border-color': '#245988',
@@ -52,4 +70,33 @@ export class MediaSettingsComponent implements OnInit {
       };
     }
   }
+
+  public toggleQrPrinting(choice: boolean): void {
+    this.event.config.qrPrinting = choice;
+  }
+
+  private toggleWatermarkPrinting(choice: boolean): void {
+    this.event.config.watermarkPrinting = choice;
+  }
+
+  private toggleWatermarkSharing(choice: boolean): void {
+    this.event.config.watermarkSharing = choice;
+  }
+
+  public setMediaStoragePath(): void {
+    this.configService.getDirectoryPath().subscribe((path) => {
+      this.zone.run(() => {
+        this.event.config.mediaStorage = path;
+      });
+    });
+  }
+
+  public setQrPath(): void {
+    this.configService.getFilePath().subscribe((path) => {
+      this.zone.run(() => {
+        this.event.config.qrImage = path;
+      });
+    });
+  }
+
 }

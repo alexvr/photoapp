@@ -6,11 +6,11 @@
       <label for="mediaStorage">Media storage</label>
       <div id="mediaStorage" class="input-group">
         <label class="input-group-btn">
-                    <span class="btn btn-primary">
-                        Browse&hellip; <input type="file" style="display: none;" multiple>
-                    </span>
+          <span class="btn btn-primary" (click)="setMediaStoragePath(); $event.preventDefault();">
+            Browse&hellip; <input style="display: none;">
+          </span>
         </label>
-        <input type="text" class="form-control" readonly>
+        <input type="text" class="form-control" [(ngModel)]="event.config.mediaStorage" readonly>
       </div>
     </div>
     <div class="form-group col-xs-6">
@@ -38,25 +38,23 @@
   <div class="row">
     <div class="form-group col-xs-6">
       <label for="inputPrinterName">Printer name</label>
-      <select class="form-control" id="inputPrinterName" [(ngModel)]="printerService.selectedPrinter"
-              (ngModelChange)="printerService.testPrintPhotoOnPrinter()">
+      <select class="form-control" id="inputPrinterName" [(ngModel)]="event.config.printerName">
         <option [value]="" disabled selected>Choose printer</option>
         <option *ngFor="let printer of printers" [ngValue]="printer">{{printer}}</option>
       </select>
     </div>
     <div class="form-group col-xs-6">
       <label for="inputCopies">Copies</label>
-      <input type="number" class="form-control" id="inputCopies" placeholder="Copies"
-             [(ngModel)]="configuration.printerCopies">
+      <input type="number" class="form-control" id="inputCopies" placeholder="Copies" [(ngModel)]="event.config.printerCopies">
     </div>
   </div>
   <div class="row">
     <div class="form-group col-xs-4 col-md-3 checker-container">
-      <input id="qrPrinting" class="checker" type="checkbox" [(ngModel)]="configuration.qrPrinting">
+      <input id="qrPrinting" class="checker" type="checkbox" [checked]="event.config.qrPrinting" (click)="toggleQrPrinting($event.target.checked)">
       <label for="qrPrinting">QR Printing</label>
     </div>
     <div class="form-group col-xs-4 col-md-3 checker-container">
-      <input id="watermark" class="checker" type="checkbox" [(ngModel)]="configuration.watermarkPrinting">
+      <input id="watermark" class="checker" type="checkbox" [checked]="event.config.watermarkPrinting" (click)="toggleWatermarkPrinting($event.target.checked)">
       <label for="watermark">Watermark</label>
     </div>
     <div class="form-group col-xs-4 col-md-6 checker-container">
@@ -68,15 +66,14 @@
       <label for="qrImage">QR image</label>
       <div id="qrImage" class="input-group">
         <label class="input-group-btn">
-                    <span class="btn btn-primary">
-                        Browse&hellip; <input type="file" style="display: none;" multiple>
-                    </span>
+          <span class="btn btn-primary"  (click)="setQrPath(); $event.preventDefault();">
+            Browse&hellip; <input style="display: none;">
+          </span>
         </label>
-        <input type="text" class="form-control" readonly>
+        <input type="text" class="form-control" [(ngModel)]="event.config.qrImage" readonly>
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- SHARING DETAILS -->
@@ -84,7 +81,7 @@
   <div class="row">
     <h2 class="col-xs-12">Sharing details</h2>
     <div class="form-group col-xs-4 col-md-3 checker-container sharing-checker-container">
-      <input id="watermarkSharing" class="checker" type="checkbox">
+      <input id="watermarkSharing" class="checker" type="checkbox" [checked]="event.config.watermarkSharing" (click)="toggleWatermarkSharing($event.target.checked)">
       <label for="watermarkSharing">Watermark</label>
     </div>
     <div class="form-group col-xs-8 col-md-9 checker-container sharing-checker-container">

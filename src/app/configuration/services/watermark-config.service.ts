@@ -1,10 +1,10 @@
-import {Injectable, NgZone} from "@angular/core";
-import {ImageWatermark} from "../../model/imageWatermark/ImageWatermark";
-import {Observable} from "rxjs";
+import {Injectable, NgZone} from '@angular/core';
+import {ImageWatermark} from '../../model/imageWatermark/ImageWatermark';
+import {Observable} from 'rxjs/Observable';
 
 let ipcRenderer;
-if (typeof window['require'] !== "undefined") {
-  let electron = window['require']("electron");
+if (typeof window['require'] !== 'undefined') {
+  const electron = window['require']('electron');
   ipcRenderer = electron.ipcRenderer;
 }
 
@@ -43,7 +43,7 @@ export class WatermarkConfigService {
   getImage(): Observable<string> {
     return new Observable(observable => {
 
-      this.hasIpc = (typeof ipcRenderer != 'undefined');
+      this.hasIpc = (typeof ipcRenderer !== 'undefined');
 
       if (this.hasIpc) {
         ipcRenderer.send('async', 'get-watermark-image-path');
@@ -62,10 +62,10 @@ export class WatermarkConfigService {
    */
   getImageDataURI(path): Observable<string> {
     return new Observable(observable => {
-      this.hasIpc = (typeof ipcRenderer != 'undefined');
+      this.hasIpc = (typeof ipcRenderer !== 'undefined');
 
       if (this.hasIpc) {
-        let imagearguments: string[] = ['get-watermark-image-dataURI', path];
+        const imagearguments: string[] = ['get-watermark-image-dataURI', path];
         ipcRenderer.send('async', imagearguments);
         ipcRenderer.on('async-get-watermark-image-dataURI', (event, arg) => {
           observable.next(arg);
