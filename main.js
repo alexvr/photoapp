@@ -6,7 +6,7 @@ const {dialog} = require('electron');
 const printerConfiguration = require('./printer-configuration');
 const serverConfiguration = require('./server-configuration');
 const watermarkConfiguration = require('./watermark-configuration');
-const layoutConfiguration = require('./layout-configuration');
+const layoutConfiguration = require('./cloudinary-configuration');
 
 // Load environment variables in .env file and live reload when in development.
 require('dotenv').config();

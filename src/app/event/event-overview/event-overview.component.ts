@@ -139,7 +139,7 @@ export class EventOverviewComponent implements OnInit{
   }
 
   setSelectButton(): any {
-    if (this.overviewLayout != null && this.overviewLayout.btnImage == null) {
+    if (this.overviewLayout != null && this.overviewLayout.btnImage == '') {
       return {
         'background': this.overviewLayout.btnColor,
         'border': this.overviewLayout.btnBorderWidth + 'px solid ' + this.overviewLayout.btnBorderColor
@@ -148,5 +148,4 @@ export class EventOverviewComponent implements OnInit{
       return {'background': 'none', 'border': 'none'}
     }
   }
-
 }

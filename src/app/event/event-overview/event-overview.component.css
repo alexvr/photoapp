@@ -28,7 +28,6 @@ header {
 
 .logo {
   margin: auto 0;
-  background: #ffffff;
   max-height: 50%;
 }
 
@@ -98,4 +97,5 @@ footer {
   right: 0;
   bottom: 0;
   margin: 2rem;
+  max-height: 100%;
 }

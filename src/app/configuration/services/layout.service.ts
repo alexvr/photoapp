@@ -25,7 +25,7 @@ export class LayoutService {
         ipcRenderer.send('async', layoutArguments);
         ipcRenderer.on('async-upload-layout-asset', (event, arg) => {
           console.log(arg);
-          observable.next(arg.url);
+          observable.next(arg.secure_url);
           observable.complete();
         });
       }

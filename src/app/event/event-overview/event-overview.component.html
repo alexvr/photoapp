@@ -8,7 +8,7 @@
   [ngStyle]="setImageContainerStyle()">
   <swiper [config]="config">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" routerLink="/event-detail" [ngStyle]="setImageStyle()">Slide 1</div>
+      <div class="swiper-slide" [ngStyle]="setImageStyle()">Slide 1</div>
       <div class="swiper-slide" [ngStyle]="setImageStyle()">Slide 2</div>
       <div class="swiper-slide" [ngStyle]="setImageStyle()">Slide 3</div>
       <div class="swiper-slide" [ngStyle]="setImageStyle()">Slide 4</div>
@@ -25,7 +25,11 @@
 <footer>
   <div class="selected-images"
        [ngStyle]="setSelectionContainerStyle()"></div>
-  <button class="btn btn-default select-btn" [ngStyle]="setSelectButton()">{{overviewLayout.selectBtnText}}</button>
+  <img *ngIf="overviewLayout != null && overviewLayout.btnImage != ''" class="select-btn"
+       src="{{overviewLayout.btnImage}}">
+  <button *ngIf="overviewLayout != null && overviewLayout.btnImage == ''" class="btn btn-default select-btn"
+          [ngStyle]="setSelectButton()">{{overviewLayout.selectBtnText}}
+  </button>
 </footer>
 
 
