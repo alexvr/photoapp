@@ -20,7 +20,7 @@ export class ServerService {
    * Starts a server on the current network IP4 address on port 3001 and watches the given mediafolder.
    * @returns {number} Network IP4 address
    */
-  startServer(mediaFolder: string): Observable<number> {
+  public startServer(mediaFolder: string): Observable<number> {
     return new Observable(observer => {
       let serverHost = '127.0.0.1';
       this.hasIpc = (typeof ipcRenderer !== 'undefined');
@@ -39,6 +39,20 @@ export class ServerService {
           });
         });
       }
+    });
+  }
+
+  /**
+   * Returns the IP addresses of connected clients.
+   * @returns {Observable}
+   */
+  public receiveConnectedClients(): Observable<any> {
+    return new Observable(o => {
+      // Listen to connected clients.
+      ipcRenderer.on('async-client-connect', (event, arg) => {
+        console.log(arg);
+        o.next(arg);
+      });
     });
   }
 
