@@ -19,7 +19,7 @@ export class ConfigurationService {
   private hasIpc: boolean;
 
   constructor(public http: Http) {
-    /*this.configuredEvent = {
+   /* this.configuredEvent = {
       eventName: 'Chaumet',
       eventLogo: 'none',
       eventStartDate: null,

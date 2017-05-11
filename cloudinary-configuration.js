@@ -21,14 +21,21 @@ exports.uploadFile = function (event, path) {
     properties: ['openFile']
 
   }, selectedFiles => {
-    if(selectedFiles != null){
+    if (selectedFiles != null) {
       let stream = cloudinary.uploader.upload_stream(function (result) {
         console.log(result);
-        event.sender.send('async-upload-layout-asset', result);
+        event.sender.send('async-upload-cloudinary-file', result);
       }, {public_id: path});
       fs.createReadStream(selectedFiles[0]).pipe(stream);
-    }else{
+    } else {
       console.log("Cancelled file-upload.");
     }
+  });
+};
+
+exports.deleteFile = function (event, path) {
+  configureCloudinary();
+  cloudinary.uploader.destroy(path, function (result) {
+    event.sender.send('async-delete-cloudinary-file', result);
   });
 };

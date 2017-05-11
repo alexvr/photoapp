@@ -6,7 +6,7 @@ const {dialog} = require('electron');
 const printerConfiguration = require('./printer-configuration');
 const serverConfiguration = require('./server-configuration');
 const watermarkConfiguration = require('./watermark-configuration');
-const layoutConfiguration = require('./cloudinary-configuration');
+const cloudinaryConfiguration = require('./cloudinary-configuration');
 
 // Load environment variables in .env file and live reload when in development.
 require('dotenv').config();
@@ -116,7 +116,11 @@ ipcMain.on('async', (event, arg) => {
     dialog.showOpenDialog({
       properties: ['openDirectory']
     }, selectedDirectory => {
-      event.sender.send('async-get-directory-path', selectedDirectory.toString());
+      if (selectedDirectory != null) {
+        event.sender.send('async-get-directory-path', selectedDirectory.toString());
+      } else {
+        console.log('cancelled get-directory-path');
+      }
     });
   }
 
@@ -124,13 +128,22 @@ ipcMain.on('async', (event, arg) => {
   if (arg === 'get-file-path') {
     dialog.showOpenDialog({
       properties: ['openFile']
-    }, selectedDirectory => {
-      event.sender.send('async-get-file-path', selectedDirectory.toString());
+    }, selectedFile => {
+      if (selectedFile != null) {
+        event.sender.send('async-get-file-path', selectedFile.toString());
+      } else {
+        console.log('cancelled get-file-path');
+      }
     });
   }
 
-  // Upload layout-assets
-  if(arg[0] === 'upload-layout-asset'){
-    layoutConfiguration.uploadFile(event, arg[1]);
+  // Upload cloudinary-file
+  if (arg[0] === 'upload-cloudinary-file') {
+    cloudinaryConfiguration.uploadFile(event, arg[1]);
+  }
+
+  // Delete cloudinary-file
+  if (arg[0] === 'delete-cloudinary-file') {
+    cloudinaryConfiguration.deleteFile(event, arg[1]);
   }
 });

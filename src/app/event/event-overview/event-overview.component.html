@@ -25,9 +25,9 @@
 <footer>
   <div class="selected-images"
        [ngStyle]="setSelectionContainerStyle()"></div>
-  <img *ngIf="overviewLayout != null && overviewLayout.btnImage != ''" class="select-btn"
+  <img *ngIf="overviewLayout != null && overviewLayout.btnImage != null" class="select-btn"
        src="{{overviewLayout.btnImage}}">
-  <button *ngIf="overviewLayout != null && overviewLayout.btnImage == ''" class="btn btn-default select-btn"
+  <button *ngIf="overviewLayout != null && overviewLayout.btnImage == null" class="btn btn-default select-btn"
           [ngStyle]="setSelectButton()">{{overviewLayout.selectBtnText}}
   </button>
 </footer>

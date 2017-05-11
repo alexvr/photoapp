@@ -17,6 +17,9 @@
             <!-- LOGO -->
             <div class="form-group col-xs-12 section-end">
               <button type="button" class="btn btn-primary" (click)="setLogoImage()">Choose logo</button>
+              <button *ngIf="overviewLayout.logo != null" type="button"
+                      class="btn btn-danger" (click)="deleteLogoImage()">Delete logo
+              </button>
             </div>
             <div class="form-group col-xs-12">
               <button type="button" [ngClass]="setActiveLogoPositionClass(0)" (click)="setLogoPosition(0)">Left</button>
@@ -90,6 +93,9 @@
             <!-- SELECTION -->
             <div class="form-group col-xs-12 section-end">
               <button type="button" class="btn btn-primary" (click)="setSelectionIcon()">Choose selection icon</button>
+              <button *ngIf="overviewLayout.selectionIcon != null" type="button"
+                      class="btn btn-danger" (click)="deleteSelectionIcon()">Delete selection icon
+              </button>
             </div>
             <div class="form-group col-xs-12 checker-container">
               <input id="selectionContainer" class="checker" type="checkbox"
@@ -123,6 +129,9 @@
             <!-- selection button -->
             <div class="form-group col-xs-12 section-end">
               <button type="button" class="btn btn-primary" (click)="setSelectButton()">Choose select-button</button>
+              <button *ngIf="overviewLayout.btnImage != null" type="button"
+                      class="btn btn-danger" (click)="deleteSelectButton()">Delete select-button
+              </button>
             </div>
             <div class="form-group col-xs-12">
               <label for="buttonText">Select-button text</label>
@@ -181,7 +190,11 @@
           <div class="panel-body">
             <!-- BACKGROUND -->
             <div class="form-group col-xs-12 section-end">
-              <button type="button" class="btn btn-primary" (click)="setBackgroundImage()">Choose background image</button>
+              <button type="button" class="btn btn-primary" (click)="setBackgroundImage()">Choose background image
+              </button>
+              <button *ngIf="overviewLayout.backgroundImage != null" type="button"
+                      class="btn btn-danger" (click)="deleteBackgroundImage()">Delete background image
+              </button>
             </div>
             <div class="form-group col-xs-12">
               <label for="backgroundColor">Background color</label>
