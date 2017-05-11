@@ -13,6 +13,7 @@ if (typeof window['require'] !== 'undefined') {
 @Injectable()
 export class ConfigurationService {
 
+  private newEvent: boolean;
   private configuredEvent: Event;
   private hasIpc: boolean;
 
@@ -81,8 +82,44 @@ export class ConfigurationService {
     return this.configuredEvent;
   }
 
-  public setConfiguredEvent(event: Event): void {
+  public isNewEvent() {
+    return this.newEvent;
+  }
+
+  /**
+   * Set the Event to configure.
+   * If it is a new Event, set the boolean to true.
+   * @param event
+   * @param newEvent
+   */
+  public setConfiguredEvent(event: Event, newEvent: boolean): void {
     this.configuredEvent = event;
+    this.newEvent = newEvent;
+  }
+
+  public updateEvent(): Observable<any> {
+    const headers = new Headers();
+    headers.append('token', localStorage.getItem('id_token'));
+    headers.append('Accept', 'application/json');
+    headers.append('Content-Type', 'application/json');
+
+    console.log(JSON.stringify(this.configuredEvent, null, 2));
+
+    const options = new RequestOptions({headers: headers});
+    return this.http.put(BACKEND_BASEURL + '/api/event/updateEvent', this.configuredEvent, options).catch(e => this.handleError(e));
+  }
+
+  public deleteEvent(): Observable<any> {
+    const headers = new Headers();
+    headers.append('token', localStorage.getItem('id_token'));
+    headers.append('Accept', 'application/json');
+    headers.append('Content-Type', 'application/json');
+
+    console.log(JSON.stringify(this.configuredEvent, null, 2));
+
+    const options = new RequestOptions({headers: headers});
+    const deleteUrl = BACKEND_BASEURL + '/api/event/deleteEventById/' + this.configuredEvent.eventId;
+    return this.http.delete(deleteUrl, options).catch(e => this.handleError(e));
   }
 
   public saveEvent(): Observable<any> {
@@ -91,13 +128,10 @@ export class ConfigurationService {
     headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/json');
 
-    this.configuredEvent.eventEndDate = '1992-03-17';
-    this.configuredEvent.eventEndDate = '1992-04-17';
-
     console.log(JSON.stringify(this.configuredEvent, null, 2));
 
     const options = new RequestOptions({headers: headers});
-    return this.http.put(BACKEND_BASEURL + '/api/event/updateEvent', this.configuredEvent, options).catch(e => this.handleError(e));
+    return this.http.post(BACKEND_BASEURL + '/api/event/createEvent', this.configuredEvent, options).catch(e => this.handleError(e));
   }
 
   public getDirectoryPath(): Observable<string> {

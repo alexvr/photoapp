@@ -17,17 +17,18 @@ export class ServerService {
   }
 
   /**
-   * Starts a server on the current network IP4 address on port 3001.
+   * Starts a server on the current network IP4 address on port 3001 and watches the given mediafolder.
    * @returns {number} Network IP4 address
    */
-  startServer(): Observable<number> {
+  startServer(mediaFolder: string): Observable<number> {
     return new Observable(observer => {
       let serverHost = '127.0.0.1';
       this.hasIpc = (typeof ipcRenderer !== 'undefined');
 
       if (this.hasIpc) {
         // Send async message to start the server.
-        ipcRenderer.send('async', 'start-server');
+        const serverArguments: string[] = ['start-server', mediaFolder];
+        ipcRenderer.send('async', serverArguments);
 
         // Listen to response from the main process.
         ipcRenderer.on('async-start-server', (event, arg) => {

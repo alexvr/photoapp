@@ -1,4 +1,5 @@
 // Modules to start the socket.io server.
+const {ipcMain} = require('electron');
 const app = require('http').createServer(handler);
 const io = require('socket.io')(app);
 const fs = require('fs');
@@ -8,13 +9,13 @@ const internalIp = require('internal-ip');
  * Start web sockets server on current network IP4 address on port 3001.
  * @returns {number} Current network IP4 address
  */
-exports.startServer = function startServer() {
+exports.startServer = function startServer(mediaFolder) {
   console.log('server-configuration.js - startServer()');
 
   app.listen(3001);
   console.log('server-configuration.js - Server listening on ' + internalIp.v4() + ':3001');
 
-  initializeWatcher();
+  initializeWatcher(mediaFolder);
 
   return internalIp.v4();
 };
@@ -34,7 +35,8 @@ function handler(req, res) {
 }
 
 io.on('connection', function (socket) {
-  console.log('A client device connected!');
+  let clientIp = socket.request.connection.remoteAddress;
+  console.log('A client device with IP ' + clientIp + ' connected!');
 
   socket.on('disconnect', function(){
     console.log('A client device disconnected!');
@@ -85,12 +87,12 @@ function testSendPhotoWithUrl(path) {
 /**
  * Start watching a specific folder.
  */
-function initializeWatcher() {
+function initializeWatcher(mediaFolder) {
   // Module to watch FTP directory.
   const chokidar = require('chokidar');
 
   // Set the FTP folder to watch for new photos.
-  let watcher = chokidar.watch('/Users/Alexander/Desktop/testFTP', {
+  let watcher = chokidar.watch(mediaFolder, {
     ignored: /(^|[\/\\])\../,
     persistent: true
   });

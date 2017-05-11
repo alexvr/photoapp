@@ -39,6 +39,7 @@ export const routes: Routes = [
   {path: 'temp-event-overview', component: EventOverviewComponent},
   {path: 'event-dashboard', component: EventDashboardComponent},
   {path: '**', redirectTo: ''}*/
+
   {path: 'fdqs', component: LoginComponent},
   {path: '', component: StartScreenComponent},
   {

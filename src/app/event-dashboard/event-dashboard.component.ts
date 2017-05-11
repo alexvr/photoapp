@@ -27,7 +27,7 @@ export class EventDashboardComponent {
     this.printerState = 'Active';
 
     // Start the server and retrieve information.
-    this.serverService.startServer().subscribe(host => this.serverHost = host);
+    this.serverService.startServer(this.event.config.mediaStorage).subscribe(host => this.serverHost = host);
     this.serverPort = 3001;
   }
 

@@ -3,7 +3,7 @@ import {Event} from '../model/Event';
 import {Router} from '@angular/router';
 import {EventService} from '../event/services/event.service';
 import {Response} from '@angular/http';
-import {ConfigurationService} from "../configuration/services/configuration.service";
+import {ConfigurationService} from '../configuration/services/configuration.service';
 
 @Component({
   selector: 'start-screen',
@@ -78,14 +78,40 @@ export class StartScreenComponent {
     this.visible = true;
   }
 
+  /**
+   * Open the Event Dashboard for the selected Event.
+   */
   openEventDashboard(): void {
     this.eventService.setSelectedEvent(this.selectedEvent);
     this.router.navigate(['/event-dashboard']).then(() => { });
   }
 
+  /**
+   * Edit selected Event.
+   */
   openEventConfiguration(): void {
-    this.configurationService.setConfiguredEvent(this.selectedEvent);
+    this.configurationService.setConfiguredEvent(this.selectedEvent, false);
     this.router.navigate(['/configuration']).then(() => { });
+  }
+
+  /**
+   * Configure new Event.
+   */
+  newEventConfiguration(): void {
+    const newEvent: Event = new Event();
+    this.configurationService.setConfiguredEvent(newEvent, true);
+    this.router.navigate(['/configuration']).then(() => { });
+  }
+
+  deleteEvent(): void {
+    this.configurationService.setConfiguredEvent(this.selectedEvent, false);
+    this.configurationService.deleteEvent().subscribe(() => {
+      this.eventService.getAllEvents().map((res: Response) => res.json())
+        .subscribe((events) => {
+          this.events = events;
+          console.log(events);
+        });
+    });
   }
 
   closeMenu() {

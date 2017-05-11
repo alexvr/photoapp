@@ -84,8 +84,8 @@ ipcMain.on('async', (event, arg) => {
   }
 
   // ServerService - startServer()
-  if (arg === 'start-server') {
-    let serverHost = serverConfiguration.startServer();
+  if (arg[0] === 'start-server') {
+    let serverHost = serverConfiguration.startServer(arg[1]);
     event.sender.send('async-start-server', serverHost);
   }
 

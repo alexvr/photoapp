@@ -1,4 +1,4 @@
-import {Layout} from "./Layout";
+import {Layout} from './Layout';
 
 export class OverviewLayout extends Layout {
   imageContainer: boolean;
@@ -13,4 +13,8 @@ export class OverviewLayout extends Layout {
   selectBtnText: string;
   navigationColor: string;
   activeNavigationColor: string;
+
+  constructor() {
+    super();
+  }
 }

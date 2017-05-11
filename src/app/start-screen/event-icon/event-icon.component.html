@@ -1,4 +1,4 @@
 <div class="event-image">
-  <img src="{{event.eventLogo}}" alt="{{event.company}}-logo">
+  <img *ngIf="isValidLogo" src="{{event.eventLogo}}" alt="{{event.company}}-logo">
 </div>
 <h3>{{event.eventName}}</h3>

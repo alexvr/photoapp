@@ -1,3 +1,3 @@
-export enum Position{
+export enum Position {
   LEFT, CENTER, RIGHT
 }
