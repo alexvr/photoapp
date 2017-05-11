@@ -16,6 +16,7 @@ import {ConfigurationService} from "./configuration/services/configuration.servi
 import {TestEventService}     from "./event/services/test-event.service";
 import {WatermarkConfigService} from "./configuration/services/watermark-config.service";
 import {EventService} from "./event/services/event.service";
+import {LayoutService} from "./configuration/services/layout.service";
 import {AuthHttpImpl} from "./login/services/auth-http-impl";
 
 // Components
@@ -70,6 +71,7 @@ import {DetailLayoutConfigComponent} from "./configuration/layout-settings/detai
     EventService,
     TestEventService,
     WatermarkConfigService,
+    LayoutService,
     AuthHttpImpl
   ],
   bootstrap: [AppComponent]

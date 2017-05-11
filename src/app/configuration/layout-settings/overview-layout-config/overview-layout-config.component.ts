@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {ConfigurationService} from "../../services/configuration.service";
 import {OverviewLayout} from "../../../model/layout/OverviewLayout";
+import {LayoutService} from "../../services/layout.service";
 
 @Component({
   selector: 'overview-layout-config',
@@ -11,7 +12,7 @@ import {OverviewLayout} from "../../../model/layout/OverviewLayout";
 export class OverviewLayoutConfigComponent {
   private overviewLayout: OverviewLayout;
 
-  constructor(private configurationService: ConfigurationService) {
+  constructor(private configurationService: ConfigurationService, private layoutService: LayoutService) {
     this.overviewLayout = this.configurationService.getConfiguredEvent().overviewLayout;
   }
 
@@ -36,4 +37,11 @@ export class OverviewLayoutConfigComponent {
     this.overviewLayout.logoPosition = value;
   }
 
+  chooseLogoImage() {
+    this.layoutService.uploadLayoutAsset(this.configurationService.getEvent().eventName + '/assets/logo').subscribe(val => {
+      this.overviewLayout.logo = val;
+      console.log(val);
+      console.log(this.overviewLayout.logo);
+    });
+  }
 }

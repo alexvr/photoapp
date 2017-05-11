@@ -2,7 +2,7 @@
 <div class="exit-btn" id="exit-btn-2" (click)="showMenuRightBtn()"></div>
 
 <header [ngStyle]="setLogo()">
-  <div class="logo"></div>
+  <img *ngIf="overviewLayout != null && overviewLayout.logo != null" class="logo" src="{{overviewLayout.logo}}">
 </header>
 <main
   [ngStyle]="setImageContainerStyle()">
@@ -22,9 +22,12 @@
     <div class="swiper-pagination"></div>
   </swiper>
 </main>
-<div class="selected-images"
-     [ngStyle]="setSelectionContainerStyle()"></div>
-<button class="btn btn-default select-btn" [ngStyle]="setSelectButton()">{{overviewLayout.selectBtnText}}</button>
+<footer>
+  <div class="selected-images"
+       [ngStyle]="setSelectionContainerStyle()"></div>
+  <button class="btn btn-default select-btn" [ngStyle]="setSelectButton()">{{overviewLayout.selectBtnText}}</button>
+</footer>
+
 
 <!-- Modal -->
 <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

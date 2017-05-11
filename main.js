@@ -6,6 +6,7 @@ const {dialog} = require('electron');
 const printerConfiguration = require('./printer-configuration');
 const serverConfiguration = require('./server-configuration');
 const watermarkConfiguration = require('./watermark-configuration');
+const layoutConfiguration = require('./layout-configuration');
 
 // Load environment variables in .env file and live reload when in development.
 require('dotenv').config();
@@ -126,5 +127,10 @@ ipcMain.on('async', (event, arg) => {
     }, selectedDirectory => {
       event.sender.send('async-get-file-path', selectedDirectory.toString());
     });
+  }
+
+  // Upload layout-assets
+  if(arg[0] === 'upload-layout-asset'){
+    layoutConfiguration.uploadFile(event, arg[1]);
   }
 });

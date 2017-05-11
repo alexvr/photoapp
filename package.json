@@ -29,6 +29,7 @@
     "auth0-js": "^8.5.0",
     "auth0-lock": "^10.14.0",
     "chokidar": "^1.6.1",
+    "cloudinary": "^1.9.0",
     "core-js": "^2.4.1",
     "dotenv": "^4.0.0",
     "electron": "^1.6.5",
