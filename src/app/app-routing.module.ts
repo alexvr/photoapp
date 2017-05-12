@@ -13,32 +13,33 @@ import {DetailLayoutChooserComponent} from './configuration/layout-settings/deta
 import {DetailLayoutConfigComponent} from './configuration/layout-settings/detail-layout-config/detail-layout-config.component';
 import {OverviewLayoutConfigComponent} from './configuration/layout-settings/overview-layout-config/overview-layout-config.component';
 import {EventOverviewComponent} from "./event/event-overview/event-overview.component";
+import {EventDetailComponent} from "./event/event-detail/event-detail.component";
 
 export const routes: Routes = [
   /*{path: '', component: LoginComponent},
-  {path: 'start-screen', component: StartScreenComponent},
-  {
-    path: 'configuration', component: ConfigurationComponent,
-    children: [
-      {path: '', redirectTo: 'basic-info', pathMatch: 'full'},
-      {path: 'basic-info', component: BasicInfoComponent},
-      {
-        path: 'layout', component: LayoutSettingsComponent,
-        children: [
-          {path: '', redirectTo: 'overview-layout-chooser', pathMatch: 'full'},
-          {path: 'overview-layout-chooser', component: OverviewLayoutChooserComponent},
-          {path: 'detail-layout-chooser', component: DetailLayoutChooserComponent},
-          {path: 'detail-layout-config', component: DetailLayoutConfigComponent},
-          {path: 'overview-layout-config', component: OverviewLayoutConfigComponent},
-        ]
-      },
-      {path: 'media-settings', component: MediaSettingsComponent},
-      {path: 'watermark-config/:id', component: WatermarkConfigComponent},
-    ]
-  },
-  {path: 'temp-event-overview', component: EventOverviewComponent},
-  {path: 'event-dashboard', component: EventDashboardComponent},
-  {path: '**', redirectTo: ''}*/
+   {path: 'start-screen', component: StartScreenComponent},
+   {
+   path: 'configuration', component: ConfigurationComponent,
+   children: [
+   {path: '', redirectTo: 'basic-info', pathMatch: 'full'},
+   {path: 'basic-info', component: BasicInfoComponent},
+   {
+   path: 'layout', component: LayoutSettingsComponent,
+   children: [
+   {path: '', redirectTo: 'overview-layout-chooser', pathMatch: 'full'},
+   {path: 'overview-layout-chooser', component: OverviewLayoutChooserComponent},
+   {path: 'detail-layout-chooser', component: DetailLayoutChooserComponent},
+   {path: 'detail-layout-config', component: DetailLayoutConfigComponent},
+   {path: 'overview-layout-config', component: OverviewLayoutConfigComponent},
+   ]
+   },
+   {path: 'media-settings', component: MediaSettingsComponent},
+   {path: 'watermark-config/:id', component: WatermarkConfigComponent},
+   ]
+   },
+   {path: 'temp-event-overview', component: EventOverviewComponent},
+   {path: 'event-dashboard', component: EventDashboardComponent},
+   {path: '**', redirectTo: ''}*/
 
   {path: 'fdqs', component: LoginComponent},
   {path: '', component: StartScreenComponent},
@@ -61,6 +62,8 @@ export const routes: Routes = [
       {path: 'watermark-config/:id', component: WatermarkConfigComponent},
     ]
   },
+  {path: 'temp-event-overview', component: EventOverviewComponent},
+  {path: 'temp-event-detail', component: EventDetailComponent},
   {path: 'event-dashboard', component: EventDashboardComponent},
   {path: '**', redirectTo: ''}
 ];
