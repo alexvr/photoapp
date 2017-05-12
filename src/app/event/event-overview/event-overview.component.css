@@ -71,6 +71,13 @@ swiper {
   align-items: center;
 }
 
+.swiper-slide > img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-height: 50%;
+}
+
 footer {
   height: 25%;
   position: relative;

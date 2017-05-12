@@ -154,30 +154,6 @@
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="headingFour">
-          <h4 class="panel-title">
-            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true"
-               aria-controls="collapseFour">
-              Navigation
-            </a>
-          </h4>
-        </div>
-        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-          <div class="panel-body">
-            <!-- NAVIGATION -->
-            <div class="form-group col-xs-12">
-              <label for="navigationColor">Navigation color</label>
-              <input id="navigationColor" type="color" [(ngModel)]="overviewLayout.navigationColor">
-            </div>
-            <div class="form-group col-xs-12">
-              <label for="activeNavigationColor">Active navigation color</label>
-              <input id="activeNavigationColor" type="color" [(ngModel)]="overviewLayout.activeNavigationColor">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingFive">
           <h4 class="panel-title">
             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true"
@@ -209,7 +185,6 @@
 
   <!-- EVENT-OVERVIEW PREVIEW -->
   <div class="col-md-8 event-overview-container">
-    <event-overview [overviewLayout]="overviewLayout"
-                    [ngStyle]="setBackground()"></event-overview>
+    <event-overview [overviewLayout]="overviewLayout" [ngStyle]="setBackground()"></event-overview>
   </div>
 </div>

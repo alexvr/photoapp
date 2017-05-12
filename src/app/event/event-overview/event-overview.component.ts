@@ -1,6 +1,7 @@
-import {Component, ViewChild, ElementRef, Input, OnInit} from "@angular/core";
+import {Component, Input, OnInit, OnChanges, SimpleChanges, DoCheck} from "@angular/core";
 import {OverviewLayout} from "../../model/layout/OverviewLayout";
 import {Position} from "../../model/layout/Position";
+import set = Reflect.set;
 
 @Component({
   selector: 'event-overview',
@@ -8,7 +9,7 @@ import {Position} from "../../model/layout/Position";
   styleUrls: ['event-overview.component.css']
 })
 
-export class EventOverviewComponent implements OnInit{
+export class EventOverviewComponent implements OnInit {
   @Input() overviewLayout: OverviewLayout;
 
   /**
@@ -18,7 +19,8 @@ export class EventOverviewComponent implements OnInit{
     pagination: '.swiper-pagination',
     slidesPerView: 3,
     paginationClickable: true,
-    spaceBetween: 30
+    spaceBetween: 30,
+    paginationType: 'fraction'
   };
 
   constructor() {
@@ -53,8 +55,8 @@ export class EventOverviewComponent implements OnInit{
     };
   }
 
-
   ngOnInit(): void {
+
   }
 
   /**
@@ -88,7 +90,7 @@ export class EventOverviewComponent implements OnInit{
    */
 
   setLogo(): any {
-    if(this.overviewLayout != null && this.overviewLayout.logo != null){
+    if (this.overviewLayout != null && this.overviewLayout.logo != null) {
       switch (this.overviewLayout.logoPosition) {
         case 0:
           return {'justify-content': 'flex-start'};
