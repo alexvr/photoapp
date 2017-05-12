@@ -6,7 +6,11 @@
 
   <h2>{{event.eventName}}</h2>
 
-  <button id="save-event-btn" type="button" class="btn btn-default" aria-label="Left Align" (click)="saveEvent()" [routerLink]="['/start-screen']">
+  <button *ngIf="!newEvent" id="update-event-btn" type="button" class="btn btn-default" aria-label="Left Align" (click)="updateEvent()">
+    Update event
+  </button>
+
+  <button  *ngIf="newEvent" id="save-event-btn" type="button" class="btn btn-default" aria-label="Left Align" (click)="saveEvent()">
     Save event
   </button>
 </header>

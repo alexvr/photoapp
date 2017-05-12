@@ -1,4 +1,4 @@
-import {Position} from "./Position";
+import {Position} from './Position';
 
 export class Layout {
   id: number;
@@ -15,4 +15,6 @@ export class Layout {
   btnPressedBorderColor: string;
   imageBorderColor: string;
   imageBorderWidth: number;
+
+  constructor() { }
 }

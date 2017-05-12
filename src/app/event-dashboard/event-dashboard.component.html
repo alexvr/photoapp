@@ -24,10 +24,8 @@
 
         <div class="form-group col-xs-12">
           <label for="clients">Connected clients</label>
-          <ul id="clients" class="pre-scrollable">
-            <li>client 1</li>
-            <li>client 2</li>
-            <li>client 3</li>
+          <ul id="clients">
+            <li *ngFor="let client of connectedClients">{{client}}</li>
           </ul>
         </div>
       </div>

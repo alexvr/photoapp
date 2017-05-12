@@ -1,7 +1,7 @@
 <div class="event-container">
   <event-icon *ngFor="let e of events" [event]="e" (click)="showEventMenu(e)"></event-icon>
   <div id="addEvent">
-    <a id="addEvent-btn" class="btn btn-primary" href="#" role="button" [routerLink]="['/configuration']">+</a>
+    <a id="addEvent-btn" class="btn btn-primary" href="#" role="button" (click)="newEventConfiguration(); $event.preventDefault();">+</a>
     <h3>Add event</h3>
   </div>
 </div>
@@ -23,6 +23,8 @@
         <button type="button" class="btn btn-default menu-btn"  (click)="openEventDashboard()">Start</button>
         <button type="button" class="btn btn-default menu-btn" (click)="openEventConfiguration()">Edit</button>
         <button type="button" class="btn btn-default menu-btn" (click)="closeMenu()">Back</button>
+        <hr>
+        <button type="button" class="btn btn-danger menu-btn" (click)="deleteEvent(); closeMenu();">Delete</button>
       </div>
     </div>
   </div>

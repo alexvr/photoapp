@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 import {ServerService} from './services/server.service';
 import {EventService} from '../event/services/event.service';
 import {Event} from '../model/Event';
 import {PrinterService} from '../configuration/services/printer.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'event-dashboard',
@@ -16,9 +17,14 @@ export class EventDashboardComponent {
   private serverPort: number;
   private printer: string;
   private printerState: string;
+  private clientSubscriptions: Subscription;
+  private connectedClients: any[] = [];
   private event: Event;
 
-  constructor(private serverService: ServerService, private eventService: EventService, private printerService: PrinterService) {
+  constructor(private serverService: ServerService,
+              private eventService: EventService,
+              private printerService: PrinterService,
+              private zone: NgZone) {
     // Get the Event.
     this.event = this.eventService.getSelectedEvent();
 
@@ -27,12 +33,23 @@ export class EventDashboardComponent {
     this.printerState = 'Active';
 
     // Start the server and retrieve information.
-    this.serverService.startServer().subscribe(host => this.serverHost = host);
+    this.serverService.startServer(this.event.config.mediaStorage).subscribe(host => this.serverHost = host);
     this.serverPort = 3001;
+
+    // Get the IP addresses of all connected clients and display them.
+    this.clientSubscriptions = this.serverService.receiveConnectedClients().subscribe(client => {
+      this.zone.run(() => {
+        this.connectedClients.push(client);
+      });
+    });
   }
 
   private sendTestPrint(): void {
     this.printerService.testPrintPhotoOnPrinterWithName(this.printer);
+  }
+
+  private stopServer(): void {
+    // Zet de connectie met socket.io stop.
   }
 
 }

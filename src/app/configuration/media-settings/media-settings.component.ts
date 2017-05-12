@@ -26,15 +26,15 @@ export class MediaSettingsComponent implements OnInit {
 
   public setPhotoQualityEvent(quality: any): void {
     switch (quality) {
-      case 'LOW':
+      case 'LOW' || PhotoQuality.LOW:
         this.event.config.photoQuality = PhotoQuality.LOW;
         this.setPhotoQuality(0);
         break;
-      case 'MEDIUM':
+      case 'MEDIUM' || PhotoQuality.MEDIUM:
         this.event.config.photoQuality = PhotoQuality.MEDIUM;
         this.setPhotoQuality(1);
         break;
-      case 'HIGH':
+      case 'HIGH' || PhotoQuality.HIGH:
         this.event.config.photoQuality = PhotoQuality.HIGH;
         this.setPhotoQuality(2);
         break;

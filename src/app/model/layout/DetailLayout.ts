@@ -1,4 +1,4 @@
-import {Layout} from "./Layout";
+import {Layout} from './Layout';
 
 export class DetailLayout extends Layout {
   printBtnText: string;
@@ -33,4 +33,8 @@ export class DetailLayout extends Layout {
   finishBtnPressedColor: string;
   finishBtnPressedImage: string;
   finishBtnPressedBorderColor: string;
+
+  constructor() {
+    super();
+  }
 }
