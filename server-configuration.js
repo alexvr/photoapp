@@ -2,10 +2,13 @@
 const app = require('http').createServer(handler);
 const io = require('socket.io')(app);
 const fs = require('fs');
+const path = require('path');
+const chokidar = require('chokidar');
 const internalIp = require('internal-ip');
 
 let mainWindow = null;
 let mediaDirectory = null;
+let photoCounter = 0;
 
 /**
  * Start web sockets server on current network IP4 address on port 3001.
@@ -86,7 +89,7 @@ exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
  * @param path
  * @returns {string}
  */
-function sendPhotoWithPath(path) {
+function broadCastPhoto(path) {
   fs.readFile(path, function(err, data) {
     io.emit('test-image', "data:image/jpg;base64," + data.toString("base64"));
   });
@@ -100,7 +103,7 @@ function sendPhotoWithPath(path) {
  * @param path
  * @returns {string}
  */
-function sendPhotoToClientWithPath(client, path) {
+function sendPhotoToClient(client, path) {
   fs.readFile(path, function(err, data) {
     client.emit('test-image', "data:image/jpg;base64," + data.toString("base64"));
   });
@@ -112,24 +115,45 @@ function sendPhotoToClientWithPath(client, path) {
  * Start watching a specific folder.
  */
 function initializeWatcher() {
-  // Module to watch FTP directory.
-  const chokidar = require('chokidar');
-
   // Set the FTP folder to watch for new photos.
   let watcher = chokidar.watch(mediaDirectory, {
     ignored: /(^|[\/\\])\../,
     persistent: true
   });
 
-  // Configure watch events.
   watcher
-    .on('add', path => {
-      console.log('File ' + path + ' has been added!');
-      sendPhotoWithPath(path);
+  // Configure add photo event.
+    .on('add', filePath => {
+      console.log('File ' + filePath + ' has been added!');
+
+      let fileExtCheck = path.extname(filePath);
+      let fileNameCheck = path.basename(filePath, fileExtCheck);
+      if (fileNameCheck.includes('IMG_')) {
+        return;
+      } else {
+        // Rename added file.
+        let extName = path.extname(filePath);
+        let newFileName = 'IMG_' + photoCounter + extName;
+        // TODO: Create fix for Windows
+        let newFilePath = path.dirname(filePath) + '/' + newFileName;
+        fs.rename(filePath, newFilePath, function(err) {
+          if ( err ) console.log('ERROR: ' + err);
+        });
+        photoCounter++;
+
+        console.log('File ' + newFilePath + ' has been renamed!');
+        broadCastPhoto(newFilePath);
+      }
     })
-    .on('unlink', path => {
-      console.log('File ' + path + ' has been removed!');
-      // Remove foto from clients.
+    // Configure delete photo event.
+    .on('unlink', filePath => {
+      let fileExtCheck = path.extname(filePath);
+      let fileNameCheck = path.basename(filePath, fileExtCheck);
+      if (fileNameCheck.includes('IMG_')) {
+        // TODO: Remove photo from clients.
+        console.log('File ' + filePath + ' has been removed!');
+        io.emit('delete-photo', fileNameCheck.replace('IMG_', ''));
+      }
     });
 }
 
@@ -138,14 +162,20 @@ function initializeWatcher() {
  */
 function sendExistingFiles(client) {
   fs.readdir(mediaDirectory, function(err, filenames) {
+    // Don't send hidden files. For instance .DStore
+    let list = filenames.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
+
     if (err) {
       onError(err);
       return;
     }
-    filenames.forEach(function(filename) {
+
+    list.forEach(function(filename) {
       const path = mediaDirectory + '/' + filename;
       console.log('server-configuration - sendExistingFiles() - ' + path);
-      sendPhotoToClientWithPath(client, path);
+      sendPhotoToClient(client, path);
+      // Make sure the photoCounter knows how many files are already in the mediaFolder.
+      photoCounter++;
     });
   });
 }
