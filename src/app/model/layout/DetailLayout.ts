@@ -6,35 +6,42 @@ export class DetailLayout extends Layout {
   printBtnImage: string;
   printBtnBorderColor: string;
   printBtnBorderWidth: number;
-  printBtnPressedColor: string;
-  printBtnPressedImage: string;
-  printBtnPressedBorderColor: string;
   shareBtnText: string;
   shareBtnColor: string;
   shareBtnImage: string;
   shareBtnBorderColor: string;
   shareBtnBorderWidth: number;
-  shareBtnPressedColor: string;
-  shareBtnPressedImage: string;
-  shareBtnPressedBorderColor: string;
   backBtnText: string;
   backBtnColor: string;
   backBtnImage: string;
   backBtnBorderColor: string;
   backBtnBorderWidth: number;
-  backBtnPressedColor: string;
-  backBtnPressedImage: string;
-  backBtnPressedBorderColor: string;
   finishBtnText: string;
   finishBtnColor: string;
   finishBtnImage: string;
   finishBtnBorderColor: string;
   finishBtnBorderWidth: number;
-  finishBtnPressedColor: string;
-  finishBtnPressedImage: string;
-  finishBtnPressedBorderColor: string;
 
   constructor() {
     super();
+    this.printBtnText = 'Print';
+    this.printBtnColor = '#ffffff';
+    this.printBtnBorderColor = '#4d4d4d';
+    this.printBtnBorderWidth = 1;
+
+    this.shareBtnText = 'Share';
+    this.shareBtnColor = '#ffffff';
+    this.shareBtnBorderColor = '#4d4d4d';
+    this.shareBtnBorderWidth = 1;
+
+    this.backBtnText = 'Back';
+    this.backBtnColor = '#ffffff';
+    this.backBtnBorderColor = '#4d4d4d';
+    this.backBtnBorderWidth = 1;
+
+    this.finishBtnText = 'Finish';
+    this.finishBtnColor = '#ffffff';
+    this.finishBtnBorderColor = '#4d4d4d';
+    this.finishBtnBorderWidth = 1;
   }
 }

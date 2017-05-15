@@ -13,6 +13,7 @@ import {LayoutService} from '../../services/layout.service';
 export class OverviewLayoutConfigComponent {
   private event: Event;
   private overviewLayout: OverviewLayout;
+  private fullSizePreview: boolean = false;
 
   constructor(public configurationService: ConfigurationService, public layoutService: LayoutService) {
     this.event = this.configurationService.getConfiguredEvent();
@@ -57,12 +58,12 @@ export class OverviewLayoutConfigComponent {
 
   setSelectButton() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/overview-layout/selectButton').subscribe(data => {
-      this.overviewLayout.btnImage = data;
+      this.overviewLayout.selectBtnImage = data;
     })
   }
 
   deleteSelectButton() {
-    this.overviewLayout.btnImage = null;
+    this.overviewLayout.selectBtnImage = null;
     this.layoutService.deleteLayoutAsset(this.event.eventName + '/overview-layout/selectButton');
   }
 
@@ -87,5 +88,9 @@ export class OverviewLayoutConfigComponent {
     } else {
       return {'background': this.overviewLayout.backgroundColor};
     }
+  }
+
+  setFullSize(fullsize: boolean) {
+    this.fullSizePreview = fullsize;
   }
 }

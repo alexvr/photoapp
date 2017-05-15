@@ -24,35 +24,6 @@ export class EventOverviewComponent implements OnInit {
   };
 
   constructor() {
-    // TEMP overviewlayout for temp-event-overview testing
-    this.overviewLayout = {
-      id: 0,
-      logo: null,
-      logoPosition: Position.CENTER,
-      backgroundColor: '#565fe8',
-      backgroundImage: null,
-      btnColor: null,
-      btnImage: null,
-      btnBorderColor: null,
-      btnBorderWidth: 0,
-      btnPressedColor: null,
-      btnPressedImage: null,
-      btnPressedBorderColor: null,
-      imageBorderColor: null,
-      imageBorderWidth: 0,
-      imageContainer: true,
-      imageContainerColor: '#fff',
-      imageContainerBorderColor: null,
-      imageContainerBorderWidth: 0,
-      selectionIcon: null,
-      selectionContainer: true,
-      selectionContainerColor: '#fff',
-      selectionContainerBorderColor: null,
-      selectionContainerBorderWidth: 0,
-      selectBtnText: 'select',
-      navigationColor: null,
-      activeNavigationColor: null,
-    };
   }
 
   ngOnInit(): void {
@@ -141,10 +112,11 @@ export class EventOverviewComponent implements OnInit {
   }
 
   setSelectButton(): any {
-    if (this.overviewLayout != null && this.overviewLayout.btnImage == null) {
+    if (this.overviewLayout != null && this.overviewLayout.selectBtnImage == null) {
       return {
-        'background': this.overviewLayout.btnColor,
-        'border': this.overviewLayout.btnBorderWidth + 'px solid ' + this.overviewLayout.btnBorderColor
+        'background': this.overviewLayout.selectBtnColor,
+        'border': this.overviewLayout.selectBtnBorderWidth + 'px solid ' + this.overviewLayout.selectBtnBorderColor,
+        'color': this.overviewLayout.selectBtnBorderColor
       }
     } else {
       return {'background': 'none', 'border': 'none'}

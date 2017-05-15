@@ -13,6 +13,7 @@ import {ConfigurationService} from "../../services/configuration.service";
 export class DetailLayoutConfigComponent {
   private event: Event;
   private detailLayout: DetailLayout;
+  private fullSizePreview: boolean = false;
 
   constructor(public configurationService: ConfigurationService, public layoutService: LayoutService) {
     this.event = this.configurationService.getConfiguredEvent();
@@ -89,5 +90,9 @@ export class DetailLayoutConfigComponent {
     } else {
       return {'background': this.detailLayout.backgroundColor};
     }
+  }
+
+  setFullSize(fullsize: boolean) {
+    this.fullSizePreview = fullsize;
   }
 }

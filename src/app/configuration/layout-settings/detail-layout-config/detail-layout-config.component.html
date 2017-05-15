@@ -1,8 +1,10 @@
 <div class="row">
   <!-- EVENT DETAIL SETTINGS -->
   <div class="col-md-4">
-    <div id="back" class="col-xs-6 backAndFinish"><a [routerLink]="['/configuration/layout']">Back</a></div>
-    <div id="finish" class="col-xs-6 backAndFinish"><a [routerLink]="['/configuration/layout']">Finish</a></div>
+    <div id="back" class="col-xs-6 backAndFinish"><a
+      [routerLink]="['/configuration/layout/detail-layout-chooser']">Back</a></div>
+    <div id="finish" class="col-xs-6 backAndFinish"><a [routerLink]="['/configuration/layout/detail-layout-chooser']">Finish</a>
+    </div>
 
     <div class="panel-group col-xs-12 col-sm-12" id="accordion" role="tablist" aria-multiselectable="true">
 
@@ -18,7 +20,14 @@
         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
           <div class="panel-body">
             <!-- IMAGE -->
-
+            <div class="form-group col-xs-12">
+              <label for="imageBorderColor">Image border-color</label>
+              <input id="imageBorderColor" type="color" [(ngModel)]="detailLayout.imageBorderColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="imageBorderWidth">Image border-width</label>
+              <input id="imageBorderWidth" type="number" [(ngModel)]="detailLayout.imageBorderWidth">
+            </div>
           </div>
         </div>
       </div>
@@ -164,4 +173,13 @@
 
   <!-- EVENT DETAIL PREVIEW -->
   <event-detail [detailLayout]="detailLayout" [ngStyle]="setBackground()" class="col-md-8 col-sm-12"></event-detail>
+  <button class="btn btn-primary resize-btn" (click)="setFullSize(!fullSizePreview)"
+          [ngClass]="{'no-full-size-preview-btn': fullSizePreview}"><span
+    class="glyphicon glyphicon-resize-full"></span></button>
 </div>
+
+
+<!-- FULL SIZE PREVIEW -->
+<event-detail [detailLayout]="detailLayout" [ngStyle]="setBackground()"
+              [ngClass]="{'no-full-size-preview': !fullSizePreview}"
+              class="full-size-preview col-md-8 col-sm-12"></event-detail>

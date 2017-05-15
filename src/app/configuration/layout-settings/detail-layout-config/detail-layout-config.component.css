@@ -46,3 +46,29 @@ label {
 .no-image-container, .no-selection-container {
   color: #ababab;
 }
+
+.resize-btn {
+  float: right;
+  margin-top: 1rem;
+}
+
+.full-size-preview {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.no-full-size-preview {
+  display: none;
+}
+
+.no-full-size-preview-btn {
+  z-index: 2;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 1rem;
+}
