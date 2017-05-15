@@ -1,3 +1,7 @@
+:host {
+  background: #cecece;
+}
+
 main {
   height: 100%;
   width: 100%;
@@ -42,4 +46,11 @@ main {
   background: #153972;
   height: 25rem;
   width: 25rem;
+}
+
+@media screen and (min-width: 768px) {
+  main {
+    display: flex;
+    flex-direction: row;
+  }
 }

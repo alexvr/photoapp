@@ -1,0 +1,167 @@
+<div class="row">
+  <!-- EVENT DETAIL SETTINGS -->
+  <div class="col-md-4">
+    <div id="back" class="col-xs-6 backAndFinish"><a [routerLink]="['/configuration/layout']">Back</a></div>
+    <div id="finish" class="col-xs-6 backAndFinish"><a [routerLink]="['/configuration/layout']">Finish</a></div>
+
+    <div class="panel-group col-xs-12 col-sm-12" id="accordion" role="tablist" aria-multiselectable="true">
+
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true"
+               aria-controls="collapseOne">
+              Image
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            <!-- IMAGE -->
+
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingTwo">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true"
+               aria-controls="collapseTwo">
+              Buttons
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            <!-- BUTTONS -->
+            <!-- print button -->
+            <div class="form-group col-xs-12 section-end">
+              <button type="button" class="btn btn-primary" (click)="setPrintButton()">Choose print-button</button>
+              <button *ngIf="detailLayout.printBtnImage != null" type="button"
+                      class="btn btn-danger" (click)="deletePrintButton()">Delete print-button
+              </button>
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printBtnText">Print-button text</label>
+              <input id="printBtnText" type="text" [(ngModel)]="detailLayout.printBtnText">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printBtnColor">Print-button color</label>
+              <input id="printBtnColor" type="color" [(ngModel)]="detailLayout.printBtnColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printBtnBorderColor">Print-button border-color</label>
+              <input id="printBtnBorderColor" type="color" [(ngModel)]="detailLayout.printBtnBorderColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printBtnBorderWidth">Print-button border-width</label>
+              <input id="printBtnBorderWidth" type="number" [(ngModel)]="detailLayout.printBtnBorderWidth">
+            </div>
+            <!-- share button -->
+            <div class="form-group col-xs-12 section-end">
+              <button type="button" class="btn btn-primary" (click)="setShareButton()">Choose share-button</button>
+              <button *ngIf="detailLayout.shareBtnImage != null" type="button"
+                      class="btn btn-danger" (click)="deleteShareButton()">Delete share-button
+              </button>
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="shareBtnText">Share-button text</label>
+              <input id="shareBtnText" type="text" [(ngModel)]="detailLayout.shareBtnText">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="shareBtnColor">Share-button color</label>
+              <input id="shareBtnColor" type="color" [(ngModel)]="detailLayout.shareBtnColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="shareBtnBorderColor">Share-button border-color</label>
+              <input id="shareBtnBorderColor" type="color" [(ngModel)]="detailLayout.shareBtnBorderColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="shareBtnBorderWidth">Share-button border-width</label>
+              <input id="shareBtnBorderWidth" type="number" [(ngModel)]="detailLayout.shareBtnBorderWidth">
+            </div>
+            <!-- back button -->
+            <div class="form-group col-xs-12 section-end">
+              <button type="button" class="btn btn-primary" (click)="setBackButton()">Choose back-button</button>
+              <button *ngIf="detailLayout.backBtnImage != null" type="button"
+                      class="btn btn-danger" (click)="deleteBackButton()">Delete back-button
+              </button>
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="backBtnText">Back-button text</label>
+              <input id="backBtnText" type="text" [(ngModel)]="detailLayout.backBtnText">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="backBtnColor">Back-button color</label>
+              <input id="backBtnColor" type="color" [(ngModel)]="detailLayout.backBtnColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="backBtnBorderColor">Back-button border-color</label>
+              <input id="backBtnBorderColor" type="color" [(ngModel)]="detailLayout.backBtnBorderColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="backBtnBorderWidth">Back-button border-width</label>
+              <input id="backBtnBorderWidth" type="number" [(ngModel)]="detailLayout.backBtnBorderWidth">
+            </div>
+            <!-- finish button -->
+            <div class="form-group col-xs-12 section-end">
+              <button type="button" class="btn btn-primary" (click)="setFinishButton()">Choose finish-button</button>
+              <button *ngIf="detailLayout.finishBtnImage != null" type="button"
+                      class="btn btn-danger" (click)="deleteFinishButton()">Delete finish-button
+              </button>
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="finishBtnText">Finish-button text</label>
+              <input id="finishBtnText" type="text" [(ngModel)]="detailLayout.finishBtnText">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="finishBtnColor">Finish-button color</label>
+              <input id="finishBtnColor" type="color" [(ngModel)]="detailLayout.finishBtnColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="finishBtnBorderColor">Finish-button border-color</label>
+              <input id="finishBtnBorderColor" type="color" [(ngModel)]="detailLayout.finishBtnBorderColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="finishBtnBorderWidth">Finish-button border-width</label>
+              <input id="finishBtnBorderWidth" type="number" [(ngModel)]="detailLayout.finishBtnBorderWidth">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingThree">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true"
+               aria-controls="collapseThree">
+              Background
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            <!-- BACKGROUND -->
+            <div class="form-group col-xs-12 section-end">
+              <button type="button" class="btn btn-primary" (click)="setBackgroundImage()">Choose background image
+              </button>
+              <button *ngIf="detailLayout.backgroundImage != null" type="button"
+                      class="btn btn-danger" (click)="deleteBackgroundImage()">Delete background image
+              </button>
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="backgroundColor">Background color</label>
+              <input id="backgroundColor" type="color" [(ngModel)]="detailLayout.backgroundColor">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- EVENT DETAIL PREVIEW -->
+  <event-detail [detailLayout]="detailLayout" [ngStyle]="setBackground()" class="col-md-8 col-sm-12"></event-detail>
+</div>

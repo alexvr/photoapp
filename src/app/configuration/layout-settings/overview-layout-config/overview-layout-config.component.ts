@@ -33,42 +33,42 @@ export class OverviewLayoutConfigComponent {
   }
 
   setLogoImage() {
-    this.layoutService.uploadLayoutAsset(this.event.eventName + '/assets/logo').subscribe(data => {
+    this.layoutService.uploadLayoutAsset(this.event.eventName + '/overview-layout/logo').subscribe(data => {
       this.overviewLayout.logo = data;
     });
   }
 
   deleteLogoImage() {
     this.overviewLayout.logo = null;
-    this.layoutService.deleteLayoutAsset(this.event.eventName + '/assets/logo');
+    this.layoutService.deleteLayoutAsset(this.event.eventName + '/overview-layout/logo');
   }
 
   // Selection
   setSelectionIcon() {
-    this.layoutService.uploadLayoutAsset(this.event.eventName + '/assets/selectionIcon').subscribe(data => {
+    this.layoutService.uploadLayoutAsset(this.event.eventName + '/overview-layout/selectionIcon').subscribe(data => {
       this.overviewLayout.selectionIcon = data;
     })
   }
 
   deleteSelectionIcon() {
     this.overviewLayout.selectionIcon = null;
-    this.layoutService.deleteLayoutAsset(this.event.eventName + '/assets/selectionIcon');
+    this.layoutService.deleteLayoutAsset(this.event.eventName + '/overview-layout/selectionIcon');
   }
 
   setSelectButton() {
-    this.layoutService.uploadLayoutAsset(this.event.eventName + '/assets/selectButton').subscribe(data => {
+    this.layoutService.uploadLayoutAsset(this.event.eventName + '/overview-layout/selectButton').subscribe(data => {
       this.overviewLayout.btnImage = data;
     })
   }
 
   deleteSelectButton() {
     this.overviewLayout.btnImage = null;
-    this.layoutService.deleteLayoutAsset(this.event.eventName + '/assets/selectButton');
+    this.layoutService.deleteLayoutAsset(this.event.eventName + '/overview-layout/selectButton');
   }
 
   // Background
   setBackgroundImage() {
-    this.layoutService.uploadLayoutAsset(this.event.eventName + '/assets/background').subscribe(
+    this.layoutService.uploadLayoutAsset(this.event.eventName + '/overview-layout/background').subscribe(
       data => {
         this.overviewLayout.backgroundImage = data;
       }
@@ -77,7 +77,7 @@ export class OverviewLayoutConfigComponent {
 
   deleteBackgroundImage() {
     this.overviewLayout.backgroundImage = null;
-    this.layoutService.deleteLayoutAsset(this.event.eventName + '/assets/background');
+    this.layoutService.deleteLayoutAsset(this.event.eventName + '/overview-layout/background');
   }
 
   // The styling of the background has to happen here, because it has to happen on the :host element

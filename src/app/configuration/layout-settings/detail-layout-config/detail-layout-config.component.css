@@ -1,0 +1,48 @@
+event-detail {
+  height: 30rem;
+  border: 2px solid #cecece;
+}
+
+.backAndFinish {
+  margin: 2rem 0 3rem 0;
+  padding: 0;
+}
+
+#finish {
+  text-align: right;
+}
+
+.panel-group {
+  padding: 0;
+}
+
+.form-group {
+  margin-bottom: 0.7rem;
+  padding: 0;
+}
+
+input[type="color"], input[type="number"] {
+  width: 3rem;
+  margin: 0 0 0 1rem;
+  float: right;
+}
+
+input[type="text"] {
+  width: 10rem;
+  margin: 0 0 0 1rem;
+  float: right;
+}
+
+label {
+  font-weight: 300;
+  font-size: 1.4rem;
+}
+
+.section-end {
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.no-image-container, .no-selection-container {
+  color: #ababab;
+}
