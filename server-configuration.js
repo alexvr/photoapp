@@ -72,43 +72,38 @@ exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
 };
 
 /**
- * Sends the OverviewLayout and DetailLayout to all connected clients.
- * @param overviewLayout
- * @param detailLayout
- * @returns {string}
- */
-exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
-  io.emit('overview-layout', overviewLayout);
-  io.emit('detail-layout', detailLayout);
-
-  return 'main.js - OverviewLayout sent to all clients!';
-};
-
-/**
  * Sends photo from a specific path to all connected clients.
- * @param path
- * @returns {string}
+ * @param photoPath
+ * @param photoNumber
+ * @returns message
  */
-function broadCastPhoto(path) {
-  fs.readFile(path, function(err, data) {
-    io.emit('test-image', "data:image/jpg;base64," + data.toString("base64"));
+function broadCastPhoto(photoPath, photoNumber) {
+  let message;
+
+  fs.readFile(photoPath, function(err, data) {
+    io.emit('test-image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + photoNumber);
+    message = 'main.js - Photo from FTP sent to all clients!'
   });
 
-  return 'main.js - Photo from FTP sent to all clients!';
+  return message;
 }
 
 /**
  * Sends photo to a specific client.
  * @param client
- * @param path
- * @returns {string}
+ * @param photoPath
+ * @param photoNumber
+ * @returns message
  */
-function sendPhotoToClient(client, path) {
-  fs.readFile(path, function(err, data) {
-    client.emit('test-image', "data:image/jpg;base64," + data.toString("base64"));
+function sendPhotoToClient(client, photoPath, photoNumber) {
+  let message;
+
+  fs.readFile(photoPath, function(err, data) {
+    client.emit('test-image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + photoNumber);
+    message = 'main.js - Photo from FTP sent to client ' + client.request.connection.remoteAddress + '!';
   });
 
-  return 'main.js - Photo from FTP sent to all clients!';
+  return message;
 }
 
 /**
@@ -126,35 +121,56 @@ function initializeWatcher() {
     .on('add', filePath => {
       console.log('File ' + filePath + ' has been added!');
 
-      let fileExtCheck = path.extname(filePath);
-      let fileNameCheck = path.basename(filePath, fileExtCheck);
-      if (fileNameCheck.includes('IMG_')) {
+      const fileName = getFileName(filePath);
+
+      if (fileName.includes('IMG_')) {
         return;
       } else {
-        // Rename added file.
-        let extName = path.extname(filePath);
-        let newFileName = 'IMG_' + photoCounter + extName;
-        // TODO: Create fix for Windows
-        let newFilePath = path.dirname(filePath) + '/' + newFileName;
-        fs.rename(filePath, newFilePath, function(err) {
-          if ( err ) console.log('ERROR: ' + err);
-        });
-        photoCounter++;
-
+        let newFilePath = renameFile(filePath);
         console.log('File ' + newFilePath + ' has been renamed!');
-        broadCastPhoto(newFilePath);
+        broadCastPhoto(newFilePath, photoCounter);
+        photoCounter++;
       }
     })
     // Configure delete photo event.
     .on('unlink', filePath => {
-      let fileExtCheck = path.extname(filePath);
-      let fileNameCheck = path.basename(filePath, fileExtCheck);
-      if (fileNameCheck.includes('IMG_')) {
-        // TODO: Remove photo from clients.
+      let fileName = getFileName(filePath);
+      if (fileName.includes('IMG_')) {
+        io.emit('delete-photo', fileName.replace('IMG_', ''));
         console.log('File ' + filePath + ' has been removed!');
-        io.emit('delete-photo', fileNameCheck.replace('IMG_', ''));
       }
     });
+}
+
+/**
+ * Get the name of a file without heading extenstion and trailing path.
+ * @param filePath
+ * @returns filename
+ */
+function getFileName(filePath) {
+  let fileExtCheck = path.extname(filePath);
+  let fileNameCheck = path.basename(filePath, fileExtCheck);
+
+  return fileNameCheck;
+}
+
+/**
+ * Renames a file on a given path to 'IMG_x'.
+ * @param filePath
+ * @returns new filePath
+ */
+function renameFile(filePath) {
+  // Rename added file.
+  let extName = path.extname(filePath);
+  let newFileName = 'IMG_' + photoCounter + extName;
+  // TODO: Create fix for Windows
+  let newFilePath = path.dirname(filePath) + '/' + newFileName;
+
+  fs.rename(filePath, newFilePath, function(err) {
+    if ( err ) console.log('ERROR: ' + err);
+  });
+
+  return newFilePath;
 }
 
 /**
@@ -171,11 +187,14 @@ function sendExistingFiles(client) {
     }
 
     list.forEach(function(filename) {
-      const path = mediaDirectory + '/' + filename;
+      const filePath = mediaDirectory + '/' + filename;
       console.log('server-configuration - sendExistingFiles() - ' + path);
-      sendPhotoToClient(client, path);
+      let fileExtCheck = path.extname(filename);
+      let fileNameCheck = path.basename(filename, fileExtCheck);
+      const photoNumber = fileNameCheck.replace('IMG_', '');
+      sendPhotoToClient(client, filePath, photoNumber);
       // Make sure the photoCounter knows how many files are already in the mediaFolder.
-      photoCounter++;
+      photoCounter = parseInt(photoNumber) + 1;
     });
   });
 }
