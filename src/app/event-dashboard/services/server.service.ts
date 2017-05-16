@@ -91,7 +91,7 @@ export class ServerService {
   public receivePhotoCount(): Observable<any> {
     return new Observable(o => {
       // Listen to application logs.
-      ipcRenderer.on('async-photo-count', (event, arg) => {
+      ipcRenderer.on('async-image-count', (event, arg) => {
         console.log(arg);
         o.next(arg);
       });

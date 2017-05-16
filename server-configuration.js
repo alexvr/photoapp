@@ -5,13 +5,13 @@ const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
 const internalIp = require('internal-ip');
-const imagemin = require('imagemin');
-const imageminJpegtran = require('imagemin-jpegtran');
-const imageminPngquant = require('imagemin-pngquant');
+const imageCompression = require('./image-compression');
+
+const imagePrefix = 'COM_';
 
 let mainWindow = null;
 let mediaDirectory = null;
-let photoCounter = 0;
+let imageCounter = 0;
 
 /**
  * Start web sockets server on current network IP4 address on port 3001.
@@ -75,29 +75,29 @@ exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
 };
 
 /**
- * Sends photo from a specific path to all connected clients.
- * @param photoPath
- * @param photoNumber
+ * Sends image from a specific path to all connected clients.
+ * @param imagePath
+ * @param imageNumber
  * @returns message
  */
-function broadCastPhoto(photoPath, photoNumber) {
-  fs.readFile(photoPath, function(err, data) {
-    io.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + photoNumber);
-    mainWindow.webContents.send('async-logs' , 'Photo (' + photoPath + ') from FTP sent to all clients!');
+function broadCastImage(imagePath, imageNumber) {
+  fs.readFile(imagePath, function(err, data) {
+    io.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + imageNumber);
+    mainWindow.webContents.send('async-logs' , 'Image (' + imagePath + ') from FTP sent to all clients!');
   });
 }
 
 /**
- * Sends photo to a specific client.
+ * Sends image to a specific client.
  * @param client
- * @param photoPath
- * @param photoNumber
+ * @param imagePath
+ * @param imageNumber
  * @returns message
  */
-function sendPhotoToClient(client, photoPath, photoNumber) {
-  fs.readFile(photoPath, function(err, data) {
-    client.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + photoNumber);
-    mainWindow.webContents.send('async-logs' , 'Photo (' + photoPath + ') from FTP sent to client ' + client.request.connection.remoteAddress + '!');
+function sendImageToClient(client, imagePath, imageNumber) {
+  fs.readFile(imagePath, function(err, data) {
+    client.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + imageNumber);
+    mainWindow.webContents.send('async-logs' , 'Image (' + imagePath + ') from FTP sent to client ' + client.request.connection.remoteAddress + '!');
   });
 }
 
@@ -105,38 +105,51 @@ function sendPhotoToClient(client, photoPath, photoNumber) {
  * Start watching a specific folder.
  */
 function initializeWatcher() {
-  // Set the FTP folder to watch for new photos.
+  // Set the FTP folder to watch for new images.
   let watcher = chokidar.watch(mediaDirectory, {
     ignored: /(^|[\/\\])\../,
     persistent: true
   });
 
   watcher
-  // Configure add photo event.
+  // Configure add image event.
     .on('add', filePath => {
       console.log('File ' + filePath + ' has been added!');
-
       const fileName = getFileName(filePath);
 
-      if (!fileName.includes('IMG_')) {
-        let newPath = renameFile(filePath);
-        console.log('File ' + newPath + ' has been renamed!');
-        compressImage(newPath);
+      if (!fileName.includes(imagePrefix)) {
+
+        renameAndCompress(filePath);
+
       } else if (filePath.includes('compressed')) {
-        broadCastPhoto(filePath, photoCounter);
-        photoCounter++;
-        // Send the photoCounter to the event-dashboard.
-        mainWindow.webContents.send('async-photo-count' , photoCounter);
+
+        // Send the image to all clients and increment the counter.
+        broadCastImage(filePath, imageCounter);
+        imageCounter++;
+
+        // Send the imageCounter to the event-dashboard.
+        mainWindow.webContents.send('async-image-count' , imageCounter);
+
       }
     })
-    // Configure delete photo event.
+    // Configure delete image event.
     .on('unlink', filePath => {
-      deletePhoto(filePath);
+      deleteImage(filePath);
     });
 }
 
 /**
- * Get the name of a file without heading extenstion and trailing path.
+ * Rename file of the given file path and compress it.
+ * @param filePath
+ */
+function renameAndCompress(filePath) {
+  let newPath = renameFile(filePath);
+  console.log('File ' + newPath + ' has been renamed!');
+  imageCompression.compressImage(newPath, mediaDirectory);
+}
+
+/**
+ * Get the name of a file without heading extension and trailing path.
  * @param filePath
  * @returns filename
  */
@@ -148,14 +161,14 @@ function getFileName(filePath) {
 }
 
 /**
- * Renames a file on a given path to 'IMG_x'.
+ * Renames a file on a given path to the imagePrefix_x.
  * @param filePath
  * @returns new filePath
  */
 function renameFile(filePath) {
   // Rename added file.
   let extName = path.extname(filePath);
-  let newFileName = 'IMG_' + photoCounter + extName;
+  let newFileName = imagePrefix + imageCounter + extName;
   // TODO: Create fix for Windows
   let newFilePath = path.dirname(filePath) + '/' + newFileName;
 
@@ -167,39 +180,23 @@ function renameFile(filePath) {
 }
 
 /**
- * Compress the given image and save it in a seperate 'compressed' folder.
- * Returns the path to the compressed image.
+ * Delete the image on the given filePath.
  * @param filePath
  */
-function compressImage(filePath) {
-  imagemin([filePath], mediaDirectory + '/compressed', {
-    plugins: [
-      imageminJpegtran(),
-      imageminPngquant({quality: '65-80'})
-    ]
-  }).then(files => {
-    console.log('Compressed file: ' + files[0].path);
-  });
-}
-
-/**
- * Delete the photo on the given filePath.
- * @param filePath
- */
-function deletePhoto(filePath) {
+function deleteImage(filePath) {
   let fileName = getFileName(filePath);
 
-  // Delete the photo on all clients.
-  if (fileName.includes('IMG_')) {
-    io.emit('delete-photo', fileName.replace('IMG_', ''));
+  // Delete the image on all clients.
+  if (fileName.includes(imagePrefix)) {
+    io.emit('delete-image', fileName.replace(imagePrefix, ''));
     mainWindow.webContents.send('async-logs' , 'File ' + filePath + ' has been removed!');
   }
 
-  // Delete the photo on the OS.
+  // Delete the image on the OS.
   if (filePath.includes('compressed')) {
-    // TODO: Delete the original photo.
+    // TODO: Delete the original image.
   } else {
-    // TODO: Delete the compressed photo.
+    // TODO: Delete the compressed image.
   }
 }
 
@@ -219,15 +216,18 @@ function sendExistingFiles(client) {
 
       list.forEach(function (filename) {
         const filePath = mediaDirectory + '/compressed/' + filename;
-        console.log('server-configuration - sendExistingFiles() - ' + path);
+        console.log('server-configuration - sendExistingFiles() - ' + filePath);
+
         let fileExtCheck = path.extname(filename);
         let fileNameCheck = path.basename(filename, fileExtCheck);
-        const photoNumber = fileNameCheck.replace('IMG_', '');
-        sendPhotoToClient(client, filePath, photoNumber);
-        // Make sure the photoCounter knows how many files are already in the mediaFolder.
-        photoCounter = parseInt(photoNumber) + 1;
-        // Send the photoCounter to the event-dashboard.
-        mainWindow.webContents.send('async-photo-count' , photoCounter);
+        const imageNumber = fileNameCheck.replace(imagePrefix, '');
+        sendImageToClient(client, filePath, imageNumber);
+
+        // Make sure the imageCounter knows how many files are already in the mediaFolder.
+        imageCounter = parseInt(imageNumber) + 1;
+
+        // Send the imageCounter to the event-dashboard.
+        mainWindow.webContents.send('async-image-count' , imageCounter);
       });
     });
   }
