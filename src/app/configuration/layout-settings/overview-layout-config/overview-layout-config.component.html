@@ -186,7 +186,7 @@
   </div>
 
   <!-- EVENT-OVERVIEW PREVIEW -->
-  <event-overview class="col-md-8 event-overview-container" [overviewLayout]="overviewLayout"
+  <event-overview class="col-md-8 event-overview-container" [overviewLayout]="overviewLayout" [images]="testImages"
                   [ngClass]="{'no-full-size-preview': isFullScreenPreview}"
                   [ngStyle]="setBackground()"
   ></event-overview>
@@ -199,7 +199,7 @@
 
 
 <!-- FULL SIZE PREVIEW -->
-<event-overview [overviewLayout]="overviewLayout" [ngStyle]="setBackground()"
+<event-overview [overviewLayout]="overviewLayout" [images]="testImages" [ngStyle]="setBackground()"
                 [ngClass]="{'no-full-size-preview': !isFullScreenPreview}"
                 class="full-size-preview"></event-overview>
 

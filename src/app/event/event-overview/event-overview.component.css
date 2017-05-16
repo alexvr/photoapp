@@ -84,6 +84,12 @@ footer {
   bottom: 0;
   left: 25%;
   background: #ffffff;
+  overflow: hidden;
+  padding: 1% 0;
+}
+
+.selected-image {
+  height: 100%;
 }
 
 .menu-btn {
@@ -99,4 +105,8 @@ footer {
   bottom: 0;
   margin: 2rem;
   max-height: 100%;
+}
+
+.hide-pagination {
+  display: none;
 }

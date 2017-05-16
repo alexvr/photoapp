@@ -8,27 +8,27 @@
   [ngStyle]="setImageContainerStyle()">
   <swiper [config]="config">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" [ngStyle]="setImageStyle()">
-        <img class="selectionIcon" *ngIf="overviewLayout.selectionIcon != null"
+      <div class="swiper-slide" *ngFor="let img of images" [ngStyle]="setImageStyle()">
+        <img class="selectionIcon" *ngIf="overviewLayout.selectionIcon != null && selectedImages.indexOf(img) > -1"
              src="{{overviewLayout.selectionIcon}}">
-        <img src="../../../assets/images/photo.jpg">
+        <img src="{{img.imageBase64}}" (click)="selectImage(img)">
       </div>
-      <div class="swiper-slide" [ngStyle]="setImageStyle()"><img src="../../../assets/images/photo.jpg"></div>
-      <div class="swiper-slide" [ngStyle]="setImageStyle()"><img src="../../../assets/images/photo.jpg"></div>
-      <div class="swiper-slide" [ngStyle]="setImageStyle()"><img src="../../../assets/images/photo.jpg"></div>
-      <div class="swiper-slide" [ngStyle]="setImageStyle()"><img src="../../../assets/images/photo.jpg"></div>
-      <div class="swiper-slide" [ngStyle]="setImageStyle()"><img src="../../../assets/images/photo.jpg"></div>
-      <div class="swiper-slide" [ngStyle]="setImageStyle()"><img src="../../../assets/images/photo.jpg"></div>
-      <div class="swiper-slide" [ngStyle]="setImageStyle()"><img src="../../../assets/images/photo.jpg"></div>
-      <div class="swiper-slide" [ngStyle]="setImageStyle()"><img src="../../../assets/images/photo.jpg"></div>
-      <div class="swiper-slide" [ngStyle]="setImageStyle()"><img src="../../../assets/images/photo.jpg"></div>
     </div>
     <div class="swiper-pagination"></div>
   </swiper>
 </main>
 <footer>
   <div class="selected-images"
-       [ngStyle]="setSelectionContainerStyle()"></div>
+       [ngStyle]="setSelectionContainerStyle()">
+    <swiper [config]="selectedImagesConfig">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" *ngFor="let img of selectedImages" [ngStyle]="setImageStyle()">
+          <img class="selected-image" src="{{img.imageBase64}}">
+        </div>
+      </div>
+      <div class="swiper-pagination hide-pagination"></div>
+    </swiper>
+  </div>
   <img *ngIf="overviewLayout != null && overviewLayout.selectBtnImage != null" class="select-btn"
        src="{{overviewLayout.selectBtnImage}}">
   <button *ngIf="overviewLayout != null && overviewLayout.selectBtnImage == null" class="btn btn-default select-btn"
