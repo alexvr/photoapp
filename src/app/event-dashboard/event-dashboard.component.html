@@ -11,7 +11,7 @@
 
     <!-- SERVER DETAILS -->
     <div class="col-xs-6 dashboard-section">
-      <h2>server details<span class="active-marker"></span></h2>
+      <h2>Server details<span class="active-marker"></span></h2>
       <div class="dashboard-container">
         <div class="form-group col-xs-9">
           <label for="host">Host</label>
@@ -33,51 +33,49 @@
 
     <!-- EVENT LOGS-->
     <div class="col-xs-6 dashboard-section">
-      <h2>event logs</h2>
+      <h2>Event logs</h2>
       <div class="dashboard-container">
-        <div class="form-group col-xs-12 event-log-form-group">
-          <ul class="pre-scrollable event-log-ul">
-            <li>Started</li>
-            <li>Something</li>
-            <li>Ended</li>
-          </ul>
+        <div #logcontainer class="form-group col-xs-12 event-log-form-group">
+          <p *ngFor="let log of logs">{{log}}</p>
         </div>
       </div>
     </div>
 
   </div>
+
   <div class="row bottom-row">
 
     <!-- PRINTER DETAILS -->
     <div class="col-xs-6 dashboard-section">
-      <h2>printer details<span class="inactive-marker"></span></h2>
+      <h2>Media details<span class="active-marker"></span></h2>
       <div class="dashboard-container">
         <div class="form-group col-xs-8 printer-details-top">
-          <div class="form-group col-xs-9">
-            <label for="printer">Printer</label>
-            <h4 id="printer">{{printer}}</h4>
-          </div>
+          <label for="printer">Printer</label>
+          <h4 id="printer">{{printer}}</h4>
         </div>
         <div class="form-group col-xs-4 printer-details-top">
-          <label for="printStatus">Status</label>
-          <h4 id="printStatus">{{printerState}}</h4>
+          <label for="testPrint"><span style="color: white">.</span></label>
+          <h4 id="testPrint" (click)="sendTestPrint()">Test Printer</h4>
         </div>
-        <p (click)="sendTestPrint()">Send testprint</p>
+        <div class="form-group col-xs-12 printer-details-top">
+          <label for="mediaFolder">Media folder</label>
+          <h4 id="mediaFolder">{{mediaFolder}}</h4>
+        </div>
       </div>
     </div>
 
     <!--  STATISTICS -->
     <div class="col-xs-6 dashboard-section">
-      <h2>statistics</h2>
+      <h2>Statistics</h2>
       <div class="dashboard-container">
         <label for="printCounter" class="col-xs-4 statistics">Print counter</label>
         <p id="printCounter" class="col-xs-8 statistics">0</p>
         <label for="shareCounter" class="col-xs-4 statistics">Share counter</label>
         <p id="shareCounter" class="col-xs-8 statistics">0</p>
         <label for="photoCounter" class="col-xs-4 statistics">Photo counter</label>
-        <p id="photoCounter" class="col-xs-8 statistics">0</p>
+        <p id="photoCounter" class="col-xs-8 statistics">{{photoCounter}}</p>
         <label for="eventDuration" class="col-xs-4 statistics">Event duration</label>
-        <p id="eventDuration" class="col-xs-8">0</p>
+        <p id="eventDuration" class="col-xs-8">{{eventDuration}}</p>
       </div>
     </div>
   </div>

@@ -56,4 +56,46 @@ export class ServerService {
     });
   }
 
+  /**
+   * Returns the IP addresses of disconnected clients.
+   * @returns {Observable}
+   */
+  public receiveDisconnectedClients(): Observable<any> {
+    return new Observable(o => {
+      // Listen to disconnected clients.
+      ipcRenderer.on('async-client-disconnect', (event, arg) => {
+        console.log(arg);
+        o.next(arg);
+      });
+    });
+  }
+
+  /**
+   * Returns all the logs that have to do with the application.
+   * @returns {Observable}
+   */
+  public receiveApplicationLogs(): Observable<any> {
+    return new Observable(o => {
+      // Listen to application logs.
+      ipcRenderer.on('async-logs', (event, arg) => {
+        console.log(arg);
+        o.next(arg);
+      });
+    });
+  }
+
+  /**
+   * Receives the count of all the event images.
+   * @returns {Observable}
+   */
+  public receivePhotoCount(): Observable<any> {
+    return new Observable(o => {
+      // Listen to application logs.
+      ipcRenderer.on('async-photo-count', (event, arg) => {
+        console.log(arg);
+        o.next(arg);
+      });
+    });
+  }
+
 }
