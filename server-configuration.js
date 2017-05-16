@@ -25,10 +25,10 @@ let imageCounter = 0;
  */
 exports.startServer = function startServer(mediaFolder, window) {
   mainWindow = window;
-  mainWindow.webContents.send('async-logs' , 'Start server...');
+  mainWindow.webContents.send('async-logs', 'Start server...');
 
   app.listen(3001);
-  mainWindow.webContents.send('async-logs' , 'Server listening on ' + internalIp.v4() + ':3001!');
+  mainWindow.webContents.send('async-logs', 'Server listening on ' + internalIp.v4() + ':3001!');
 
   mediaDirectory = mediaFolder;
   initializeWatcher();
@@ -55,15 +55,15 @@ function handler(req, res) {
  */
 io.on('connection', function (client) {
   let clientIp = client.request.connection.remoteAddress;
-  mainWindow.webContents.send('async-client-connect' , clientIp);
-  mainWindow.webContents.send('async-logs' , 'A client device with IP ' + clientIp + ' connected!');
+  mainWindow.webContents.send('async-client-connect', clientIp);
+  mainWindow.webContents.send('async-logs', 'A client device with IP ' + clientIp + ' connected!');
 
   client.emit('private-message', 'Yo I received your IP! You good?');
   sendExistingFiles(client);
 
-  client.on('disconnect', function(){
-    mainWindow.webContents.send('async-client-disconnect' , clientIp);
-    mainWindow.webContents.send('async-logs' , 'A client device with IP ' + clientIp + ' disconnected!');
+  client.on('disconnect', function () {
+    mainWindow.webContents.send('async-client-disconnect', clientIp);
+    mainWindow.webContents.send('async-logs', 'A client device with IP ' + clientIp + ' disconnected!');
   });
 });
 
@@ -87,9 +87,9 @@ exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
  * @returns message
  */
 function broadCastImage(imagePath, imageNumber) {
-  fs.readFile(imagePath, function(err, data) {
+  fs.readFile(imagePath, function (err, data) {
     io.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + imageNumber);
-    mainWindow.webContents.send('async-logs' , 'Image (' + imagePath + ') from FTP sent to all clients!');
+    mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to all clients!');
   });
 }
 
@@ -101,9 +101,9 @@ function broadCastImage(imagePath, imageNumber) {
  * @returns message
  */
 function sendImageToClient(client, imagePath, imageNumber) {
-  fs.readFile(imagePath, function(err, data) {
+  fs.readFile(imagePath, function (err, data) {
     client.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + imageNumber);
-    mainWindow.webContents.send('async-logs' , 'Image (' + imagePath + ') from FTP sent to client ' + client.request.connection.remoteAddress + '!');
+    mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to client ' + client.request.connection.remoteAddress + '!');
   });
 }
 
@@ -134,13 +134,15 @@ function initializeWatcher() {
         imageCounter++;
 
         // Send the imageCounter to the event-dashboard.
-        mainWindow.webContents.send('async-image-count' , imageCounter);
+        mainWindow.webContents.send('async-image-count', imageCounter);
 
       }
     })
     // Configure delete image event.
     .on('unlink', filePath => {
-      deleteImage(filePath);
+      if (filePath.includes(imagePrefix)) {
+        deleteImage(filePath);
+      }
     });
 }
 
@@ -175,11 +177,18 @@ function renameFile(filePath) {
   // Rename added file.
   let extName = path.extname(filePath);
   let newFileName = imagePrefix + imageCounter + extName;
-  // TODO: Create fix for Windows
-  let newFilePath = path.dirname(filePath) + '/' + newFileName;
 
-  fs.rename(filePath, newFilePath, function(err) {
-    if ( err ) console.log('ERROR: ' + err);
+  // Forward slash for POSIX, backward for Windows.
+  let newFilePath;
+  if (process.platform === 'darwin') {
+    newFilePath = path.dirname(filePath) + '/' + newFileName;
+  } else {
+    newFilePath = path.dirname(filePath) + '\\' + newFileName;
+  }
+
+
+  fs.rename(filePath, newFilePath, function (err) {
+    if (err) console.log('ERROR: ' + err);
   });
 
   return newFilePath;
@@ -191,19 +200,34 @@ function renameFile(filePath) {
  */
 function deleteImage(filePath) {
   let fileName = getFileName(filePath);
+  let pathToSearch;
 
   // Delete the image on all clients.
   if (fileName.includes(imagePrefix)) {
     io.emit('delete-image', fileName.replace(imagePrefix, ''));
-    mainWindow.webContents.send('async-logs' , 'File ' + filePath + ' has been removed!');
+    mainWindow.webContents.send('async-logs', 'File ' + filePath + ' has been removed!');
   }
 
-  // Delete the image on the OS.
   if (filePath.includes('compressed')) {
-    // TODO: Delete the original image.
+    pathToSearch = mediaDirectory;
   } else {
-    // TODO: Delete the compressed image.
+    if (process.platform === 'darwin') {
+      pathToSearch = mediaDirectory + '/compressed';
+    } else {
+      pathToSearch = mediaDirectory + '\\compressed';
+    }
   }
+
+  fs.readdir(pathToSearch, function (err, filenames) {
+    let list = filenames.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
+
+    list.forEach(function (listFileName) {
+      const listFileNameWithoutExtension = getFileName(listFileName);
+      if (fileName === listFileNameWithoutExtension) {
+        fs.unlink(pathToSearch + '/' + listFileName);
+      }
+    })
+  });
 }
 
 /**
@@ -233,7 +257,7 @@ function sendExistingFiles(client) {
         imageCounter = parseInt(imageNumber) + 1;
 
         // Send the imageCounter to the event-dashboard.
-        mainWindow.webContents.send('async-image-count' , imageCounter);
+        mainWindow.webContents.send('async-image-count', imageCounter);
       });
     });
   }
