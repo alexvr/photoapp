@@ -2,6 +2,7 @@ import {Component, Input, OnInit, OnChanges, SimpleChanges, DoCheck} from "@angu
 import {OverviewLayout} from "../../model/layout/OverviewLayout";
 import {Position} from "../../model/layout/Position";
 import set = Reflect.set;
+import {Image} from "../../model/Image";
 
 @Component({
   selector: 'event-overview',
@@ -11,6 +12,8 @@ import set = Reflect.set;
 
 export class EventOverviewComponent implements OnInit {
   @Input() overviewLayout: OverviewLayout;
+  @Input() images: Image[];
+  private selectedImages: Image[] = [];
 
   /**
    * Configuration of carousel
@@ -18,8 +21,14 @@ export class EventOverviewComponent implements OnInit {
   private config: Object = {
     pagination: '.swiper-pagination',
     slidesPerView: 3,
-    paginationClickable: true,
     spaceBetween: 10,
+    paginationType: 'fraction'
+  };
+
+  private selectedImagesConfig: Object = {
+    pagination: '.swiper-pagination',
+    slidesPerView: 4,
+    spaceBetween: 5,
     paginationType: 'fraction'
   };
 
@@ -121,5 +130,17 @@ export class EventOverviewComponent implements OnInit {
     } else {
       return {'background': 'none', 'border': 'none'}
     }
+  }
+
+  /**
+   * Choose image.
+   */
+  selectImage(img: Image) {
+    if(this.selectedImages.indexOf(img) > -1){
+      this.selectedImages = this.selectedImages.filter(x => x.imageNumber != img.imageNumber);
+    }else{
+      this.selectedImages.push(img);
+    }
+    console.log(this.selectedImages);
   }
 }

@@ -3,6 +3,7 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {Event} from '../../../model/Event';
 import {OverviewLayout} from '../../../model/layout/OverviewLayout';
 import {LayoutService} from '../../services/layout.service';
+import {Image} from "../../../model/Image";
 
 @Component({
   selector: 'overview-layout-config',
@@ -14,6 +15,13 @@ export class OverviewLayoutConfigComponent {
   private event: Event;
   private overviewLayout: OverviewLayout;
   private isFullScreenPreview: boolean = false;
+
+  private testImages: Image[] = [
+    new Image(1, '../../../assets/images/photo.jpg'),
+    new Image(2, '../../../assets/images/photo.jpg'),
+    new Image(3, '../../../assets/images/photo.jpg'),
+    new Image(4, '../../../assets/images/photo.jpg'),
+    new Image(5, '../../../assets/images/photo.jpg')];
 
   constructor(public configurationService: ConfigurationService, public layoutService: LayoutService) {
     this.event = this.configurationService.getConfiguredEvent();
