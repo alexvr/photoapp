@@ -20,66 +20,7 @@ export class ConfigurationService {
   private hasIpc: boolean;
 
   constructor(public http: Http) {
-    /*this.configuredEvent = {
-      eventName: 'Chaumet',
-      eventLogo: 'none',
-      eventStartDate: null,
-      eventEndDate: null,
-      eventLocation: null,
-      eventAddress: null,
-      company: null,
-      companyAddress: null,
-      contact: null,
-      contactPhone: null,
-      overviewLayout: {
-        id: 0,
-        logo: null,
-        logoPosition: Position.CENTER,
-        backgroundColor: '#efefef',
-        backgroundImage: null,
-        btnColor: null,
-        btnImage: null,
-        btnBorderColor: null,
-        btnBorderWidth: 0,
-        btnPressedColor: null,
-        btnPressedImage: null,
-        btnPressedBorderColor: null,
-        imageBorderColor: null,
-        imageBorderWidth: 0,
-        imageContainer: false,
-        imageContainerColor: null,
-        imageContainerBorderColor: null,
-        imageContainerBorderWidth: 0,
-        selectionIcon: null,
-        selectionContainer: false,
-        selectionContainerColor: null,
-        selectionContainerBorderColor: null,
-        selectionContainerBorderWidth: 0,
-        selectBtnText: 'select',
-        navigationColor: null,
-        activeNavigationColor: null,
-      },
-      detailLayout: null,
-      config: {
-        mediaStorage: null,
-        photoQuality: PhotoQuality.HIGH,
-        ftpIPAddress: null,
-        ftpPort: 22,
-        ftpUsername: 'testuser',
-        ftpPassword: '1234',
-        printerName: null,
-        printingEnabled: null,
-        automaticPrinting: null,
-        printerCopies: null,
-        watermarkPrinting: null,
-        watermarkImage: null,
-        watermarkSharing: null,
-        qrPrinting: null,
-        qrImage: null,
-        printWatermark: null,
-        webWatermark: null
-      }
-    };*/
+
   }
 
   public getConfiguredEvent() {

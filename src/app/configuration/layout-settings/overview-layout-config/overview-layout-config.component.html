@@ -1,7 +1,9 @@
 <div class="row">
   <!-- EVENT-OVERVIEW SETTINGS -->
   <div class="col-md-4">
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div id="back" class="col-xs-6 backAndFinish"><a [routerLink]="['/configuration/layout']">Back</a></div>
+    <div id="finish" class="col-xs-6 backAndFinish"><a [routerLink]="['/configuration/layout']">Finish</a></div>
+    <div class="panel-group col-xs-12" id="accordion" role="tablist" aria-multiselectable="true">
 
       <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingOne">
@@ -129,7 +131,7 @@
             <!-- selection button -->
             <div class="form-group col-xs-12 section-end">
               <button type="button" class="btn btn-primary" (click)="setSelectButton()">Choose select-button</button>
-              <button *ngIf="overviewLayout.btnImage != null" type="button"
+              <button *ngIf="overviewLayout.selectBtnImage != null" type="button"
                       class="btn btn-danger" (click)="deleteSelectButton()">Delete select-button
               </button>
             </div>
@@ -139,15 +141,15 @@
             </div>
             <div class="form-group col-xs-12">
               <label for="buttonColor">Select-button color</label>
-              <input id="buttonColor" type="color" [(ngModel)]="overviewLayout.btnColor">
+              <input id="buttonColor" type="color" [(ngModel)]="overviewLayout.selectBtnColor">
             </div>
             <div class="form-group col-xs-12">
               <label for="buttonBorderColor">Select-button border-color</label>
-              <input id="buttonBorderColor" type="color" [(ngModel)]="overviewLayout.btnBorderColor">
+              <input id="buttonBorderColor" type="color" [(ngModel)]="overviewLayout.selectBtnBorderColor">
             </div>
             <div class="form-group col-xs-12">
               <label for="buttonBorderWidth">Select-button border-width</label>
-              <input id="buttonBorderWidth" type="number" [(ngModel)]="overviewLayout.btnBorderWidth">
+              <input id="buttonBorderWidth" type="number" [(ngModel)]="overviewLayout.selectBtnBorderWidth">
             </div>
           </div>
         </div>
@@ -184,7 +186,20 @@
   </div>
 
   <!-- EVENT-OVERVIEW PREVIEW -->
-  <div class="col-md-8 event-overview-container">
-    <event-overview [overviewLayout]="overviewLayout" [ngStyle]="setBackground()"></event-overview>
-  </div>
+  <event-overview class="col-md-8 event-overview-container" [overviewLayout]="overviewLayout"
+                  [ngClass]="{'no-full-size-preview': isFullScreenPreview}"
+                  [ngStyle]="setBackground()"
+  ></event-overview>
+  <button class="btn btn-primary resize-btn" (click)="setFullScreen(!isFullScreenPreview)"
+          [ngClass]="{'no-full-size-preview-btn': isFullScreenPreview}">
+    <span *ngIf="!isFullScreenPreview" class="glyphicon glyphicon-resize-full"></span>
+    <span *ngIf="isFullScreenPreview" class="glyphicon glyphicon-resize-small"></span>
+  </button>
 </div>
+
+
+<!-- FULL SIZE PREVIEW -->
+<event-overview [overviewLayout]="overviewLayout" [ngStyle]="setBackground()"
+                [ngClass]="{'no-full-size-preview': !isFullScreenPreview}"
+                class="full-size-preview"></event-overview>
+

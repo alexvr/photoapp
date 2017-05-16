@@ -1,3 +1,7 @@
+:host {
+  background: #cecece;
+}
+
 main {
   height: 100%;
   width: 100%;
@@ -11,7 +15,7 @@ main {
 .photos > img {
   height: 80%;
   width: 100%;
-  background: #153972;
+  background: #9b9b9b;
 }
 
 .photos > .photo-overview {
@@ -39,7 +43,22 @@ main {
 }
 
 .qr, .printMessage {
-  background: #153972;
+  background: #9b9b9b;
+}
+
+.full-screen {
   height: 25rem;
   width: 25rem;
+}
+
+.small-screen {
+  height: 13rem;
+  width: 13rem;
+}
+
+@media screen and (min-width: 768px) {
+  main {
+    display: flex;
+    flex-direction: row;
+  }
 }

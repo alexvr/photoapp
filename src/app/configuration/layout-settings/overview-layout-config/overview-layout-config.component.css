@@ -3,6 +3,19 @@ event-overview {
   border: 2px solid #cecece;
 }
 
+.backAndFinish {
+  margin: 2rem 0 3rem 0;
+  padding: 0;
+}
+
+#finish{
+text-align: right;
+}
+
+.panel-group {
+  padding: 0;
+}
+
 .form-group {
   margin-bottom: 0.7rem;
   padding: 0;
@@ -25,12 +38,38 @@ label {
   font-size: 1.4rem;
 }
 
-.section-end{
+.section-end {
   margin-bottom: 1.2rem;
 }
 
-.no-image-container, .no-selection-container{
+.no-image-container, .no-selection-container {
   color: #ababab;
 }
 
+.resize-btn {
+  float: right;
+  margin-top: 1rem;
+}
+
+.full-size-preview {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.no-full-size-preview {
+  z-index: -1;
+  /*display: none;*/
+}
+
+.no-full-size-preview-btn {
+  z-index: 2;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 1rem;
+}
 
