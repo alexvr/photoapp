@@ -13,7 +13,7 @@ import {LayoutService} from '../../services/layout.service';
 export class OverviewLayoutConfigComponent {
   private event: Event;
   private overviewLayout: OverviewLayout;
-  private fullSizePreview: boolean = false;
+  private isFullScreenPreview: boolean = false;
 
   constructor(public configurationService: ConfigurationService, public layoutService: LayoutService) {
     this.event = this.configurationService.getConfiguredEvent();
@@ -90,7 +90,7 @@ export class OverviewLayoutConfigComponent {
     }
   }
 
-  setFullSize(fullsize: boolean) {
-    this.fullSizePreview = fullsize;
+  setFullScreen(fullScreen: boolean) {
+    this.isFullScreenPreview = fullScreen;
   }
 }

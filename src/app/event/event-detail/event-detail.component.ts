@@ -9,6 +9,7 @@ import {DetailLayout} from "../../model/layout/DetailLayout";
 
 export class EventDetailComponent implements OnInit {
   @Input() detailLayout: DetailLayout;
+  @Input() isFullScreen: boolean;
 
   constructor(private qrCodeService: QrCodeService) {
 

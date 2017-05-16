@@ -19,7 +19,7 @@ export class EventOverviewComponent implements OnInit {
     pagination: '.swiper-pagination',
     slidesPerView: 3,
     paginationClickable: true,
-    spaceBetween: 30,
+    spaceBetween: 10,
     paginationType: 'fraction'
   };
 

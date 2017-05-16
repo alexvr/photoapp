@@ -186,17 +186,20 @@
   </div>
 
   <!-- EVENT-OVERVIEW PREVIEW -->
-  <div class="col-md-8 event-overview-container">
-    <event-overview [overviewLayout]="overviewLayout" [ngStyle]="setBackground()"></event-overview>
-  </div>
-  <button class="btn btn-primary resize-btn" (click)="setFullSize(!fullSizePreview)"
-          [ngClass]="{'no-full-size-preview-btn': fullSizePreview}"><span
-    class="glyphicon glyphicon-resize-full"></span></button>
+  <event-overview class="col-md-8 event-overview-container" [overviewLayout]="overviewLayout"
+                  [ngClass]="{'no-full-size-preview': isFullScreenPreview}"
+                  [ngStyle]="setBackground()"
+  ></event-overview>
+  <button class="btn btn-primary resize-btn" (click)="setFullScreen(!isFullScreenPreview)"
+          [ngClass]="{'no-full-size-preview-btn': isFullScreenPreview}">
+    <span *ngIf="!isFullScreenPreview" class="glyphicon glyphicon-resize-full"></span>
+    <span *ngIf="isFullScreenPreview" class="glyphicon glyphicon-resize-small"></span>
+  </button>
 </div>
 
 
 <!-- FULL SIZE PREVIEW -->
 <event-overview [overviewLayout]="overviewLayout" [ngStyle]="setBackground()"
-              [ngClass]="{'no-full-size-preview': !fullSizePreview}"
-              class="full-size-preview col-md-8 col-sm-12"></event-overview>
+                [ngClass]="{'no-full-size-preview': !isFullScreenPreview}"
+                class="full-size-preview"></event-overview>
 

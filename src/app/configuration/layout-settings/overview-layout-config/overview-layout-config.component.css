@@ -61,7 +61,8 @@ label {
 }
 
 .no-full-size-preview {
-  display: none;
+  z-index: -1;
+  /*display: none;*/
 }
 
 .no-full-size-preview-btn {

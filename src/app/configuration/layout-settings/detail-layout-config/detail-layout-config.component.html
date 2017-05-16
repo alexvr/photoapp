@@ -173,13 +173,15 @@
 
   <!-- EVENT DETAIL PREVIEW -->
   <event-detail [detailLayout]="detailLayout" [ngStyle]="setBackground()" class="col-md-8 col-sm-12"></event-detail>
-  <button class="btn btn-primary resize-btn" (click)="setFullSize(!fullSizePreview)"
-          [ngClass]="{'no-full-size-preview-btn': fullSizePreview}"><span
-    class="glyphicon glyphicon-resize-full"></span></button>
+  <button class="btn btn-primary resize-btn" (click)="setFullScreen(!isFullScreenPreview)"
+          [ngClass]="{'no-full-size-preview-btn': isFullScreenPreview}">
+    <span *ngIf="!isFullScreenPreview" class="glyphicon glyphicon-resize-full"></span>
+    <span *ngIf="isFullScreenPreview" class="glyphicon glyphicon-resize-small"></span>
+  </button>
 </div>
 
 
 <!-- FULL SIZE PREVIEW -->
-<event-detail [detailLayout]="detailLayout" [ngStyle]="setBackground()"
-              [ngClass]="{'no-full-size-preview': !fullSizePreview}"
+<event-detail [detailLayout]="detailLayout" [isFullScreen]="isFullScreenPreview" [ngStyle]="setBackground()"
+              [ngClass]="{'no-full-size-preview': !isFullScreenPreview}"
               class="full-size-preview col-md-8 col-sm-12"></event-detail>

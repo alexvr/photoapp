@@ -20,8 +20,8 @@
       </button>
     </div>
     <div class="printMessageAndQr">
-      <div class="printMessage"></div>
-      <div class="qr"></div>
+      <div class="printMessage" [ngClass]="{'full-screen': isFullScreen, 'small-screen': !isFullScreen}"></div>
+      <div class="qr" [ngClass]="{'full-screen': isFullScreen, 'small-screen': !isFullScreen}"></div>
     </div>
     <div class="backAndFinish">
       <img *ngIf="detailLayout != null && detailLayout.backBtnImage != null" class=""
