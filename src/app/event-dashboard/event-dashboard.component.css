@@ -44,7 +44,7 @@ main {
   border-radius: 10px;
   height: 85%;
   padding: 2rem 0.5rem;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 /* ACTIVE MARKERS */
@@ -82,13 +82,20 @@ li {
 }
 
 /* EVENT LOGS */
-.event-log-form-group, .event-log-ul {
+.event-log-form-group,
+.event-log-ul {
   height: 100%;
+  overflow: auto;
 }
 
 /* PRINTER DETAILS */
 .printer-details-top {
   margin-bottom: 3rem;
+}
+
+#testPrint {
+  background-color: lightgray;
+  color: white;
 }
 
 h4 {
