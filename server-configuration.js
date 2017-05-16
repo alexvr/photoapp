@@ -18,12 +18,13 @@ const imagePrefix = 'COM_';
 let mainWindow = null;
 let mediaDirectory = null;
 let imageCounter = 0;
+let compressionQuality = null;
 
 /**
  * Start web sockets server on current network IP4 address on port 3001.
  * @returns {number} Current network IP4 address
  */
-exports.startServer = function startServer(mediaFolder, window) {
+exports.startServer = function startServer(mediaFolder, imageQuality, window) {
   mainWindow = window;
   mainWindow.webContents.send('async-logs', 'Start server...');
 
@@ -32,6 +33,8 @@ exports.startServer = function startServer(mediaFolder, window) {
 
   mediaDirectory = mediaFolder;
   initializeWatcher();
+
+  compressionQuality = imageQuality;
 
   return internalIp.v4();
 };
@@ -153,7 +156,7 @@ function initializeWatcher() {
 function renameAndCompress(filePath) {
   let newPath = renameFile(filePath);
   console.log('File ' + newPath + ' has been renamed!');
-  imageCompression.compressImage(newPath, mediaDirectory);
+  imageCompression.compressImage(newPath, mediaDirectory, compressionQuality);
 }
 
 /**

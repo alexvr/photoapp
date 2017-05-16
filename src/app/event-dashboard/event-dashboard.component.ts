@@ -48,7 +48,9 @@ export class EventDashboardComponent implements OnInit, OnDestroy {
     this.mediaFolder = this.event.config.mediaStorage;
 
     // Start the server and retrieve information.
-    this.serverService.startServer(this.event.config.mediaStorage).subscribe(host => this.serverHost = host);
+    const mediastorage = this.event.config.mediaStorage;
+    const photoQuality = this.event.config.photoQuality.toString();
+    this.serverService.startServer(mediastorage, photoQuality).subscribe(host => this.serverHost = host);
     this.serverPort = 3001;
 
     // Get the IP addresses of all connected clients and display them.
