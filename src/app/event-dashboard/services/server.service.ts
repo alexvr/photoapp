@@ -56,4 +56,14 @@ export class ServerService {
     });
   }
 
+  public receiveDisconnectedClients(): Observable<any> {
+    return new Observable(o => {
+      // Listen to disconnected clients.
+      ipcRenderer.on('async-client-disconnect', (event, arg) => {
+        console.log(arg);
+        o.next(arg);
+      });
+    });
+  }
+
 }

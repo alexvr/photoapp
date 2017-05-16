@@ -18,6 +18,7 @@ export class EventDashboardComponent {
   private printer: string;
   private printerState: string;
   private clientSubscriptions: Subscription;
+  private disconnectedClients: Subscription;
   private connectedClients: any[] = [];
   private event: Event;
 
@@ -40,6 +41,14 @@ export class EventDashboardComponent {
     this.clientSubscriptions = this.serverService.receiveConnectedClients().subscribe(client => {
       this.zone.run(() => {
         this.connectedClients.push(client);
+      });
+    });
+
+    // Listen to disconnected clients.
+    this.disconnectedClients = this.serverService.receiveDisconnectedClients().subscribe(client => {
+      this.zone.run(() => {
+        this.connectedClients.push(client);
+        this.connectedClients = this.connectedClients.filter(item => item !== client);
       });
     });
   }

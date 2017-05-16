@@ -5,6 +5,9 @@ const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
 const internalIp = require('internal-ip');
+const imagemin = require('imagemin');
+const imageminJpegtran = require('imagemin-jpegtran');
+const imageminPngquant = require('imagemin-pngquant');
 
 let mainWindow = null;
 let mediaDirectory = null;
@@ -54,6 +57,7 @@ io.on('connection', function (client) {
   sendExistingFiles(client);
 
   client.on('disconnect', function(){
+    mainWindow.webContents.send('async-client-disconnect' , clientIp);
     console.log('The client with IP ' + clientIp + " has disconnected!");
   });
 });
@@ -78,14 +82,10 @@ exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
  * @returns message
  */
 function broadCastPhoto(photoPath, photoNumber) {
-  let message;
-
   fs.readFile(photoPath, function(err, data) {
-    io.emit('test-image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + photoNumber);
-    message = 'main.js - Photo from FTP sent to all clients!'
+    io.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + photoNumber);
+    console.log('main.js - Photo (' + photoPath + ') from FTP sent to all clients!');
   });
-
-  return message;
 }
 
 /**
@@ -96,14 +96,10 @@ function broadCastPhoto(photoPath, photoNumber) {
  * @returns message
  */
 function sendPhotoToClient(client, photoPath, photoNumber) {
-  let message;
-
   fs.readFile(photoPath, function(err, data) {
-    client.emit('test-image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + photoNumber);
-    message = 'main.js - Photo from FTP sent to client ' + client.request.connection.remoteAddress + '!';
+    client.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + photoNumber);
+    console.log('main.js - Photo (' + photoPath + ') from FTP sent to client ' + client.request.connection.remoteAddress + '!');
   });
-
-  return message;
 }
 
 /**
@@ -123,22 +119,18 @@ function initializeWatcher() {
 
       const fileName = getFileName(filePath);
 
-      if (fileName.includes('IMG_')) {
-        return;
-      } else {
-        let newFilePath = renameFile(filePath);
-        console.log('File ' + newFilePath + ' has been renamed!');
-        broadCastPhoto(newFilePath, photoCounter);
+      if (!fileName.includes('IMG_')) {
+        let newPath = renameFile(filePath);
+        console.log('File ' + newPath + ' has been renamed!');
+        compressImage(newPath);
+      } else if (filePath.includes('compressed')) {
+        broadCastPhoto(filePath, photoCounter);
         photoCounter++;
       }
     })
     // Configure delete photo event.
     .on('unlink', filePath => {
-      let fileName = getFileName(filePath);
-      if (fileName.includes('IMG_')) {
-        io.emit('delete-photo', fileName.replace('IMG_', ''));
-        console.log('File ' + filePath + ' has been removed!');
-      }
+      deletePhoto(filePath);
     });
 }
 
@@ -171,6 +163,43 @@ function renameFile(filePath) {
   });
 
   return newFilePath;
+}
+
+/**
+ * Compress the given image and save it in a seperate 'compressed' folder.
+ * Returns the path to the compressed image.
+ * @param filePath
+ */
+function compressImage(filePath) {
+  imagemin([filePath], mediaDirectory + '/compressed', {
+    plugins: [
+      imageminJpegtran(),
+      imageminPngquant({quality: '65-80'})
+    ]
+  }).then(files => {
+    console.log('Compressed file: ' + files[0].path);
+  });
+}
+
+/**
+ * Delete the photo on the given filePath.
+ * @param filePath
+ */
+function deletePhoto(filePath) {
+  let fileName = getFileName(filePath);
+
+  // Delete the photo on all clients.
+  if (fileName.includes('IMG_')) {
+    io.emit('delete-photo', fileName.replace('IMG_', ''));
+    console.log('File ' + filePath + ' has been removed!');
+  }
+
+  // Delete the photo on the OS.
+  if (filePath.includes('compressed')) {
+    // TODO: Delete the original photo.
+  } else {
+    // TODO: Delete the compressed photo.
+  }
 }
 
 /**

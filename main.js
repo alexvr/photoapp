@@ -1,8 +1,10 @@
-// Modules to control application life, create native browser window, inter-process communication and access printers.
+// Modules to control application life, create native browser window and inter-process communication.
 const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
 const {dialog} = require('electron');
+
+// Custom requires for the photapplication.
 const printerConfiguration = require('./printer-configuration');
 const serverConfiguration = require('./server-configuration');
 const watermarkConfiguration = require('./watermark-configuration');

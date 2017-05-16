@@ -1,0 +1,84 @@
+<!-- SHARE PAGE DETAILS -->
+<div class="event-details col-xs-12">
+  <div class="row">
+    <h2 class="col-xs-12">Share page</h2>
+  </div>
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <label for="inputPageTitle">Page title</label>
+      <input type="text" class="form-control" id="inputPageTitle" placeholder="Event name" [(ngModel)]="event.eventText.textUpper">
+    </div>
+  </div>
+  <div class="row input-field">
+    <div class="form-group col-xs-12">
+      <label for="intputTextUnderPictures">Text under pictures</label>
+      <textarea type="text" class="form-control" rows="3" id="intputTextUnderPictures" placeholder="Text under pictures" [(ngModel)]="event.eventText.textUnderPhoto"></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <button class="btn btn-default" (click)="addNewLineTextUnderPictures()">New line</button>
+      <button class="btn btn-default" data-toggle="modal" data-target="#linkGeneratorTextUnderPictures">Generate link</button>
+      <div class="modal fade" id="linkGeneratorTextUnderPictures" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Generate link</h4>
+            </div>
+            <div class="row input-modal">
+              <div class="form-group col-xs-12 generate-link">
+                <label for="nameLinkUnderPictures">Name link</label>
+                <input type="text" #namelinkUpper class="form-control" id="nameLinkUnderPictures" placeholder="Name link">
+              </div>
+              <div class="form-group col-xs-12 generate-link">
+                <label for="linkUnderPictures">Actual link</label>
+                <input type="text" #actuallinkUpper class="form-control" id="linkUnderPictures" placeholder="Actual link">
+              </div>
+              <div class="form-group col-xs-12 generate-link">
+                <button class="btn btn-default" (click)="generateLinkTextUnderPictures(namelinkUpper.value, actuallinkUpper.value)" data-dismiss="modal">Generate</button>
+              </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row input-field">
+    <div class="form-group col-xs-12">
+      <label for="inputTextBottomPage">Text Bottom</label>
+      <textarea type="text" class="form-control" rows="3" id="inputTextBottomPage" placeholder="Bottom text" [(ngModel)]="event.eventText.textBottom"></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-xs-12">
+      <button class="btn btn-default" (click)="addNewLineTextBottom()">New line</button>
+      <button class="btn btn-default" data-toggle="modal" data-target="#linkGeneratorBottom">Generate link</button>
+      <div class="modal fade" id="linkGeneratorBottom" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Generate link</h4>
+            </div>
+            <div class="row input-modal">
+              <div class="form-group col-xs-12 generate-link">
+                <label for="nameLinkBottom">Name link</label>
+                <input type="text" #namelinkBottom class="form-control" id="nameLinkBottom" placeholder="Name link">
+              </div>
+              <div class="form-group col-xs-12 generate-link">
+                <label for="linkBottom">Actual link</label>
+                <input type="text" #actuallinkBottom class="form-control" id="linkBottom" placeholder="Actual link">
+              </div>
+              <div class="form-group col-xs-12 generate-link">
+                <button class="btn btn-default" (click)="generateLinkTextBottom(namelinkBottom.value, actuallinkBottom.value)" data-dismiss="modal">Generate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
