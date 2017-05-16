@@ -17,34 +17,8 @@ import {EventDetailComponent} from "./event/event-detail/event-detail.component"
 import {SharePageComponent} from "./configuration/share-page/share-page.component";
 
 export const routes: Routes = [
-  {path: '', component: LoginComponent},
-   {path: 'start-screen', component: StartScreenComponent},
-   {
-   path: 'configuration', component: ConfigurationComponent,
-   children: [
-   {path: '', redirectTo: 'basic-info', pathMatch: 'full'},
-   {path: 'basic-info', component: BasicInfoComponent},
-   {
-   path: 'layout', component: LayoutSettingsComponent,
-   children: [
-   {path: '', redirectTo: 'overview-layout-chooser', pathMatch: 'full'},
-   {path: 'overview-layout-chooser', component: OverviewLayoutChooserComponent},
-   {path: 'detail-layout-chooser', component: DetailLayoutChooserComponent},
-   {path: 'detail-layout-config', component: DetailLayoutConfigComponent},
-   {path: 'overview-layout-config', component: OverviewLayoutConfigComponent},
-   ]
-   },
-   {path: 'media-settings', component: MediaSettingsComponent},
-   {path: 'share-page', component: SharePageComponent},
-   {path: 'watermark-config/:id', component: WatermarkConfigComponent},
-   ]
-   },
-   {path: 'temp-event-overview', component: EventOverviewComponent},
-   {path: 'event-dashboard', component: EventDashboardComponent},
-   {path: '**', redirectTo: ''}
-
-  /*{path: 'fdqs', component: LoginComponent},
-  {path: '', component: StartScreenComponent},
+  /*{path: '', component: LoginComponent},
+  {path: 'start-screen', component: StartScreenComponent},
   {
     path: 'configuration', component: ConfigurationComponent,
     children: [
@@ -61,13 +35,39 @@ export const routes: Routes = [
         ]
       },
       {path: 'media-settings', component: MediaSettingsComponent},
+      {path: 'share-page', component: SharePageComponent},
       {path: 'watermark-config/:id', component: WatermarkConfigComponent},
     ]
   },
   {path: 'temp-event-overview', component: EventOverviewComponent},
-  {path: 'temp-event-detail', component: EventDetailComponent},
   {path: 'event-dashboard', component: EventDashboardComponent},
   {path: '**', redirectTo: ''}*/
+
+  {path: 'fdqs', component: LoginComponent},
+   {path: '', component: StartScreenComponent},
+   {
+   path: 'configuration', component: ConfigurationComponent,
+   children: [
+   {path: '', redirectTo: 'basic-info', pathMatch: 'full'},
+   {path: 'basic-info', component: BasicInfoComponent},
+   {
+   path: 'layout', component: LayoutSettingsComponent,
+   children: [
+   {path: '', redirectTo: 'overview-layout-chooser', pathMatch: 'full'},
+   {path: 'overview-layout-chooser', component: OverviewLayoutChooserComponent},
+   {path: 'detail-layout-chooser', component: DetailLayoutChooserComponent},
+   {path: 'detail-layout-config', component: DetailLayoutConfigComponent},
+   {path: 'overview-layout-config', component: OverviewLayoutConfigComponent},
+   ]
+   },
+   {path: 'media-settings', component: MediaSettingsComponent},
+   {path: 'watermark-config/:id', component: WatermarkConfigComponent},
+   ]
+   },
+   {path: 'temp-event-overview', component: EventOverviewComponent},
+   {path: 'temp-event-detail', component: EventDetailComponent},
+   {path: 'event-dashboard', component: EventDashboardComponent},
+   {path: '**', redirectTo: ''}
 ];
 
 @NgModule({

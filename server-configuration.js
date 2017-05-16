@@ -186,7 +186,6 @@ function renameFile(filePath) {
     newFilePath = path.dirname(filePath) + '\\' + newFileName;
   }
 
-
   fs.rename(filePath, newFilePath, function (err) {
     if (err) console.log('ERROR: ' + err);
   });
