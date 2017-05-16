@@ -6,15 +6,13 @@ export class Layout {
   logoPosition: Position;
   backgroundColor: string;
   backgroundImage: string;
-  btnColor: string;
-  btnImage: string;
-  btnBorderColor: string;
-  btnBorderWidth: number;
-  btnPressedColor: string;
-  btnPressedImage: string;
-  btnPressedBorderColor: string;
   imageBorderColor: string;
   imageBorderWidth: number;
 
-  constructor() { }
+  constructor() {
+    this.logoPosition = Position.CENTER;
+    this.backgroundColor = '#bbbbbb';
+    this.imageBorderColor = '#ffffff';
+    this.imageBorderWidth = 0;
+  }
 }

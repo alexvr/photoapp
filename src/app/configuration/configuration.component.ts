@@ -11,7 +11,6 @@ import {Router} from "@angular/router";
 
 export class ConfigurationComponent implements OnInit {
 
-  private activePart = 1;
   private event: Event;
   private newEvent: boolean;
 

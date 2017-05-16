@@ -2,6 +2,7 @@ import {Component, Input, OnInit, OnChanges, SimpleChanges, DoCheck} from "@angu
 import {OverviewLayout} from "../../model/layout/OverviewLayout";
 import {Position} from "../../model/layout/Position";
 import set = Reflect.set;
+import {Image} from "../../model/Image";
 
 @Component({
   selector: 'event-overview',
@@ -11,6 +12,8 @@ import set = Reflect.set;
 
 export class EventOverviewComponent implements OnInit {
   @Input() overviewLayout: OverviewLayout;
+  @Input() images: Image[];
+  private selectedImages: Image[] = [];
 
   /**
    * Configuration of carousel
@@ -18,41 +21,18 @@ export class EventOverviewComponent implements OnInit {
   private config: Object = {
     pagination: '.swiper-pagination',
     slidesPerView: 3,
-    paginationClickable: true,
-    spaceBetween: 30,
+    spaceBetween: 10,
+    paginationType: 'fraction'
+  };
+
+  private selectedImagesConfig: Object = {
+    pagination: '.swiper-pagination',
+    slidesPerView: 4,
+    spaceBetween: 5,
     paginationType: 'fraction'
   };
 
   constructor() {
-    // TEMP overviewlayout for temp-event-overview testing
-    this.overviewLayout = {
-      id: 0,
-      logo: null,
-      logoPosition: Position.CENTER,
-      backgroundColor: '#565fe8',
-      backgroundImage: null,
-      btnColor: null,
-      btnImage: null,
-      btnBorderColor: null,
-      btnBorderWidth: 0,
-      btnPressedColor: null,
-      btnPressedImage: null,
-      btnPressedBorderColor: null,
-      imageBorderColor: null,
-      imageBorderWidth: 0,
-      imageContainer: true,
-      imageContainerColor: '#fff',
-      imageContainerBorderColor: null,
-      imageContainerBorderWidth: 0,
-      selectionIcon: null,
-      selectionContainer: true,
-      selectionContainerColor: '#fff',
-      selectionContainerBorderColor: null,
-      selectionContainerBorderWidth: 0,
-      selectBtnText: 'select',
-      navigationColor: null,
-      activeNavigationColor: null,
-    };
   }
 
   ngOnInit(): void {
@@ -141,13 +121,26 @@ export class EventOverviewComponent implements OnInit {
   }
 
   setSelectButton(): any {
-    if (this.overviewLayout != null && this.overviewLayout.btnImage == null) {
+    if (this.overviewLayout != null && this.overviewLayout.selectBtnImage == null) {
       return {
-        'background': this.overviewLayout.btnColor,
-        'border': this.overviewLayout.btnBorderWidth + 'px solid ' + this.overviewLayout.btnBorderColor
+        'background': this.overviewLayout.selectBtnColor,
+        'border': this.overviewLayout.selectBtnBorderWidth + 'px solid ' + this.overviewLayout.selectBtnBorderColor,
+        'color': this.overviewLayout.selectBtnBorderColor
       }
     } else {
       return {'background': 'none', 'border': 'none'}
     }
+  }
+
+  /**
+   * Choose image.
+   */
+  selectImage(img: Image) {
+    if(this.selectedImages.indexOf(img) > -1){
+      this.selectedImages = this.selectedImages.filter(x => x.imageNumber != img.imageNumber);
+    }else{
+      this.selectedImages.push(img);
+    }
+    console.log(this.selectedImages);
   }
 }
