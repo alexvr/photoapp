@@ -224,7 +224,10 @@ function deleteImage(filePath) {
     list.forEach(function (listFileName) {
       const listFileNameWithoutExtension = getFileName(listFileName);
       if (fileName === listFileNameWithoutExtension) {
-        fs.unlink(pathToSearch + '/' + listFileName);
+        fs.unlink(pathToSearch + '/' + listFileName, (error => {
+          if (error) throw error;
+          console.log('Succesfully deleted ' + pathToSearch + '/' + listFileName + '!');
+        }));
       }
     })
   });
