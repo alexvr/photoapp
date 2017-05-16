@@ -1,14 +1,20 @@
 // Modules to start the socket.io server.
 const app = require('http').createServer(handler);
 const io = require('socket.io')(app);
+
+// Modules for the node filesystem.
 const fs = require('fs');
 const path = require('path');
+
+// Modules for directory watching, IP address and image compression.
 const chokidar = require('chokidar');
 const internalIp = require('internal-ip');
 const imageCompression = require('./image-compression');
 
+// Prefix for added images.
 const imagePrefix = 'COM_';
 
+// Global references.
 let mainWindow = null;
 let mediaDirectory = null;
 let imageCounter = 0;
