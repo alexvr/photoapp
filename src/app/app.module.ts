@@ -29,6 +29,7 @@ import {ConfigurationComponent}  from "./configuration/configuration.component";
 import {BasicInfoComponent}      from "./configuration/basic-info/basic-info.component";
 import {MediaSettingsComponent}  from "./configuration/media-settings/media-settings.component";
 import {LayoutSettingsComponent} from "./configuration/layout-settings/layout-settings.component";
+import {SharePageComponent} from "./configuration/share-page/share-page.component";
 import {EventDashboardComponent} from "./event-dashboard/event-dashboard.component";
 import {WatermarkConfigComponent} from "./configuration/media-settings/watermark-config/watermark-config.component";
 import {OverviewLayoutChooserComponent} from "./configuration/layout-settings/overview-layout-chooser/overview-layout-chooser.component";
@@ -48,6 +49,7 @@ import {DetailLayoutConfigComponent} from "./configuration/layout-settings/detai
     BasicInfoComponent,
     MediaSettingsComponent,
     LayoutSettingsComponent,
+    SharePageComponent,
     EventDashboardComponent,
     WatermarkConfigComponent,
     OverviewLayoutChooserComponent,

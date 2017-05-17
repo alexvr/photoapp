@@ -12,8 +12,9 @@ import {OverviewLayoutChooserComponent} from './configuration/layout-settings/ov
 import {DetailLayoutChooserComponent} from './configuration/layout-settings/detail-layout-chooser/detail-layout-chooser.component';
 import {DetailLayoutConfigComponent} from './configuration/layout-settings/detail-layout-config/detail-layout-config.component';
 import {OverviewLayoutConfigComponent} from './configuration/layout-settings/overview-layout-config/overview-layout-config.component';
-import {EventOverviewComponent} from "./event/event-overview/event-overview.component";
-import {EventDetailComponent} from "./event/event-detail/event-detail.component";
+import {EventOverviewComponent} from './event/event-overview/event-overview.component';
+import {EventDetailComponent} from './event/event-detail/event-detail.component';
+import {SharePageComponent} from './configuration/share-page/share-page.component';
 
 export const routes: Routes = [
   /*{path: '', component: LoginComponent},
@@ -34,6 +35,7 @@ export const routes: Routes = [
    ]
    },
    {path: 'media-settings', component: MediaSettingsComponent},
+   {path: 'share-page', component: SharePageComponent},
    {path: 'watermark-config/:id', component: WatermarkConfigComponent},
    ]
    },
@@ -59,6 +61,7 @@ export const routes: Routes = [
         ]
       },
       {path: 'media-settings', component: MediaSettingsComponent},
+      {path: 'share-page', component: SharePageComponent},
       {path: 'watermark-config/:id', component: WatermarkConfigComponent},
     ]
   },

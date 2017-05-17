@@ -17,17 +17,18 @@ export class ServerService {
   }
 
   /**
-   * Starts a server on the current network IP4 address on port 3001 and watches the given mediafolder.
+   * Starts a server on the current network IP4 address on port 3001,
+   * watches the given mediafolder and defines photo quality.
    * @returns {number} Network IP4 address
    */
-  public startServer(mediaFolder: string): Observable<number> {
+  public startServer(mediaFolder: string, photoQuality: string): Observable<number> {
     return new Observable(observer => {
       let serverHost = '127.0.0.1';
       this.hasIpc = (typeof ipcRenderer !== 'undefined');
 
       if (this.hasIpc) {
         // Send async message to start the server.
-        const serverArguments: string[] = ['start-server', mediaFolder];
+        const serverArguments: string[] = ['start-server', mediaFolder, photoQuality];
         ipcRenderer.send('async', serverArguments);
 
         // Listen to response from the main process.
@@ -91,7 +92,7 @@ export class ServerService {
   public receivePhotoCount(): Observable<any> {
     return new Observable(o => {
       // Listen to application logs.
-      ipcRenderer.on('async-photo-count', (event, arg) => {
+      ipcRenderer.on('async-image-count', (event, arg) => {
         console.log(arg);
         o.next(arg);
       });

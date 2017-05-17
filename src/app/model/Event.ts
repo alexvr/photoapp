@@ -1,6 +1,7 @@
 import {OverviewLayout} from './layout/OverviewLayout';
 import {DetailLayout} from './layout/DetailLayout';
 import {Configuration} from './Configuration';
+import {EventText} from './EventText';
 
 export class Event {
   eventId: string;
@@ -17,6 +18,7 @@ export class Event {
   overviewLayout: OverviewLayout;
   detailLayout: DetailLayout;
   config: Configuration;
+  eventText: EventText;
 
   constructor() {
     this.eventName = 'New Event';
@@ -30,5 +32,6 @@ export class Event {
     this.overviewLayout = new OverviewLayout();
     this.detailLayout = new DetailLayout();
     this.config = new Configuration();
+    this.eventText = new EventText();
   }
 }
