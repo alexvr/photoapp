@@ -1,9 +1,15 @@
 :host {
   padding: 2rem;
+  height:inherit;
 }
 
 .layout-settings {
   margin-bottom: 2rem;
+  height: inherit;
+}
+
+.row{
+  height: initial;
 }
 
 h2 {

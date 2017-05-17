@@ -19,12 +19,12 @@
 
   <div class="photo-actions col-sm-7 col-xs-12">
     <div class="printAndShare">
-      <img *ngIf="detailLayout != null && detailLayout.printBtnImage != null" class=""
+      <img *ngIf="detailLayout != null && detailLayout.printBtnImage != null" class="detail-button"
            src="{{detailLayout.printBtnImage}}">
       <button *ngIf="detailLayout != null && detailLayout.printBtnImage == null" class="btn btn-default"
               [ngStyle]="setPrintButton()">{{detailLayout.printBtnText}}
       </button>
-      <img *ngIf="detailLayout != null && detailLayout.shareBtnImage != null" class=""
+      <img *ngIf="detailLayout != null && detailLayout.shareBtnImage != null" class="detail-button"
            src="{{detailLayout.shareBtnImage}}">
       <button *ngIf="detailLayout != null && detailLayout.shareBtnImage == null" class="btn btn-default"
               [ngStyle]="setShareButton()">{{detailLayout.shareBtnText}}
@@ -36,12 +36,12 @@
       <div class="qr" [ngClass]="{'full-screen': isFullScreen, 'small-screen': !isFullScreen}"></div>
     </div>
     <div class="backAndFinish">
-      <img *ngIf="detailLayout != null && detailLayout.backBtnImage != null" class=""
+      <img *ngIf="detailLayout != null && detailLayout.backBtnImage != null" class="detail-button"
            src="{{detailLayout.backBtnImage}}">
       <button *ngIf="detailLayout != null && detailLayout.backBtnImage == null" class="btn btn-default"
               [ngStyle]="setBackButton()">{{detailLayout.backBtnText}}
       </button>
-      <img *ngIf="detailLayout != null && detailLayout.finishBtnImage != null" class=""
+      <img *ngIf="detailLayout != null && detailLayout.finishBtnImage != null" class="detail-button"
            src="{{detailLayout.finishBtnImage}}">
       <button *ngIf="detailLayout != null && detailLayout.finishBtnImage == null" class="btn btn-default"
               [ngStyle]="setFinishButton()">{{detailLayout.finishBtnText}}

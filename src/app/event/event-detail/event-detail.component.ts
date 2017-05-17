@@ -25,10 +25,11 @@ export class EventDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.qrCodeService.getQrCode().subscribe(x => console.log(x));
     if (this.images.length > 0) {
       this.selectedImage = this.images[0];
     }
+    this.qrCodeService.getQrCode().subscribe(x => console.log(x));
+
   }
 
   /**

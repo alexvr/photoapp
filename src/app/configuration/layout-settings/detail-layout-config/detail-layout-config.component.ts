@@ -90,7 +90,7 @@ export class DetailLayoutConfigComponent {
   // PRINT-MESSAGE
   setPrintMessage() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/detail-layout/printMessage').subscribe(data => {
-      this.detailLayout.printMessage = data;
+      this.detailLayout.printImage = data;
     })
   }
 

@@ -1,3 +1,13 @@
+.row {
+  height: 100%;
+}
+
+.pre-scrollable {
+  max-height: 100%;
+  height: 100%;
+  border: 1px solid #e8e8e8;
+}
+
 event-detail {
   height: 30rem;
   border: 2px solid #cecece;
@@ -62,7 +72,8 @@ label {
 }
 
 .no-full-size-preview {
-  display: none;
+  z-index: -1;
+  /*display: none;*/
 }
 
 .no-full-size-preview-btn {
