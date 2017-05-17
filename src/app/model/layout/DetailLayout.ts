@@ -1,4 +1,5 @@
 import {Layout} from './Layout';
+import {Position} from "./Position";
 
 export class DetailLayout extends Layout {
   printBtnText: string;
@@ -22,6 +23,14 @@ export class DetailLayout extends Layout {
   finishBtnBorderColor: string;
   finishBtnBorderWidth: number;
 
+  printImage: string;
+  printMessage: string;
+  printContainerColor: string;
+  printContainerBorderColor: string;
+  printContainerBorderWidth: number;
+
+  imagePosition: Position;
+
   constructor() {
     super();
     this.printBtnText = 'Print';
@@ -43,5 +52,12 @@ export class DetailLayout extends Layout {
     this.finishBtnColor = '#ffffff';
     this.finishBtnBorderColor = '#4d4d4d';
     this.finishBtnBorderWidth = 1;
+
+    this.printMessage = 'Image is printed!';
+    this.printContainerColor = '#bbbbbb';
+    this.printContainerBorderColor = '#ffffff';
+    this.printContainerBorderWidth = 0;
+
+    this.imagePosition = Position.LEFT;
   }
 }

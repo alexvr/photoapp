@@ -20,6 +20,14 @@
         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
           <div class="panel-body">
             <!-- IMAGE -->
+            <div class="form-group col-xs-12 section-end">
+              <button id="imagePosition" type="button" class="btn" (click)="setImagePosition(0)"
+                      [ngClass]="setActiveImagePositionClass(0)">Left
+              </button>
+              <button type="button" class="btn" (click)="setImagePosition(1)"
+                      [ngClass]="setActiveImagePositionClass(1)">Right
+              </button>
+            </div>
             <div class="form-group col-xs-12">
               <label for="imageBorderColor">Image border-color</label>
               <input id="imageBorderColor" type="color" [(ngModel)]="detailLayout.imageBorderColor">
@@ -141,6 +149,45 @@
       </div>
 
       <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingFour">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true"
+               aria-controls="collapseFour">
+              Print-message
+            </a>
+          </h4>
+        </div>
+        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+          <div class="panel-body">
+            <!-- PRINT MESSAGE -->
+            <div class="form-group col-xs-12 section-end">
+              <button type="button" class="btn btn-primary" (click)="setPrintMessage()">Choose print-message image
+              </button>
+              <button *ngIf="detailLayout.printImage != null" type="button"
+                      class="btn btn-danger" (click)="deletePrintMessage()">Delete print-message image
+              </button>
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printMessageText">Print-message text</label>
+              <input id="printMessageText" type="text" [(ngModel)]="detailLayout.printMessage">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printMessageBG">Print-message background</label>
+              <input id="printMessageBG" type="color" [(ngModel)]="detailLayout.printContainerColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printMessageBorderColor">Print-message border-color</label>
+              <input id="printMessageBorderColor" type="color" [(ngModel)]="detailLayout.printContainerBorderColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printMessageBorderWidth">Print-message border-width</label>
+              <input id="printMessageBorderWidth" type="number" [(ngModel)]="detailLayout.printContainerBorderWidth">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingThree">
           <h4 class="panel-title">
             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true"
@@ -172,7 +219,8 @@
   </div>
 
   <!-- EVENT DETAIL PREVIEW -->
-  <event-detail [detailLayout]="detailLayout" [ngStyle]="setBackground()" class="col-md-8 col-sm-12"></event-detail>
+  <event-detail [detailLayout]="detailLayout" [images]="testImages" [ngStyle]="setBackground()"
+                class="col-md-8 col-sm-12"></event-detail>
   <button class="btn btn-primary resize-btn" (click)="setFullScreen(!isFullScreenPreview)"
           [ngClass]="{'no-full-size-preview-btn': isFullScreenPreview}">
     <span *ngIf="!isFullScreenPreview" class="glyphicon glyphicon-resize-full"></span>
@@ -182,6 +230,7 @@
 
 
 <!-- FULL SIZE PREVIEW -->
-<event-detail [detailLayout]="detailLayout" [isFullScreen]="isFullScreenPreview" [ngStyle]="setBackground()"
+<event-detail [detailLayout]="detailLayout" [images]="testImages" [isFullScreen]="isFullScreenPreview"
+              [ngStyle]="setBackground()"
               [ngClass]="{'no-full-size-preview': !isFullScreenPreview}"
-              class="full-size-preview col-md-8 col-sm-12"></event-detail>
+              class="full-size-preview"></event-detail>

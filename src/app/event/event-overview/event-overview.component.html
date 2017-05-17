@@ -9,9 +9,9 @@
   <swiper [config]="config">
     <div class="swiper-wrapper">
       <div class="swiper-slide" *ngFor="let img of images" [ngStyle]="setImageStyle()">
-        <img class="selectionIcon" *ngIf="overviewLayout.selectionIcon != null && selectedImages.indexOf(img) > -1"
-             src="{{overviewLayout.selectionIcon}}">
-        <img src="{{img.imageBase64}}" (click)="selectImage(img)">
+          <img class="selectionIcon" *ngIf="overviewLayout.selectionIcon != null && selectedImages.indexOf(img) > -1"
+               src="{{overviewLayout.selectionIcon}}">
+          <img src="{{img.imageBase64}}" (click)="selectImage(img)">
       </div>
     </div>
     <div class="swiper-pagination"></div>
@@ -22,8 +22,8 @@
        [ngStyle]="setSelectionContainerStyle()">
     <swiper [config]="selectedImagesConfig">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" *ngFor="let img of selectedImages" [ngStyle]="setImageStyle()">
-          <img class="selected-image" src="{{img.imageBase64}}">
+        <div class="swiper-slide" *ngFor="let img of selectedImages">
+            <img class="selected-image" src="{{img.imageBase64}}" [ngStyle]="setImageStyle()">
         </div>
       </div>
       <div class="swiper-pagination hide-pagination"></div>

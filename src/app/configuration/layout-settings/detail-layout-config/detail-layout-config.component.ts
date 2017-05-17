@@ -3,6 +3,7 @@ import {DetailLayout} from "../../../model/layout/DetailLayout";
 import {Event} from "../../../model/Event";
 import {LayoutService} from "../../services/layout.service";
 import {ConfigurationService} from "../../services/configuration.service";
+import {Image} from "../../../model/Image";
 
 @Component({
   selector: 'detail-layout-config',
@@ -14,10 +15,27 @@ export class DetailLayoutConfigComponent {
   private event: Event;
   private detailLayout: DetailLayout;
   private isFullScreenPreview: boolean = false;
+  private testImages: Image[] = [
+    new Image(1, '../../../assets/images/photo.jpg'),
+    new Image(2, '../../../assets/images/photo.jpg'),
+    new Image(3, '../../../assets/images/photo.jpg')];
 
   constructor(public configurationService: ConfigurationService, public layoutService: LayoutService) {
     this.event = this.configurationService.getConfiguredEvent();
     this.detailLayout = this.event.detailLayout;
+  }
+
+  // IMAGE
+  setActiveImagePositionClass(position) {
+    if (position === this.detailLayout.imagePosition) {
+      return 'btn btn-primary';
+    } else {
+      return 'btn btn-default';
+    }
+  }
+
+  setImagePosition(position) {
+    this.detailLayout.imagePosition = position;
   }
 
   // BUTTONS
@@ -69,7 +87,19 @@ export class DetailLayoutConfigComponent {
     this.layoutService.deleteLayoutAsset(this.event.eventName + '/detail-layout/finishButton');
   }
 
-  // Background
+  // PRINT-MESSAGE
+  setPrintMessage() {
+    this.layoutService.uploadLayoutAsset(this.event.eventName + '/detail-layout/printMessage').subscribe(data => {
+      this.detailLayout.printMessage = data;
+    })
+  }
+
+  deletePrintMessage() {
+    this.detailLayout.printImage = null;
+    this.layoutService.deleteLayoutAsset(this.event.eventName + '/detail-layout/printMessage');
+  }
+
+  // BACKGROUND
   setBackgroundImage() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/detail-layout/background').subscribe(
       data => {

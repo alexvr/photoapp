@@ -1,8 +1,19 @@
-<main class="row">
+<div class="exit-btn" id="exit-btn-1" (click)="showMenuLeftBtn()"></div>
+<div class="exit-btn" id="exit-btn-2" (click)="showMenuRightBtn()"></div>
+
+<main class="row" [ngStyle]="setImagePosition()">
   <div class="photos col-sm-5 col-xs-12">
-    <img src="" [ngStyle]="setImageStyle()">
+    <div class="photo">
+      <img src="{{selectedImage.imageBase64}}" [ngStyle]="setImageStyle()">
+    </div>
     <div class="photo-overview">
-      <img src="">
+      <swiper [config]="config">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" *ngFor="let img of images">
+            <img src="{{img.imageBase64}}" [ngStyle]="setImageStyle()" (click)="selectImage(img)">
+          </div>
+        </div>
+      </swiper>
     </div>
   </div>
 
@@ -20,7 +31,8 @@
       </button>
     </div>
     <div class="printMessageAndQr">
-      <div class="printMessage" [ngClass]="{'full-screen': isFullScreen, 'small-screen': !isFullScreen}"></div>
+      <div class="printMessage" [ngClass]="{'full-screen': isFullScreen, 'small-screen': !isFullScreen}"
+           [ngStyle]="setPrintMessage()">{{detailLayout.printMessage}}</div>
       <div class="qr" [ngClass]="{'full-screen': isFullScreen, 'small-screen': !isFullScreen}"></div>
     </div>
     <div class="backAndFinish">

@@ -1,6 +1,8 @@
 import {Component, OnInit, Input} from "@angular/core";
 import {QrCodeService} from "../services/qr-code.service";
 import {DetailLayout} from "../../model/layout/DetailLayout";
+import {Image} from "../../model/Image";
+
 @Component({
   selector: 'event-detail',
   templateUrl: 'event-detail.component.html',
@@ -10,6 +12,13 @@ import {DetailLayout} from "../../model/layout/DetailLayout";
 export class EventDetailComponent implements OnInit {
   @Input() detailLayout: DetailLayout;
   @Input() isFullScreen: boolean;
+  @Input() images: Image[];
+  private selectedImage: Image;
+
+  private config: Object = {
+    slidesPerView: 3,
+    spaceBetween: 5
+  };
 
   constructor(private qrCodeService: QrCodeService) {
 
@@ -17,7 +26,40 @@ export class EventDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.qrCodeService.getQrCode().subscribe(x => console.log(x));
+    if (this.images.length > 0) {
+      this.selectedImage = this.images[0];
+    }
   }
+
+  /**
+   *  Show the menu on 3 clicks in left corner and 1 in the right corner.
+   */
+  private exitCounter = 0;
+  private timer;
+  private visibleAnimate: boolean = false;  // necessary for activating bootstrap modal in Typescript code.
+  private visible: boolean = false;         // necessary for activating bootstrap modal in Typescript code.
+
+  showMenuLeftBtn() {
+    this.exitCounter++;
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.exitCounter = 0, 3000);
+  }
+
+  showMenuRightBtn() {
+    if (this.exitCounter >= 3) {
+      this.visibleAnimate = true;
+      this.visible = true;
+    }
+  }
+
+  closeMenu() {
+    this.visibleAnimate = false;
+    this.visible = false;
+  }
+
+  /**
+   * Functions to customize the layout style.
+   */
 
   setImageStyle(): any {
     if (this.detailLayout != null) {
@@ -76,5 +118,33 @@ export class EventDetailComponent implements OnInit {
     } else {
       return {'background': 'none', 'border': 'none'}
     }
+  }
+
+  setPrintMessage(): any {
+    if (this.detailLayout != null && this.detailLayout.printImage == null) {
+      return {
+        'background': this.detailLayout.printContainerColor,
+        'border': this.detailLayout.printContainerBorderWidth + 'px solid ' + this.detailLayout.printContainerBorderColor,
+        'color': this.detailLayout.printContainerBorderColor
+      }
+    } else {
+      return {'background': 'none', 'border': 'none'}
+    }
+  }
+
+  setImagePosition(): any {
+    if (this.detailLayout.imagePosition == 0) {
+      return {'flex-direction': 'row'};
+    } else {
+      return {'flex-direction': 'row-reverse'};
+    }
+  }
+
+  /**
+   * select image
+   */
+  selectImage(img: Image) {
+    this.selectedImage = img;
+    console.log(this.selectedImage.imageNumber);
   }
 }
