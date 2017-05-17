@@ -72,7 +72,8 @@ label {
 
 .no-full-size-preview {
   z-index: -1;
-  /*display: none;*/
+  top: -999%;
+  left: -999%;
 }
 
 .no-full-size-preview-btn {
