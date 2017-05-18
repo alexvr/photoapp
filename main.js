@@ -112,7 +112,7 @@ ipcMain.on('async', (event, arg) => {
     dialog.showOpenDialog({
       properties: ['openDirectory']
     }, selectedDirectory => {
-      if (selectedDirectory != null) {
+      if (selectedDirectory !== null) {
         event.sender.send('async-get-directory-path', selectedDirectory.toString());
       } else {
         console.log('cancelled get-directory-path');
@@ -125,7 +125,7 @@ ipcMain.on('async', (event, arg) => {
     dialog.showOpenDialog({
       properties: ['openFile']
     }, selectedFile => {
-      if (selectedFile != null) {
+      if (selectedFile !== null) {
         event.sender.send('async-get-file-path', selectedFile.toString());
       } else {
         console.log('cancelled get-file-path');

@@ -6,35 +6,54 @@ const io = require('socket.io')(app);
 const fs = require('fs');
 const path = require('path');
 
-// Modules for directory watching, IP address and image compression.
+// Modules for directory watching, IP address and image resizing.
 const chokidar = require('chokidar');
 const internalIp = require('internal-ip');
-const imageCompression = require('./image-compression');
+const imageResize = require('./image-resize');
 
-// Prefix for added images.
+// Prefix for added images and width of resized image.
 const imagePrefix = 'COM_';
+let resizedImageWidth = 0;
 
 // Global references.
 let mainWindow = null;
 let mediaDirectory = null;
 let imageCounter = 0;
-let compressionQuality = null;
 
 /**
  * Start web sockets server on current network IP4 address on port 3001.
  * @returns {number} Current network IP4 address
  */
 exports.startServer = function startServer(mediaFolder, imageQuality, window) {
+  // Set global main window reference.
   mainWindow = window;
   mainWindow.webContents.send('async-logs', 'Start server...');
 
+  // Start the socket.io server on port 3001.
   app.listen(3001);
   mainWindow.webContents.send('async-logs', 'Server listening on ' + internalIp.v4() + ':3001!');
 
+  // Set the mediafolder to the specified in the event configuration.
   mediaDirectory = mediaFolder;
-  initializeWatcher();
 
-  compressionQuality = imageQuality;
+  // Set the compression quality.
+  switch (imageQuality) {
+    case 'HIGH':
+      resizedImageWidth = 1200;
+      break;
+    case 'MEDIUM':
+      resizedImageWidth = 1000;
+      break;
+    case 'LOW':
+      resizedImageWidth = 800;
+      break;
+  }
+
+  // If there are uncompressed files in the mediafolder, compress them.
+  checkUncompressedFiles();
+
+  // Set the watcher for the mediafolder.
+  initializeWatcher();
 
   return internalIp.v4();
 };
@@ -86,14 +105,22 @@ exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
 /**
  * Sends image from a specific path to all connected clients.
  * @param imagePath
- * @param imageNumber
  * @returns message
  */
-function broadCastImage(imagePath, imageNumber) {
-  fs.readFile(imagePath, function (err, data) {
-    io.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + imageNumber);
-    mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to all clients!');
-  });
+function broadCastImage(imagePath) {
+  const imageNumber = getImageNumber(imagePath);
+  const imageBuffer = 'data:image/jpg;base64,' + fs.readFileSync(imagePath, 'base64');
+
+  io.emit('image', { imageCount: imageNumber, imageBase: imageBuffer });
+  mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to all clients!');
+}
+
+function getImageNumber(imagePath) {
+  let filename = path.basename(imagePath);
+  let fileExtCheck = path.extname(filename);
+  let fileNameCheck = path.basename(filename, fileExtCheck);
+
+  return fileNameCheck.replace(imagePrefix, '');
 }
 
 /**
@@ -104,10 +131,15 @@ function broadCastImage(imagePath, imageNumber) {
  * @returns message
  */
 function sendImageToClient(client, imagePath, imageNumber) {
-  fs.readFile(imagePath, function (err, data) {
+  /*fs.readFile(imagePath, function (err, data) {
     client.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + imageNumber);
     mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to client ' + client.request.connection.remoteAddress + '!');
-  });
+  });*/
+
+  fs.readFile(imagePath, function (error, buf) {
+    client.emit('image', { imageCount: imageNumber, imageBase: 'data:image/jpg;base64,' + buf.toString('base64') });
+    mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to client ' + client.request.connection.remoteAddress + '!');
+  })
 }
 
 /**
@@ -131,14 +163,11 @@ function initializeWatcher() {
         renameAndCompress(filePath);
 
       } else if (filePath.includes('compressed')) {
-
         // Send the image to all clients and increment the counter.
-        broadCastImage(filePath, imageCounter);
-        imageCounter++;
+        broadCastImage(filePath);
 
         // Send the imageCounter to the event-dashboard.
         mainWindow.webContents.send('async-image-count', imageCounter);
-
       }
     })
     // Configure delete image event.
@@ -154,9 +183,13 @@ function initializeWatcher() {
  * @param filePath
  */
 function renameAndCompress(filePath) {
-  let newPath = renameFile(filePath);
-  console.log('File ' + newPath + ' has been renamed!');
-  imageCompression.compressImage(newPath, mediaDirectory, compressionQuality);
+  const renamedPath = renameFile(filePath);
+  console.log('File ' + renamedPath + ' has been renamed!');
+  imageCounter++;
+
+  const outputPath = mediaDirectory + '/compressed/' + path.basename(renamedPath);
+  console.log('Resizing image on path ' + outputPath);
+  imageResize.resizeAndCompressImage(renamedPath, outputPath, resizedImageWidth);
 }
 
 /**
@@ -232,6 +265,28 @@ function deleteImage(filePath) {
         }));
       }
     })
+  });
+}
+
+/**
+ * If there are uncompressed files in the mediafolder, compress them.
+ */
+function checkUncompressedFiles() {
+  // If the compressed folder doesn't exist, create it.
+  if (!fs.existsSync(mediaDirectory + '/compressed')) {
+    fs.mkdirSync(mediaDirectory + '/compressed');
+  }
+
+  fs.readdir(mediaDirectory, function (err, filenames) {
+    let list = filenames.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
+
+    list.forEach(function (filename) {
+      if (fs.lstatSync(mediaDirectory + '/' + filename).isFile()) {
+        if (!filename.includes(imagePrefix)) {
+          renameAndCompress(mediaDirectory + '/' + filename);
+        }
+      }
+    });
   });
 }
 
