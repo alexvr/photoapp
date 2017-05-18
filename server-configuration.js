@@ -288,6 +288,18 @@ function checkUncompressedFiles() {
       }
     });
   });
+
+  // Make sure the imageCounter knows how many files are already in the mediaFolder.
+  fs.readdir(mediaDirectory + '/compressed', function (err, filenames) {
+    let list = filenames.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
+
+    list.forEach(function (filename) {
+      if (fs.lstatSync(mediaDirectory + '/compressed/' + filename).isFile()) {
+        imageCounter++;
+        mainWindow.webContents.send('async-image-count', imageCounter);
+      }
+    });
+  })
 }
 
 /**
@@ -312,12 +324,6 @@ function sendExistingFiles(client) {
         let fileNameCheck = path.basename(filename, fileExtCheck);
         const imageNumber = fileNameCheck.replace(imagePrefix, '');
         sendImageToClient(client, filePath, imageNumber);
-
-        // Make sure the imageCounter knows how many files are already in the mediaFolder.
-        imageCounter = parseInt(imageNumber) + 1;
-
-        // Send the imageCounter to the event-dashboard.
-        mainWindow.webContents.send('async-image-count', imageCounter);
       });
     });
   }

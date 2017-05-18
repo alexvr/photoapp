@@ -118,7 +118,6 @@ export class EventDashboardComponent implements OnInit, OnDestroy {
     this.clientSubscriptions.unsubscribe();
     this.disconnectedClients.unsubscribe();
     this.logSubscription.unsubscribe();
-
     this.durationSubscription.unsubscribe();
   }
 
