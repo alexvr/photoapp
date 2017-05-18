@@ -122,11 +122,11 @@ export class EventDetailComponent implements OnInit {
   }
 
   setPrintMessage(): any {
-    if (this.detailLayout != null && this.detailLayout.printImage == null) {
+    if (this.detailLayout != null && this.detailLayout.printMessageImage == null) {
       return {
-        'background': this.detailLayout.printContainerColor,
-        'border': this.detailLayout.printContainerBorderWidth + 'px solid ' + this.detailLayout.printContainerBorderColor,
-        'color': this.detailLayout.printContainerBorderColor
+        'background': this.detailLayout.printMessageColor,
+        'border': this.detailLayout.printMessageBorderWidth + 'px solid ' + this.detailLayout.printMessageBorderColor,
+        'color': this.detailLayout.printMessageBorderColor
       }
     } else {
       return {'background': 'none', 'border': 'none'}

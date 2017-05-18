@@ -89,14 +89,14 @@ export class DetailLayoutConfigComponent {
 
   // PRINT-MESSAGE
   setPrintMessage() {
-    this.layoutService.uploadLayoutAsset(this.event.eventName + '/detail-layout/printMessage').subscribe(data => {
-      this.detailLayout.printImage = data;
+    this.layoutService.uploadLayoutAsset(this.event.eventName + '/detail-layout/printMessageText').subscribe(data => {
+      this.detailLayout.printMessageImage = data;
     })
   }
 
   deletePrintMessage() {
-    this.detailLayout.printImage = null;
-    this.layoutService.deleteLayoutAsset(this.event.eventName + '/detail-layout/printMessage');
+    this.detailLayout.printMessageImage = null;
+    this.layoutService.deleteLayoutAsset(this.event.eventName + '/detail-layout/printMessageText');
   }
 
   // BACKGROUND

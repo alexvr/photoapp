@@ -15,8 +15,6 @@ export class OverviewLayout extends Layout {
   selectBtnImage: string;
   selectBtnBorderColor: string;
   selectBtnBorderWidth: number;
-  //navigationColor: string;
-  //activeNavigationColor: string;
 
   constructor() {
     super();

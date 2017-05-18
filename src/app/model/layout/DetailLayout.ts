@@ -23,11 +23,11 @@ export class DetailLayout extends Layout {
   finishBtnBorderColor: string;
   finishBtnBorderWidth: number;
 
-  printImage: string;
-  printMessage: string;
-  printContainerColor: string;
-  printContainerBorderColor: string;
-  printContainerBorderWidth: number;
+  printMessageImage: string;
+  printMessageText: string;
+  printMessageColor: string;
+  printMessageBorderColor: string;
+  printMessageBorderWidth: number;
 
   imagePosition: Position;
 
@@ -53,10 +53,10 @@ export class DetailLayout extends Layout {
     this.finishBtnBorderColor = '#4d4d4d';
     this.finishBtnBorderWidth = 1;
 
-    this.printMessage = 'Image is printed!';
-    this.printContainerColor = '#bbbbbb';
-    this.printContainerBorderColor = '#ffffff';
-    this.printContainerBorderWidth = 0;
+    this.printMessageText = 'Image is printed!';
+    this.printMessageColor = '#bbbbbb';
+    this.printMessageBorderColor = '#ffffff';
+    this.printMessageBorderWidth = 0;
 
     this.imagePosition = Position.LEFT;
   }

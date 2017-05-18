@@ -163,25 +163,25 @@
             <div class="form-group col-xs-12 section-end">
               <button type="button" class="btn btn-primary" (click)="setPrintMessage()">Choose print-message image
               </button>
-              <button *ngIf="detailLayout.printImage != null" type="button"
+              <button *ngIf="detailLayout.printMessageImage != null" type="button"
                       class="btn btn-danger" (click)="deletePrintMessage()">Delete print-message image
               </button>
             </div>
             <div class="form-group col-xs-12">
               <label for="printMessageText">Print-message text</label>
-              <input id="printMessageText" type="text" [(ngModel)]="detailLayout.printMessage">
+              <input id="printMessageText" type="text" [(ngModel)]="detailLayout.printMessageText">
             </div>
             <div class="form-group col-xs-12">
               <label for="printMessageBG">Print-message background</label>
-              <input id="printMessageBG" type="color" [(ngModel)]="detailLayout.printContainerColor">
+              <input id="printMessageBG" type="color" [(ngModel)]="detailLayout.printMessageColor">
             </div>
             <div class="form-group col-xs-12">
               <label for="printMessageBorderColor">Print-message border-color</label>
-              <input id="printMessageBorderColor" type="color" [(ngModel)]="detailLayout.printContainerBorderColor">
+              <input id="printMessageBorderColor" type="color" [(ngModel)]="detailLayout.printMessageBorderColor">
             </div>
             <div class="form-group col-xs-12">
               <label for="printMessageBorderWidth">Print-message border-width</label>
-              <input id="printMessageBorderWidth" type="number" [(ngModel)]="detailLayout.printContainerBorderWidth">
+              <input id="printMessageBorderWidth" type="number" [(ngModel)]="detailLayout.printMessageBorderWidth">
             </div>
           </div>
         </div>
