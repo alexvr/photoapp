@@ -87,14 +87,8 @@ ipcMain.on('async', (event, arg) => {
 
   // ServerService - startServer()
   if (arg[0] === 'start-server') {
-    let serverHost = serverConfiguration.startServer(arg[1], arg[2], window);
+    let serverHost = serverConfiguration.startServer(arg[1], arg[2], arg[3], arg[4], window);
     event.sender.send('async-start-server', serverHost);
-  }
-
-  // Send OverviewLayout to all connected clients.
-  if (arg[0] === 'send-layout') {
-    let message = serverConfiguration.sendLayout(arg[1], arg[2]);
-    event.sender.send('async-send-layout', message);
   }
 
   // Get watermark image path

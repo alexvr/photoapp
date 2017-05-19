@@ -1,5 +1,7 @@
 import {Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+import {OverviewLayout} from '../../model/layout/OverviewLayout';
+import {DetailLayout} from '../../model/layout/DetailLayout';
 
 // Inter Process Communication
 let ipcRenderer;
@@ -19,16 +21,25 @@ export class ServerService {
   /**
    * Starts a server on the current network IP4 address on port 3001,
    * watches the given mediafolder and defines photo quality.
+   * @param mediaFolder
+   * @param photoQuality
+   * @param overviewLayout
+   * @param detailLayout
    * @returns {number} Network IP4 address
    */
-  public startServer(mediaFolder: string, photoQuality: string): Observable<number> {
+  public startServer(mediaFolder: string,
+                     photoQuality: string,
+                     overviewLayout: OverviewLayout,
+                     detailLayout: DetailLayout): Observable<number> {
     return new Observable(observer => {
       let serverHost = '127.0.0.1';
       this.hasIpc = (typeof ipcRenderer !== 'undefined');
 
       if (this.hasIpc) {
         // Send async message to start the server.
-        const serverArguments: string[] = ['start-server', mediaFolder, photoQuality];
+        const overviewString: string = JSON.stringify(overviewLayout);
+        const detailString: string = JSON.stringify(detailLayout);
+        const serverArguments: string[] = ['start-server', mediaFolder, photoQuality, overviewString , detailString];
         ipcRenderer.send('async', serverArguments);
 
         // Listen to response from the main process.

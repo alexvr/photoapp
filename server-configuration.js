@@ -19,12 +19,19 @@ let resizedImageWidth = 0;
 let mainWindow = null;
 let mediaDirectory = null;
 let imageCounter = 0;
+let overviewLayout = null;
+let detailLayout = null;
 
 /**
- * Start web sockets server on current network IP4 address on port 3001.
+ *  * Start web sockets server on current network IP4 address on port 3001.
+ * @param mediaFolder
+ * @param imageQuality
+ * @param overview
+ * @param detail
+ * @param window
  * @returns {number} Current network IP4 address
  */
-exports.startServer = function startServer(mediaFolder, imageQuality, window) {
+exports.startServer = function startServer(mediaFolder, imageQuality, overview, detail, window) {
   // Set global main window reference.
   mainWindow = window;
   mainWindow.webContents.send('async-logs', 'Start server...');
@@ -36,18 +43,12 @@ exports.startServer = function startServer(mediaFolder, imageQuality, window) {
   // Set the mediafolder to the specified in the event configuration.
   mediaDirectory = mediaFolder;
 
-  // Set the compression quality.
-  switch (imageQuality) {
-    case 'HIGH':
-      resizedImageWidth = 1200;
-      break;
-    case 'MEDIUM':
-      resizedImageWidth = 1000;
-      break;
-    case 'LOW':
-      resizedImageWidth = 800;
-      break;
-  }
+  // Set the layout for the event.
+  overviewLayout = overview;
+  detailLayout = detail;
+
+  // Set the compression for the client images.
+  setCompressionQuality(imageQuality);
 
   // If there are uncompressed files in the mediafolder, compress them.
   checkUncompressedFiles();
@@ -72,6 +73,20 @@ function handler(req, res) {
     });
 }
 
+function setCompressionQuality(imageQuality) {
+  switch (imageQuality) {
+    case 'HIGH':
+      resizedImageWidth = 1200;
+      break;
+    case 'MEDIUM':
+      resizedImageWidth = 1000;
+      break;
+    case 'LOW':
+      resizedImageWidth = 800;
+      break;
+  }
+}
+
 /**
  * Callback for socket.io when a client connects for the first time.
  */
@@ -81,6 +96,7 @@ io.on('connection', function (client) {
   mainWindow.webContents.send('async-logs', 'A client device with IP ' + clientIp + ' connected!');
 
   client.emit('private-message', 'Yo I received your IP! You good?');
+  sendLayout(client);
   sendExistingFiles(client);
 
   client.on('disconnect', function () {
@@ -91,16 +107,15 @@ io.on('connection', function (client) {
 
 /**
  * Sends the OverviewLayout and DetailLayout to all connected clients.
- * @param overviewLayout
- * @param detailLayout
+ * @param client
  * @returns {string}
  */
-exports.sendLayout = function sendLayout(overviewLayout, detailLayout) {
+function sendLayout(client) {
+  let clientIp = client.request.connection.remoteAddress;
   io.emit('overview-layout', overviewLayout);
   io.emit('detail-layout', detailLayout);
-
-  return 'main.js - OverviewLayout sent to all clients!';
-};
+  mainWindow.webContents.send('async-logs', 'Layout has been sent to client with IP: ' + clientIp + '!');
+}
 
 /**
  * Sends image from a specific path to all connected clients.
@@ -115,6 +130,11 @@ function broadCastImage(imagePath) {
   mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to all clients!');
 }
 
+/**
+ * Get the number of the renamed image file.
+ * @param imagePath
+ * @returns {string}
+ */
 function getImageNumber(imagePath) {
   let filename = path.basename(imagePath);
   let fileExtCheck = path.extname(filename);
@@ -131,14 +151,10 @@ function getImageNumber(imagePath) {
  * @returns message
  */
 function sendImageToClient(client, imagePath, imageNumber) {
-  /*fs.readFile(imagePath, function (err, data) {
-    client.emit('image', 'data:image/jpg;base64,' + data.toString('base64') + '%%%' + imageNumber);
-    mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to client ' + client.request.connection.remoteAddress + '!');
-  });*/
-
+  const clientAddress = client.request.connection.remoteAddress;
   fs.readFile(imagePath, function (error, buf) {
     client.emit('image', { imageCount: imageNumber, imageBase: 'data:image/jpg;base64,' + buf.toString('base64') });
-    mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to client ' + client.request.connection.remoteAddress + '!');
+    mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to client ' + clientAddress + '!');
   })
 }
 
@@ -277,6 +293,21 @@ function checkUncompressedFiles() {
     fs.mkdirSync(mediaDirectory + '/compressed');
   }
 
+  // Make sure the imageCounter knows how many files are already in the mediaFolder.
+  fs.readdir(mediaDirectory + '/compressed', function (err, filenames) {
+    let list = filenames.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
+
+    list.forEach(function (filename) {
+      const listItemPath = mediaDirectory + '/compressed/' + filename;
+      if (fs.lstatSync(listItemPath).isFile()) {
+        const itemNumber = getImageNumber(listItemPath);
+        if (itemNumber > imageCounter) {
+          imageCounter = itemNumber;
+        }
+      }
+    });
+  });
+
   fs.readdir(mediaDirectory, function (err, filenames) {
     let list = filenames.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
 
@@ -288,18 +319,6 @@ function checkUncompressedFiles() {
       }
     });
   });
-
-  // Make sure the imageCounter knows how many files are already in the mediaFolder.
-  fs.readdir(mediaDirectory + '/compressed', function (err, filenames) {
-    let list = filenames.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
-
-    list.forEach(function (filename) {
-      if (fs.lstatSync(mediaDirectory + '/compressed/' + filename).isFile()) {
-        imageCounter++;
-        mainWindow.webContents.send('async-image-count', imageCounter);
-      }
-    });
-  })
 }
 
 /**
@@ -308,13 +327,13 @@ function checkUncompressedFiles() {
 function sendExistingFiles(client) {
   if (fs.existsSync(mediaDirectory + '/compressed')) {
     fs.readdir(mediaDirectory + '/compressed', function (err, filenames) {
-      // Don't send hidden files. For instance .DStore
-      let list = filenames.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
-
       if (err) {
-        onError(err);
+        console.log(error);
         return;
       }
+
+      // Don't send hidden files. For instance .DStore
+      let list = filenames.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
 
       list.forEach(function (filename) {
         const filePath = mediaDirectory + '/compressed/' + filename;
@@ -327,8 +346,4 @@ function sendExistingFiles(client) {
       });
     });
   }
-}
-
-function onError(error) {
-  console.log(error);
 }
