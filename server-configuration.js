@@ -19,6 +19,7 @@ let resizedImageWidth = 0;
 // Global references.
 let mainWindow = null;
 let mediaDirectory = null;
+let eventId = null;
 let printer = null;
 let imageCounter = 0;
 let overviewLayout = null;
@@ -28,13 +29,14 @@ let detailLayout = null;
  * Start web sockets server on current network IP4 address on port 3001.
  * @param mediaFolder
  * @param imageQuality
+ * @param chosenEventId
  * @param eventPrinter
  * @param overview
  * @param detail
  * @param window
  * @returns {number} Current network IP4 address
  */
-exports.startServer = function startServer(mediaFolder, imageQuality, eventPrinter, overview, detail, window) {
+exports.startServer = function startServer(mediaFolder, imageQuality, chosenEventId, eventPrinter, overview, detail, window) {
   // Set global main window reference.
   mainWindow = window;
   mainWindow.webContents.send('async-logs', 'Start server...');
@@ -46,6 +48,7 @@ exports.startServer = function startServer(mediaFolder, imageQuality, eventPrint
   // Set the mediafolder to the specified in the event configuration and the printer.
   mediaDirectory = mediaFolder;
   printer = eventPrinter;
+  eventId = chosenEventId;
 
   // Set the layout for the event.
   overviewLayout = overview;
