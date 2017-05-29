@@ -6,11 +6,12 @@ const io = require('socket.io')(app);
 const fs = require('fs');
 const path = require('path');
 
-// Modules for directory watching, IP address, image resizing and printing.
+// Modules for directory watching, IP address, image resizing, printing and cloudinary upload.
 const chokidar = require('chokidar');
 const internalIp = require('internal-ip');
 const imageResize = require('./image-resize');
 const printerConfiguration = require('./printer-configuration');
+const cloudinaryConfiguration = require('./cloudinary-configuration');
 
 // Prefix for added images and width of resized image.
 const imagePrefix = 'COM_';
@@ -20,6 +21,7 @@ let resizedImageWidth = 0;
 let mainWindow = null;
 let mediaDirectory = null;
 let eventId = null;
+let eventName = null;
 let printer = null;
 let imageCounter = 0;
 let overviewLayout = null;
@@ -30,13 +32,14 @@ let detailLayout = null;
  * @param mediaFolder
  * @param imageQuality
  * @param chosenEventId
+ * @param chosenEventName
  * @param eventPrinter
  * @param overview
  * @param detail
  * @param window
  * @returns {number} Current network IP4 address
  */
-exports.startServer = function startServer(mediaFolder, imageQuality, chosenEventId, eventPrinter, overview, detail, window) {
+exports.startServer = function startServer(mediaFolder, imageQuality, chosenEventId, chosenEventName, eventPrinter, overview, detail, window) {
   // Set global main window reference.
   mainWindow = window;
   mainWindow.webContents.send('async-logs', 'Start server...');
@@ -48,7 +51,10 @@ exports.startServer = function startServer(mediaFolder, imageQuality, chosenEven
   // Set the mediafolder to the specified in the event configuration and the printer.
   mediaDirectory = mediaFolder;
   printer = eventPrinter;
+
+  // Set eventId -and name.
   eventId = chosenEventId;
+  eventName = chosenEventName;
 
   // Set the layout for the event.
   overviewLayout = overview;
@@ -115,11 +121,6 @@ io.on('connection', function (client) {
   // Printing message with array of imageNumbers.
   client.on('print', function (imageNumbers) {
     printImages(imageNumbers);
-    /*imageNumbers.forEach(function (image) {
-      console.log('server-configuration.js - Printing image with number ' + image);
-      printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, image);
-    })*/
-    //printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers[0]);
   });
 });
 
