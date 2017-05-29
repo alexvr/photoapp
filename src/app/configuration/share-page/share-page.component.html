@@ -1,84 +1,203 @@
 <!-- SHARE PAGE DETAILS -->
-<div class="event-details col-xs-12">
-  <div class="row">
-    <h2 class="col-xs-12">Share page</h2>
-  </div>
-  <div class="row">
-    <div class="form-group col-xs-12">
-      <label for="inputPageTitle">Page title</label>
-      <input type="text" class="form-control" id="inputPageTitle" placeholder="Event name" [(ngModel)]="event.eventText.textUpper">
+<div class="col-xs-12 event-details">
+<div class="row">
+  <div class="col-xs-8">
+    <div class="row">
+      <h2 class="col-xs-12">Share page</h2>
     </div>
-  </div>
-  <div class="row input-field">
-    <div class="form-group col-xs-12">
-      <label for="intputTextUnderPictures">Text under pictures</label>
-      <textarea type="text" class="form-control" rows="3" id="intputTextUnderPictures" placeholder="Text under pictures" [(ngModel)]="event.eventText.textUnderPhoto"></textarea>
-    </div>
-  </div>
-  <div class="row">
-    <div class="form-group col-xs-12">
-      <button class="btn btn-default" (click)="addNewLineTextUnderPictures()">New line</button>
-      <button class="btn btn-default" data-toggle="modal" data-target="#linkGeneratorTextUnderPictures">Generate link</button>
-      <div class="modal fade" id="linkGeneratorTextUnderPictures" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Generate link</h4>
-            </div>
-            <div class="row input-modal">
-              <div class="form-group col-xs-12 generate-link">
-                <label for="nameLinkUnderPictures">Name link</label>
-                <input type="text" #namelinkUpper class="form-control" id="nameLinkUnderPictures" placeholder="Name link">
-              </div>
-              <div class="form-group col-xs-12 generate-link">
-                <label for="linkUnderPictures">Actual link</label>
-                <input type="text" #actuallinkUpper class="form-control" id="linkUnderPictures" placeholder="Actual link">
-              </div>
-              <div class="form-group col-xs-12 generate-link">
-                <button class="btn btn-default" (click)="generateLinkTextUnderPictures(namelinkUpper.value, actuallinkUpper.value)" data-dismiss="modal">Generate</button>
-              </div>
-              </div>
-            </div>
+    <div class="row">
+      <div class="form-group col-xs-6">
+        <label for="logo">Logo</label>
+        <div>
+          <button [disabled]="event.eventText.logo != null" id="logo" type="button" class="btn btn-primary" (click)="setLogoImage()">Choose logo</button>
+          <button *ngIf="event.eventText.logo != null" type="button"
+                  class="btn btn-danger" (click)="deleteLogoImage()">Delete logo
+          </button>
+          <div>
+            <img *ngIf="event.eventText.logo != null" src="{{event.eventText.logo}}" class="img-rounded share-logo" alt="logo">
+          </div>
         </div>
+        </div>
+      <div class="form-group col-xs-6">
+        <label for="inputPageTitle">Tab title</label>
+        <input type="text" class="form-control" id="inputTabTitle" placeholder="Tab title" [(ngModel)]="event.eventText.tabTitle">
       </div>
     </div>
-  </div>
-  <div class="row input-field">
-    <div class="form-group col-xs-12">
-      <label for="inputTextBottomPage">Text Bottom</label>
-      <textarea type="text" class="form-control" rows="3" id="inputTextBottomPage" placeholder="Bottom text" [(ngModel)]="event.eventText.textBottom"></textarea>
+    <div class="row">
+      <div class="form-group col-xs-6">
+        <label for="inputPageTitle">Page title</label>
+        <input type="text" class="form-control" id="inputPageTitle" placeholder="Event name" [(ngModel)]="event.eventText.textUpper">
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="form-group col-xs-12">
-      <button class="btn btn-default" (click)="addNewLineTextBottom()">New line</button>
-      <button class="btn btn-default" data-toggle="modal" data-target="#linkGeneratorBottom">Generate link</button>
-      <div class="modal fade" id="linkGeneratorBottom" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Generate link</h4>
-            </div>
-            <div class="row input-modal">
-              <div class="form-group col-xs-12 generate-link">
-                <label for="nameLinkBottom">Name link</label>
-                <input type="text" #namelinkBottom class="form-control" id="nameLinkBottom" placeholder="Name link">
+    <div class="row input-field">
+      <div class="form-group col-xs-12">
+        <label for="intputTextAbovePictures">Text above pictures</label>
+        <textarea type="text" class="form-control" rows="3" id="intputTextAbovePictures" placeholder="Text above pictures" [(ngModel)]="event.eventText.textAbovePhoto"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-xs-12">
+        <button class="btn btn-default" (click)="addNewLineTextAbovePictures()">New line</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#linkGeneratorTextAbovePictures">Generate link</button>
+        <div class="modal fade" id="linkGeneratorTextAbovePictures" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Generate link</h4>
               </div>
-              <div class="form-group col-xs-12 generate-link">
-                <label for="linkBottom">Actual link</label>
-                <input type="text" #actuallinkBottom class="form-control" id="linkBottom" placeholder="Actual link">
-              </div>
-              <div class="form-group col-xs-12 generate-link">
-                <button class="btn btn-default" (click)="generateLinkTextBottom(namelinkBottom.value, actuallinkBottom.value)" data-dismiss="modal">Generate</button>
+              <div class="row input-modal">
+                <div class="form-group col-xs-12 generate-link">
+                  <label for="nameLinkUnderPictures">Name link</label>
+                  <input type="text" #namelinkAbove class="form-control" id="nameLinkAbovePictures" placeholder="Name link">
+                </div>
+                <div class="form-group col-xs-12 generate-link">
+                  <label for="linkUnderPictures">Actual link</label>
+                  <input type="text" #actuallinkAbove class="form-control" id="linkAbovePictures" placeholder="Actual link">
+                </div>
+                <div class="form-group col-xs-12 generate-link">
+                  <button class="btn btn-default" (click)="generateLinkTextAbovePictures(namelinkAbove.value, actuallinkAbove.value)" data-dismiss="modal">Generate</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="row input-field">
+      <div class="form-group col-xs-12">
+        <label for="intputTextUnderPictures">Text under pictures</label>
+        <textarea type="text" class="form-control" rows="3" id="intputTextUnderPictures" placeholder="Text under pictures" [(ngModel)]="event.eventText.textUnderPhoto"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-xs-12">
+        <button class="btn btn-default" (click)="addNewLineTextUnderPictures()">New line</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#linkGeneratorTextUnderPictures">Generate link</button>
+        <div class="modal fade" id="linkGeneratorTextUnderPictures" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Generate link</h4>
+              </div>
+              <div class="row input-modal">
+                <div class="form-group col-xs-12 generate-link">
+                  <label for="nameLinkUnderPictures">Name link</label>
+                  <input type="text" #namelinkUpper class="form-control" id="nameLinkUnderPictures" placeholder="Name link">
+                </div>
+                <div class="form-group col-xs-12 generate-link">
+                  <label for="linkUnderPictures">Actual link</label>
+                  <input type="text" #actuallinkUpper class="form-control" id="linkUnderPictures" placeholder="Actual link">
+                </div>
+                <div class="form-group col-xs-12 generate-link">
+                  <button class="btn btn-default" (click)="generateLinkTextUnderPictures(namelinkUpper.value, actuallinkUpper.value)" data-dismiss="modal">Generate</button>
+                </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row input-field">
+      <div class="form-group col-xs-12">
+        <label for="inputTextBottomPage">Text Bottom</label>
+        <textarea type="text" class="form-control" rows="3" id="inputTextBottomPage" placeholder="Bottom text" [(ngModel)]="event.eventText.textBottom"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-xs-12">
+        <button class="btn btn-default" (click)="addNewLineTextBottom()">New line</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#linkGeneratorBottom">Generate link</button>
+        <div class="modal fade" id="linkGeneratorBottom" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Generate link</h4>
+              </div>
+              <div class="row input-modal">
+                <div class="form-group col-xs-12 generate-link">
+                  <label for="nameLinkBottom">Name link</label>
+                  <input type="text" #namelinkBottom class="form-control" id="nameLinkBottom" placeholder="Name link">
+                </div>
+                <div class="form-group col-xs-12 generate-link">
+                  <label for="linkBottom">Actual link</label>
+                  <input type="text" #actuallinkBottom class="form-control" id="linkBottom" placeholder="Actual link">
+                </div>
+                <div class="form-group col-xs-12 generate-link">
+                  <button class="btn btn-default" (click)="generateLinkTextBottom(namelinkBottom.value, actuallinkBottom.value)" data-dismiss="modal">Generate</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row input-field">
+      <div class="form-group col-xs-6">
+        <input type="radio" name="bg" [checked]="!event.eventText.backgroundImageToggle" (click)="toggleBackgroundImage(false)">
+        <label for="bgColor">Background color</label>
+        <div>
+          <input id="bgColor" type="color" [(ngModel)]="event.eventText.backgroundColor">
+        </div>
+      </div>
+      <div class="form-group col-xs-6">
+        <label for="textColor">Text color</label>
+        <div>
+          <input [disabled]="event.eventText.backgroundImageToggle===true" id="textColor" type="color" [(ngModel)]="event.eventText.textColor">
+        </div>
+      </div>
+    </div>
+    <div class="row input-field">
+      <div class="form-group col-xs-6">
+        <input type="radio" name="bg" [checked]="event.eventText.backgroundImageToggle" (click)="toggleBackgroundImage(true)">
+        <label for="bgImage">Background image</label>
+        <div>
+          <button [disabled]="event.eventText.backgroundImage != null || event.eventText.backgroundImageToggle===false" id="bgImage" type="button" class="btn btn-primary" (click)="setBgImage()">Choose background image</button>
+          <button *ngIf="event.eventText.backgroundImage != null" type="button"
+                  class="btn btn-danger" (click)="deleteBgImage()">Delete background image
+          </button>
+          <div>
+            <img *ngIf="event.eventText.backgroundImage != null" src="{{event.eventText.backgroundImage}}" class="img-rounded share-logo" alt="bgimage">
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-xs-6">
+        <label for="qrCode">QR code</label>
+        <div>
+          <button [disabled]="event.eventText.qrCodeImage != null" id="qrCode" type="button" class="btn btn-primary" (click)="setQrCodeImage()">Choose QR code image</button>
+          <button *ngIf="event.eventText.qrCodeImage != null" type="button"
+                  class="btn btn-danger" (click)="deleteQrCodeImage()">Delete QR code
+          </button>
+          <div>
+            <img *ngIf="event.eventText.qrCodeImage != null" src="{{event.eventText.qrCodeImage}}" class="img-rounded share-logo" alt="qrCode">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-4">
+      <div class="row">
+        <h2 class="col-xs-12">Preview</h2>
+      </div>
+    <div class="row">
+    <div class="preview" [style.background-color]="eventText.backgroundColor">
+      <img *ngIf="event.eventText.logo!=null" class="preview-logo" src="{{event.eventText.logo}}" alt="preview-logo">
+      <p *ngIf="event.eventText.textAbovePhoto!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textAbovePhoto"></p>
+      <p *ngIf="event.eventText.textUpper!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textUpper"></p>
+      <img class="preview-photo" src="../../../assets/images/share-page/placeholder.png" alt="preview-logo">
+      <img class="preview-photo" src="../../../assets/images/share-page/placeholder.png" alt="preview-logo">
+      <p *ngIf="event.eventText.textUnderPhoto!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textUnderPhoto"></p>
+      <img *ngIf="event.eventText.qrCodeImage!=null" class="preview-qr" src="{{event.eventText.qrCodeImage}}" alt="preview-qr">
+      <p *ngIf="event.eventText.textBottom!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textBottom"></p>
+    </div>
+    </div>
   </div>
 </div>
+</div>
+
+
 
 
