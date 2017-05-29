@@ -19,13 +19,12 @@ exports.getAllPrinters = function getAllPrinters() {
   return installedPrinters;
 };
 
-exports.printImage = function printImage(chosenPrinter, mediaDirectory, imagePrefix, imageNumbers) {
+exports.printImage = function printImage(chosenPrinter, mediaDirectory, imagePrefix, imageNumber) {
   console.log('printer-configuration.js - printImage()');
 
   let usedPrinter = chosenPrinter;
 
   let image = null;
-  let imageNumber = imageNumbers[0];
 
   // TODO: Support other file formats.
   if (process.platform !== 'win32') {

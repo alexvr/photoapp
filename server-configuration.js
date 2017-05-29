@@ -382,5 +382,7 @@ function sendExistingFiles(client) {
 }
 
 function printImages(imageNumbers) {
-  printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers);
+  for (i = 0; i < imageNumbers.length; i++) {
+    printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers[i]);
+  }
 }
