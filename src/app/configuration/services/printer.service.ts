@@ -111,5 +111,17 @@ export class PrinterService {
     }
   }
 
+  printWatermarkPhoto(watermark: string) {
+    if (typeof ipcRenderer !== 'undefined') {
+      const printerArguments: string[] = ['print-watermark-photo', watermark];
+      ipcRenderer.send('async', printerArguments);
+
+      //reply
+      ipcRenderer.on('async-print-watermark-photo', (event, arg) => {
+        console.log(arg);
+      })
+    }
+  }
+
 
 }

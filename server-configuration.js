@@ -106,6 +106,13 @@ io.on('connection', function (client) {
 });
 
 /**
+ * Socket.io printing
+ */
+io.on('print', function (images) {
+
+})
+
+/**
  * Sends the OverviewLayout and DetailLayout to all connected clients.
  * @param client
  * @returns {string}
@@ -126,7 +133,7 @@ function broadCastImage(imagePath) {
   const imageNumber = getImageNumber(imagePath);
   const imageBuffer = 'data:image/jpg;base64,' + fs.readFileSync(imagePath, 'base64');
 
-  io.emit('image', { imageCount: imageNumber, imageBase: imageBuffer });
+  io.emit('image', {imageCount: imageNumber, imageBase: imageBuffer});
   mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to all clients!');
 }
 
@@ -153,7 +160,7 @@ function getImageNumber(imagePath) {
 function sendImageToClient(client, imagePath, imageNumber) {
   const clientAddress = client.request.connection.remoteAddress;
   fs.readFile(imagePath, function (error, buf) {
-    client.emit('image', { imageCount: imageNumber, imageBase: 'data:image/jpg;base64,' + buf.toString('base64') });
+    client.emit('image', {imageCount: imageNumber, imageBase: 'data:image/jpg;base64,' + buf.toString('base64')});
     mainWindow.webContents.send('async-logs', 'Image (' + imagePath + ') from FTP sent to client ' + clientAddress + '!');
   })
 }

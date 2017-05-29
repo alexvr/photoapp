@@ -16,8 +16,8 @@ import {EventOverviewComponent} from './event/event-overview/event-overview.comp
 import {EventDetailComponent} from './event/event-detail/event-detail.component';
 import {SharePageComponent} from './configuration/share-page/share-page.component';
 
-export const routes: Routes = [
-  /*{path: '', component: LoginComponent},
+export const routes: Routes = [/*
+  {path: '', component: LoginComponent},
    {path: 'start-screen', component: StartScreenComponent},
    {
    path: 'configuration', component: ConfigurationComponent,
@@ -41,8 +41,8 @@ export const routes: Routes = [
    },
    {path: 'temp-event-overview', component: EventOverviewComponent},
    {path: 'event-dashboard', component: EventDashboardComponent},
-   {path: '**', redirectTo: ''}*/
-
+   {path: '**', redirectTo: ''}
+*/
   {path: 'fdqs', component: LoginComponent},
   {path: '', component: StartScreenComponent},
   {
@@ -69,7 +69,7 @@ export const routes: Routes = [
   {path: 'temp-event-detail', component: EventDetailComponent},
   {path: 'event-dashboard', component: EventDashboardComponent},
   {path: '**', redirectTo: ''}
-];
+ ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

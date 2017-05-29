@@ -32,3 +32,5 @@ exports.getImageDataUri = function (path, event) {
     }
   });
 };
+
+

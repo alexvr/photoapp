@@ -2,6 +2,7 @@ import {Component, ViewChild, ElementRef, OnInit, OnDestroy} from "@angular/core
 import {ImageWatermark} from "../../../model/imageWatermark/ImageWatermark";
 import {WatermarkConfigService} from "../../services/watermark-config.service";
 import {ActivatedRoute} from "@angular/router";
+import {PrinterService} from "../../services/printer.service";
 
 @Component({
   selector: 'watermark-config',
@@ -46,6 +47,7 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+
     this.activatedRoute.params.subscribe(params => {
         this.imageWatermark.print = this.isPrint;
         if (+params['id'] === 1) {

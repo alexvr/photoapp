@@ -51,3 +51,34 @@ exports.testPrintPhotoOnPrinter = function testPrintPhotoOnPrinter(argumentPrint
     });
   }
 };
+
+exports.printWatermarkPhoto = function printWatermarkPhoto(watermark) {
+  console.log('printer-configuration.js - printWatermarkPhoto()');
+
+  let usedPrinter = null;
+  let data = watermark;
+
+  if( process.platform !== 'win32') {
+    printer.printFile({filename:data,
+      printer: usedPrinter, // printer name, if missing then will print to default printer
+      success:function(jobID){
+        console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
+      },
+      error:function(err){
+        console.log(err);
+      }
+    });
+  } else {
+    // not yet implemented, use printDirect and text
+    let fs = require('fs');
+    printer.printDirect({data:fs.readFileSync(data),
+      printer: usedPrinter, // printer name, if missing then will print to default printer
+      success:function(jobID){
+        console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
+      },
+      error:function(err){
+        console.log(err);
+      }
+    });
+  }
+};
