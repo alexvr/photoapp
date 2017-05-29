@@ -27,25 +27,27 @@ exports.testPrintPhotoOnPrinter = function testPrintPhotoOnPrinter(argumentPrint
   let usedPrinter = argumentPrinter;
   let filename = './src/assets/images/photo.jpg';
 
-  if( process.platform !== 'win32') {
-    printer.printFile({filename:filename,
+  if (process.platform !== 'win32') {
+    printer.printFile({
+      filename: filename,
       printer: usedPrinter, // printer name, if missing then will print to default printer
-      success:function(jobID){
+      success: function (jobID) {
         console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
       },
-      error:function(err){
+      error: function (err) {
         console.log(err);
       }
     });
   } else {
     // not yet implemented, use printDirect and text
     let fs = require('fs');
-    printer.printDirect({data:fs.readFileSync(filename),
+    printer.printDirect({
+      data: fs.readFileSync(filename),
       printer: usedPrinter, // printer name, if missing then will print to default printer
-      success:function(jobID){
+      success: function (jobID) {
         console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
       },
-      error:function(err){
+      error: function (err) {
         console.log(err);
       }
     });
@@ -58,27 +60,40 @@ exports.printWatermarkPhoto = function printWatermarkPhoto(watermark) {
   let usedPrinter = null;
   let data = watermark;
 
-  if( process.platform !== 'win32') {
-    printer.printFile({filename:data,
+  if (process.platform !== 'win32') {
+    printer.printFile({
+      filename: data,
       printer: usedPrinter, // printer name, if missing then will print to default printer
-      success:function(jobID){
+      success: function (jobID) {
         console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
       },
-      error:function(err){
+      error: function (err) {
         console.log(err);
       }
     });
   } else {
     // not yet implemented, use printDirect and text
     let fs = require('fs');
-    printer.printDirect({data:fs.readFileSync(data),
+    printer.printDirect({
+      data: fs.readFileSync(data),
       printer: usedPrinter, // printer name, if missing then will print to default printer
-      success:function(jobID){
+      success: function (jobID) {
         console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
       },
-      error:function(err){
+      error: function (err) {
         console.log(err);
       }
     });
   }
+};
+
+/**
+ * Creating the picture with watermark
+ */
+let Canvas = require('canvas');
+
+exports.createWatermarkPhoto = function createWatermarkPhoto(watermark) {
+  canvas = new Canvas(200, 200);
+  ctx = canvas.getContext('2d');
+  console.log(ctx);
 };

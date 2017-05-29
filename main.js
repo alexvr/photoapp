@@ -91,6 +91,12 @@ ipcMain.on('async', (event, arg) => {
     event.sender.send('async-print-watermark-photo', 'Watermark has been sent to printer!');
   }
 
+  // PrinterService - createWatermarkPhoto()
+  if (arg[0] === 'draw-watermark-photo') {
+    printerConfiguration.createWatermarkPhoto(arg[1]);
+    event.sender.send('async-draw-watermark-photo', 'Watermark is created!');
+  }
+
   // ServerService - startServer()
   if (arg[0] === 'start-server') {
     let serverHost = serverConfiguration.startServer(arg[1], arg[2], arg[3], arg[4], window);

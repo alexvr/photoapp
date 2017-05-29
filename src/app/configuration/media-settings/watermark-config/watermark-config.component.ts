@@ -17,7 +17,7 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
   private logo = new Image();
   private overlay = new Image();
 
-  constructor(private watermarkConfigService: WatermarkConfigService, private activatedRoute: ActivatedRoute) {
+  constructor(private watermarkConfigService: WatermarkConfigService, private activatedRoute: ActivatedRoute, private printService: PrinterService) {
     this.imageWatermark = new ImageWatermark();
   }
 
@@ -47,6 +47,7 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.printService.drawWatermarkPhoto(this.imageWatermark);
 
     this.activatedRoute.params.subscribe(params => {
         this.imageWatermark.print = this.isPrint;

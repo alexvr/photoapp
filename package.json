@@ -28,6 +28,7 @@
     "angular2-useful-swiper": "^4.0.1",
     "auth0-js": "^8.5.0",
     "auth0-lock": "^10.14.0",
+    "canvas": "1.6.5",
     "chokidar": "^1.6.1",
     "cloudinary": "^1.9.0",
     "core-js": "^2.4.1",

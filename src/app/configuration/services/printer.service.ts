@@ -1,5 +1,6 @@
 import {Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+import {ImageWatermark} from "../../model/imageWatermark/ImageWatermark";
 
 // Inter Process Communication
 let ipcRenderer;
@@ -123,5 +124,17 @@ export class PrinterService {
     }
   }
 
+  drawWatermarkPhoto(watermark: ImageWatermark) {
+    if (typeof ipcRenderer !== 'undefined') {
+      const printerArguments: any[] = ['draw-watermark-photo', watermark];
+
+      ipcRenderer.send('async', printerArguments);
+
+      //reply
+      ipcRenderer.on('async-draw-watermark-photo', (event, arg) => {
+        console.log(arg);
+      })
+    }
+  }
 
 }
