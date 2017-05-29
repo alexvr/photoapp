@@ -103,6 +103,7 @@ io.on('connection', function (client) {
   mainWindow.webContents.send('async-logs', 'A client device with IP ' + clientIp + ' connected!');
 
   client.emit('private-message', 'Yo I received your IP! You good?');
+  sendEventId(client);
   sendLayout(client);
   sendExistingFiles(client);
 
@@ -122,6 +123,12 @@ io.on('connection', function (client) {
   });
 });
 
+function sendEventId(client) {
+  let clientIp = client.request.connection.remoteAddress;
+  client.emit('event-id', eventId);
+  mainWindow.webContents.send('async-logs', 'EventId has been sent to client with IP: ' + clientIp + '!');
+}
+
 /**
  * Sends the OverviewLayout and DetailLayout to all connected clients.
  * @param client
@@ -129,8 +136,8 @@ io.on('connection', function (client) {
  */
 function sendLayout(client) {
   let clientIp = client.request.connection.remoteAddress;
-  io.emit('overview-layout', overviewLayout);
-  io.emit('detail-layout', detailLayout);
+  client.emit('overview-layout', overviewLayout);
+  client.emit('detail-layout', detailLayout);
   mainWindow.webContents.send('async-logs', 'Layout has been sent to client with IP: ' + clientIp + '!');
 }
 
