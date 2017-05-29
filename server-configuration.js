@@ -6,10 +6,11 @@ const io = require('socket.io')(app);
 const fs = require('fs');
 const path = require('path');
 
-// Modules for directory watching, IP address and image resizing.
+// Modules for directory watching, IP address, image resizing and printing.
 const chokidar = require('chokidar');
 const internalIp = require('internal-ip');
 const imageResize = require('./image-resize');
+const printerConfiguration = require('./printer-configuration');
 
 // Prefix for added images and width of resized image.
 const imagePrefix = 'COM_';
@@ -18,20 +19,22 @@ let resizedImageWidth = 0;
 // Global references.
 let mainWindow = null;
 let mediaDirectory = null;
+let printer = null;
 let imageCounter = 0;
 let overviewLayout = null;
 let detailLayout = null;
 
 /**
- *  * Start web sockets server on current network IP4 address on port 3001.
+ * Start web sockets server on current network IP4 address on port 3001.
  * @param mediaFolder
  * @param imageQuality
+ * @param eventPrinter
  * @param overview
  * @param detail
  * @param window
  * @returns {number} Current network IP4 address
  */
-exports.startServer = function startServer(mediaFolder, imageQuality, overview, detail, window) {
+exports.startServer = function startServer(mediaFolder, imageQuality, eventPrinter, overview, detail, window) {
   // Set global main window reference.
   mainWindow = window;
   mainWindow.webContents.send('async-logs', 'Start server...');
@@ -40,8 +43,9 @@ exports.startServer = function startServer(mediaFolder, imageQuality, overview, 
   app.listen(3001);
   mainWindow.webContents.send('async-logs', 'Server listening on ' + internalIp.v4() + ':3001!');
 
-  // Set the mediafolder to the specified in the event configuration.
+  // Set the mediafolder to the specified in the event configuration and the printer.
   mediaDirectory = mediaFolder;
+  printer = eventPrinter;
 
   // Set the layout for the event.
   overviewLayout = overview;
@@ -103,14 +107,17 @@ io.on('connection', function (client) {
     mainWindow.webContents.send('async-client-disconnect', clientIp);
     mainWindow.webContents.send('async-logs', 'A client device with IP ' + clientIp + ' disconnected!');
   });
+
+  // Printing message with array of imageNumbers.
+  client.on('print', function (imageNumbers) {
+    printImages(imageNumbers);
+    /*imageNumbers.forEach(function (image) {
+      console.log('server-configuration.js - Printing image with number ' + image);
+      printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, image);
+    })*/
+    //printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers[0]);
+  });
 });
-
-/**
- * Socket.io printing
- */
-io.on('print', function (images) {
-
-})
 
 /**
  * Sends the OverviewLayout and DetailLayout to all connected clients.
@@ -295,6 +302,7 @@ function deleteImage(filePath) {
  * If there are uncompressed files in the mediafolder, compress them.
  */
 function checkUncompressedFiles() {
+  let fileCounter = 0;
   // If the compressed folder doesn't exist, create it.
   if (!fs.existsSync(mediaDirectory + '/compressed')) {
     fs.mkdirSync(mediaDirectory + '/compressed');
@@ -305,14 +313,22 @@ function checkUncompressedFiles() {
     let list = filenames.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
 
     list.forEach(function (filename) {
+      fileCounter++;
+
       const listItemPath = mediaDirectory + '/compressed/' + filename;
       if (fs.lstatSync(listItemPath).isFile()) {
-        const itemNumber = getImageNumber(listItemPath);
+        const itemNumber = parseInt(getImageNumber(listItemPath));
         if (itemNumber > imageCounter) {
           imageCounter = itemNumber;
+          console.log("ImageCounter na check uncompressed files: " + imageCounter);
         }
       }
     });
+
+    // So that you don't override the last image.
+    if (fileCounter > 0) {
+      imageCounter++;
+    }
   });
 
   fs.readdir(mediaDirectory, function (err, filenames) {
@@ -353,4 +369,8 @@ function sendExistingFiles(client) {
       });
     });
   }
+}
+
+function printImages(imageNumbers) {
+  printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers);
 }
