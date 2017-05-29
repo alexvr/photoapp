@@ -22,3 +22,40 @@ h2{
 .input-field{
   padding-top: 1rem;
 }
+.share-logo{
+  max-height: 15rem;
+  max-width: 30rem;
+  padding-top: 1rem;
+}
+.preview{
+  height: 70rem;
+  width: 40rem;
+  margin: 2rem;
+  border-style: solid;
+  border-width: 0.5rem;
+  border-radius: 1rem;
+  border-color: #d9d9d9;
+  overflow-y:scroll ;
+}
+.preview-logo{
+  max-height: 15rem;
+  display: block;
+  margin: 0 auto;
+}
+.preview-text{
+  margin-top: 2rem;
+  text-align: center;
+}
+.preview-photo{
+  max-width: 30rem;
+  display: block;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+.preview-qr{
+  max-height: 15rem;
+  max-width: 30rem;
+  display: block;
+  margin: 0 auto;
+}
+

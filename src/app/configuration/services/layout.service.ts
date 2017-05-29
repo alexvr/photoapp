@@ -35,7 +35,7 @@ export class LayoutService {
       ipcRenderer.send('async', params);
       ipcRenderer.on('async-delete-cloudinary-file', (event, arg) => {
         console.log(arg);
-      })
+      });
     }
   }
 }
