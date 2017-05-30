@@ -185,8 +185,8 @@
     <div class="row">
     <div class="preview" [style.background-color]="eventText.backgroundColor">
       <img *ngIf="event.eventText.logo!=null" class="preview-logo" src="{{event.eventText.logo}}" alt="preview-logo">
-      <p *ngIf="event.eventText.textAbovePhoto!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textAbovePhoto"></p>
       <p *ngIf="event.eventText.textUpper!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textUpper"></p>
+      <p *ngIf="event.eventText.textAbovePhoto!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textAbovePhoto"></p>
       <img class="preview-photo" src="../../../assets/images/share-page/placeholder.png" alt="preview-logo">
       <img class="preview-photo" src="../../../assets/images/share-page/placeholder.png" alt="preview-logo">
       <p *ngIf="event.eventText.textUnderPhoto!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textUnderPhoto"></p>

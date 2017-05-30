@@ -26,6 +26,8 @@ main {
   margin: 0 auto;
   padding: 0 1rem;
   border-radius: 10px;
+  overflow-y: scroll;
+  overflow-x: scroll;
 }
 
 .configSteps {
