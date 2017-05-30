@@ -2,6 +2,7 @@ import {Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {OverviewLayout} from '../../model/layout/OverviewLayout';
 import {DetailLayout} from '../../model/layout/DetailLayout';
+import {ImageWatermark} from "../../model/imageWatermark/ImageWatermark";
 
 // Inter Process Communication
 let ipcRenderer;
@@ -28,6 +29,7 @@ export class ServerService {
    * @param printer
    * @param overviewLayout
    * @param detailLayout
+   * @param printWatermark
    * @returns {number} Network IP4 address
    */
   public startServer(mediaFolder: string,
@@ -36,7 +38,8 @@ export class ServerService {
                      eventName: string,
                      printer: string,
                      overviewLayout: OverviewLayout,
-                     detailLayout: DetailLayout): Observable<number> {
+                     detailLayout: DetailLayout,
+                     printWatermark: ImageWatermark): Observable<number> {
     return new Observable(observer => {
       let serverHost = '127.0.0.1';
       this.hasIpc = (typeof ipcRenderer !== 'undefined');
@@ -45,7 +48,8 @@ export class ServerService {
         // Send async message to start the server.
         const overviewString: string = JSON.stringify(overviewLayout);
         const detailString: string = JSON.stringify(detailLayout);
-        const serverArguments: string[] = ['start-server', mediaFolder, imageQuality, eventId, eventName, printer, overviewString , detailString];
+        const printWatermarkString: string = JSON.stringify(printWatermark);
+        const serverArguments: string[] = ['start-server', mediaFolder, imageQuality, eventId, eventName, printer, overviewString, detailString, printWatermarkString];
         ipcRenderer.send('async', serverArguments);
 
         // Listen to response from the main process.

@@ -111,30 +111,4 @@ export class PrinterService {
       });
     }
   }
-
-  printWatermarkPhoto(watermark: string) {
-    if (typeof ipcRenderer !== 'undefined') {
-      const printerArguments: string[] = ['print-watermark-photo', watermark];
-      ipcRenderer.send('async', printerArguments);
-
-      //reply
-      ipcRenderer.on('async-print-watermark-photo', (event, arg) => {
-        console.log(arg);
-      })
-    }
-  }
-
-  drawWatermarkPhoto(watermark: ImageWatermark) {
-    if (typeof ipcRenderer !== 'undefined') {
-      const printerArguments: any[] = ['draw-watermark-photo', watermark];
-
-      ipcRenderer.send('async', printerArguments);
-
-      //reply
-      ipcRenderer.on('async-draw-watermark-photo', (event, arg) => {
-        console.log(arg);
-      })
-    }
-  }
-
 }

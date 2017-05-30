@@ -55,7 +55,8 @@ export class EventDashboardComponent implements OnInit, OnDestroy {
     const printer = this.event.config.printerName;
     const overviewLayout = this.event.overviewLayout;
     const detailLayout = this.event.detailLayout;
-    this.serverService.startServer(mediastorage, photoQuality, eventId, eventName, printer, overviewLayout, detailLayout).subscribe(host => this.serverHost = host);
+    const printWatermark = this.event.config.printWatermark;
+    this.serverService.startServer(mediastorage, photoQuality, eventId, eventName, printer, overviewLayout, detailLayout, printWatermark).subscribe(host => this.serverHost = host);
     this.serverPort = 3001;
 
     // Get the IP addresses of all connected clients and display them.

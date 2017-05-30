@@ -26,6 +26,7 @@ let printer = null;
 let imageCounter = 0;
 let overviewLayout = null;
 let detailLayout = null;
+let printWatermark = null;
 
 /**
  * Start web sockets server on current network IP4 address on port 3001.
@@ -39,7 +40,7 @@ let detailLayout = null;
  * @param window
  * @returns {number} Current network IP4 address
  */
-exports.startServer = function startServer(mediaFolder, imageQuality, chosenEventId, chosenEventName, eventPrinter, overview, detail, window) {
+exports.startServer = function startServer(mediaFolder, imageQuality, chosenEventId, chosenEventName, eventPrinter, overview, detail, watermark, window) {
   // Set global main window reference.
   mainWindow = window;
   mainWindow.webContents.send('async-logs', 'Start server...');
@@ -59,6 +60,9 @@ exports.startServer = function startServer(mediaFolder, imageQuality, chosenEven
   // Set the layout for the event.
   overviewLayout = overview;
   detailLayout = detail;
+
+  // Set the watermark for printing.
+  printWatermark = watermark;
 
   // Set the compression for the client images.
   setCompressionQuality(imageQuality);
@@ -383,7 +387,11 @@ function sendExistingFiles(client) {
 }
 
 function printImages(imageNumbers) {
+  if (!fs.existsSync(mediaDirectory + '/print-images')) {
+    fs.mkdirSync(mediaDirectory + '/print-images');
+  }
+
   for (i = 0; i < imageNumbers.length; i++) {
-    printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers[i]);
+    printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers[i], printWatermark);
   }
 }
