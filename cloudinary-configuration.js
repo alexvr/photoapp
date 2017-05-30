@@ -19,7 +19,6 @@ exports.uploadFile = function (event, path) {
   configureCloudinary();
   dialog.showOpenDialog({
     properties: ['openFile']
-
   }, selectedFiles => {
     if (selectedFiles != null) {
       let stream = cloudinary.uploader.upload_stream(function (result) {
@@ -30,6 +29,21 @@ exports.uploadFile = function (event, path) {
     } else {
       console.log("Cancelled file-upload.");
     }
+  });
+};
+
+/**
+ * Method for uploading an Event image to the Cloudinary directory.
+ * @param uploadLocation: location of the uploaded image
+ * @param imagePath location of local image
+ */
+exports.uploadImageFromServer = function (uploadLocation, imagePath) {
+  configureCloudinary();
+
+  cloudinary.uploader.upload(imagePath, function(result) {
+    console.log(result)
+  }, {
+    public_id: uploadLocation
   });
 };
 

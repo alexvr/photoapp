@@ -23,6 +23,9 @@ export class ServerService {
    * watches the given mediafolder and defines photo quality.
    * @param mediaFolder
    * @param imageQuality
+   * @param eventId
+   * @param eventName
+   * @param printer
    * @param overviewLayout
    * @param detailLayout
    * @returns {number} Network IP4 address
@@ -30,6 +33,7 @@ export class ServerService {
   public startServer(mediaFolder: string,
                      imageQuality: string,
                      eventId: string,
+                     eventName: string,
                      printer: string,
                      overviewLayout: OverviewLayout,
                      detailLayout: DetailLayout): Observable<number> {
@@ -41,7 +45,7 @@ export class ServerService {
         // Send async message to start the server.
         const overviewString: string = JSON.stringify(overviewLayout);
         const detailString: string = JSON.stringify(detailLayout);
-        const serverArguments: string[] = ['start-server', mediaFolder, imageQuality, eventId, printer, overviewString , detailString];
+        const serverArguments: string[] = ['start-server', mediaFolder, imageQuality, eventId, eventName, printer, overviewString , detailString];
         ipcRenderer.send('async', serverArguments);
 
         // Listen to response from the main process.
