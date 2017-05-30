@@ -56,6 +56,7 @@ export class EventDashboardComponent implements OnInit, OnDestroy {
     const overviewLayout = this.event.overviewLayout;
     const detailLayout = this.event.detailLayout;
     const printWatermark = this.event.config.printWatermark;
+
     this.serverService.startServer(mediastorage, photoQuality, eventId, eventName, printer, overviewLayout, detailLayout, printWatermark).subscribe(host => this.serverHost = host);
     this.serverPort = 3001;
 

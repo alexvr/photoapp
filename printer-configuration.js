@@ -45,37 +45,35 @@ exports.printImage = function printImage(chosenPrinter, mediaDirectory, imagePre
 
   stream.on('end', function () {
     console.log('saved png');
+
+    console.log('printer-configuration.js - Printing image ' + image);
+
+    if (process.platform !== 'win32') {
+      printer.printFile({
+        filename: watermarkImage,
+        printer: usedPrinter, // printer name, if missing then will print to default printer
+        success: function (jobID) {
+          console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
+        },
+        error: function (err) {
+          console.log(err);
+        }
+      });
+    } else {
+      // not yet implemented, use printDirect and text
+      let fs = require('fs');
+      printer.printDirect({
+        data: fs.readFileSync(watermarkImage),
+        printer: usedPrinter, // printer name, if missing then will print to default printer
+        success: function (jobID) {
+          console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
+        },
+        error: function (err) {
+          console.log(err);
+        }
+      });
+    }
   });
-
-  console.log('printer-configuration.js - Printing image ' + image);
-
-  if (process.platform !== 'win32') {
-    printer.printFile({
-      filename: watermarkImage,
-      printer: usedPrinter, // printer name, if missing then will print to default printer
-      success: function (jobID) {
-        console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
-      },
-      error: function (err) {
-        console.log(err);
-      }
-    });
-  } else {
-    // not yet implemented, use printDirect and text
-    let fs = require('fs');
-    printer.printDirect({
-      data: fs.readFileSync(watermarkImage),
-      printer: usedPrinter, // printer name, if missing then will print to default printer
-      success: function (jobID) {
-        console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
-      },
-      error: function (err) {
-        console.log(err);
-      }
-    });
-  }
-
-
 };
 
 /**
@@ -123,32 +121,41 @@ function createWatermarkPhoto(watermark, imageLocation) {
   let canvas = new Canvas(watermark.width, watermark.height);
   ctx = canvas.getContext('2d');
 
+  console.log('createWatermarkPhoto:');
+  console.log(watermark);
+  console.log(imageLocation);
+
   // IMAGE
-  let image = new Image();
-  fs.readFile(imageLocation, function (err, data) {
-    image.src = 'data:image/png;base64,' + new Buffer(data).toString('base64');
-    if (err) {
-      console.error('Error occurred while reading the image: ' + err);
-    }
+  fs.readFile(imageLocation, function (err, image) {
+    if (err) throw err;
+    img = new Canvas.Image;
+    img.src = image;
+    ctx.drawImage(img, watermark.imageX, watermark.imageY,
+      (img.width / 100 * watermark.imageScale), (img.height / 100 * watermark.imageScale));
   });
-  ctx.drawImage(image, watermark.imageX, watermark.imageY,
-    (image.width / 100 * watermark.imageScale), (image.height / 100 * watermark.imageScale));
 
   // OVERLAY
   if (watermark.overlayLocation != null) {
-    let overlay = new Image();
-    overlay.src = watermark.overlayLocation;
-    ctx.drawImage(overlay, watermark.overlayX, watermark.overlayY,
-      (overlay.width / 100 * watermark.overlayScale), (watermark.height / 100 * watermark.overlayScale));
+    fs.readFile(watermark.overlayLocation, function (err, overlayImg) {
+      if (err) throw err;
+      img = new Canvas.Image;
+      img.src = overlayImg;
+      ctx.drawImage(img, watermark.overlayX, watermark.overlayY,
+        (img.width / 100 * watermark.overlayScale), (img.height / 100 * watermark.overlayScale));
+    });
   }
 
   // LOGO
   if (watermark.logoLocation != null) {
-    let logo = new Image();
-    logo.src = watermark.logoLocation;
-    ctx.drawImage(this.logo, watermark.logoX, watermark.logoY,
-      (this.logo.width / 100 * watermark.logoScale), (this.logo.height / 100 * watermark.logoScale));
+    fs.readFile(watermark.logoLocation, function (err, logoImg) {
+      if (err) throw err;
+      img = new Canvas.Image;
+      img.src = logoImg;
+      ctx.drawImage(img, watermark.logoX, watermark.logoY,
+        (img.width / 100 * watermark.logoScale), (img.height / 100 * watermark.logoScale));
+    });
   }
 
   return canvas;
 }
+

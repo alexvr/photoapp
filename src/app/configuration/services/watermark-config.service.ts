@@ -1,6 +1,7 @@
-import {Injectable, NgZone} from '@angular/core';
+import {Injectable, NgZone, OnInit} from '@angular/core';
 import {ImageWatermark} from '../../model/imageWatermark/ImageWatermark';
 import {Observable} from 'rxjs/Observable';
+import {ConfigurationService} from "./configuration.service";
 
 let ipcRenderer;
 if (typeof window['require'] !== 'undefined') {
@@ -10,30 +11,11 @@ if (typeof window['require'] !== 'undefined') {
 
 @Injectable()
 export class WatermarkConfigService {
-  private printWatermark: ImageWatermark;
-  private webWatermark: ImageWatermark;
 
   private hasIpc: boolean;
 
   constructor(private zone: NgZone) {
-    this.printWatermark = new ImageWatermark();
-    this.printWatermark = new ImageWatermark();
-  }
 
-  getPrintWatermark(): ImageWatermark {
-    return this.printWatermark;
-  }
-
-  getWebWatermark(): ImageWatermark {
-    return this.webWatermark;
-  }
-
-  setPrintWatermark(printwm: ImageWatermark) {
-    this.printWatermark = printwm;
-  }
-
-  setWebWatermark(webwm: ImageWatermark) {
-    this.webWatermark = webwm;
   }
 
   /**

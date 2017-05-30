@@ -49,6 +49,10 @@ export class ServerService {
         const overviewString: string = JSON.stringify(overviewLayout);
         const detailString: string = JSON.stringify(detailLayout);
         const printWatermarkString: string = JSON.stringify(printWatermark);
+
+        console.log("server-service");
+        console.log(printWatermarkString);
+
         const serverArguments: string[] = ['start-server', mediaFolder, imageQuality, eventId, eventName, printer, overviewString, detailString, printWatermarkString];
         ipcRenderer.send('async', serverArguments);
 

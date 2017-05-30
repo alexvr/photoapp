@@ -391,6 +391,8 @@ function printImages(imageNumbers) {
     fs.mkdirSync(mediaDirectory + '/print-images');
   }
 
+  console.log(printWatermark);
+
   for (i = 0; i < imageNumbers.length; i++) {
     printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers[i], printWatermark);
   }

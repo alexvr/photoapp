@@ -3,6 +3,7 @@ import {ImageWatermark} from "../../../model/imageWatermark/ImageWatermark";
 import {WatermarkConfigService} from "../../services/watermark-config.service";
 import {ActivatedRoute} from "@angular/router";
 import {PrinterService} from "../../services/printer.service";
+import {ConfigurationService} from "../../services/configuration.service";
 
 @Component({
   selector: 'watermark-config',
@@ -17,7 +18,7 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
   private logo = new Image();
   private overlay = new Image();
 
-  constructor(private watermarkConfigService: WatermarkConfigService, private activatedRoute: ActivatedRoute) {
+  constructor(private watermarkConfigService: WatermarkConfigService, private configService: ConfigurationService, private activatedRoute: ActivatedRoute) {
     this.imageWatermark = new ImageWatermark();
   }
 
@@ -25,13 +26,13 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(params => {
       if (+params['id'] === 1) {
         this.isPrint = true;
-        if (this.watermarkConfigService.getPrintWatermark() != null) {
-          this.imageWatermark = this.watermarkConfigService.getPrintWatermark()
+        if (this.configService.getConfiguredEvent().config.printWatermark != null) {
+          this.imageWatermark = this.configService.getConfiguredEvent().config.printWatermark;
         }
       } else {
         this.isPrint = false;
-        if (this.watermarkConfigService.getWebWatermark() != null) {
-          this.imageWatermark = this.watermarkConfigService.getWebWatermark();
+        if (this.configService.getConfiguredEvent().config.webWatermark != null) {
+          this.imageWatermark = this.configService.getConfiguredEvent().config.webWatermark;
         }
       }
       if (this.imageWatermark != null) {
@@ -50,9 +51,9 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(params => {
         this.imageWatermark.print = this.isPrint;
         if (+params['id'] === 1) {
-          this.watermarkConfigService.setPrintWatermark(this.imageWatermark);
+          this.configService.getConfiguredEvent().config.printWatermark = this.imageWatermark;
         } else {
-          this.watermarkConfigService.setWebWatermark(this.imageWatermark);
+          this.configService.getConfiguredEvent().config.webWatermark = this.imageWatermark;
         }
       }
     );
