@@ -18,6 +18,9 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
   private logo = new Image();
   private overlay = new Image();
 
+  private dimensionUnits: string[] = ['pixels', 'inches', 'centimeters'];
+  private activeDimensionUnit: string = this.dimensionUnits[0];
+
   constructor(private watermarkConfigService: WatermarkConfigService, private configService: ConfigurationService, private activatedRoute: ActivatedRoute) {
     this.imageWatermark = new ImageWatermark();
   }
@@ -63,7 +66,7 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
    * This function draws the watermark on the canvas
    */
   draw() {
-    console.log('draw');
+    console.log('watermark-config.component.ts - drawing canvas');
     let ctx = this.canvasRef.nativeElement.getContext("2d");
     ctx.clearRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
 
@@ -104,5 +107,44 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
         }
       });
     });
+  }
+
+  /**
+   * formatting the chosen dimensions to pixels.
+   */
+  formatDimensions(dimension) {
+    console.log('formatDim: ' + dimension);
+    console.log('dimensions: ' + this.imageWatermark.width + '-' + this.imageWatermark.height);
+
+    switch (this.activeDimensionUnit) {
+      case this.dimensionUnits[0]:    //pixels
+        return dimension;
+      case this.dimensionUnits[1]:    //inches @300ppi
+        return Math.round(dimension * 300);
+      case this.dimensionUnits[2]:    //centimeters @300ppi
+        return Math.round(dimension * 0.39370079 * 300);
+    }
+  }
+
+  updateDimensionsUnit(dimension) {
+    console.log(this.dimensionUnits);
+    console.log('updateDim: ' + dimension);
+    this.activeDimensionUnit = dimension;
+  }
+
+  setDimensionTypeStyle(dimension) {
+    if (dimension === this.activeDimensionUnit) {
+      return {
+        'background': '#2880d0',
+        'border-color': '#245988',
+        'color': '#fff',
+      };
+    } else {
+      return {
+        'background': '#fff',
+        'border-color': '#ccc',
+        'color': '#333',
+      };
+    }
   }
 }

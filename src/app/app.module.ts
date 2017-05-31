@@ -36,6 +36,7 @@ import {OverviewLayoutChooserComponent} from "./configuration/layout-settings/ov
 import {DetailLayoutChooserComponent} from "./configuration/layout-settings/detail-layout-chooser/detail-layout-chooser.component";
 import {OverviewLayoutConfigComponent} from "./configuration/layout-settings/overview-layout-config/overview-layout-config.component";
 import {DetailLayoutConfigComponent} from "./configuration/layout-settings/detail-layout-config/detail-layout-config.component";
+import {DimensionsPipe} from "./configuration/media-settings/watermark-config/dimensions.pipe";
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {DetailLayoutConfigComponent} from "./configuration/layout-settings/detai
     OverviewLayoutChooserComponent,
     DetailLayoutChooserComponent,
     OverviewLayoutConfigComponent,
-    DetailLayoutConfigComponent
+    DetailLayoutConfigComponent,
+    DimensionsPipe
   ],
   imports: [
     BrowserModule,

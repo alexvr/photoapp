@@ -100,7 +100,7 @@ function print(image, usedPrinter) {
         console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
       },
       error: function (err) {
-        console.log(err);
+        console.error(err);
       }
     });
   } else {
@@ -113,7 +113,7 @@ function print(image, usedPrinter) {
         console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
       },
       error: function (err) {
-        console.log(err);
+        console.error(err);
       }
     });
   }
