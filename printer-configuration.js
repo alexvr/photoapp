@@ -171,6 +171,7 @@ function createWatermarkPhoto(watermarkString, imageLocation) {
 
       // OVERLAY
       if (watermark.overlayLocation != null) {
+        console.log(watermark.overlayLocation);
         fs.readFile(watermark.overlayLocation, function (err, overlayImg) {
           if (err) throw err;
           img = new Canvas.Image;

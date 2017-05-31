@@ -93,12 +93,12 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
         switch (imageType) {
           case 'logo':
             this.logo.src = y;
-            this.imageWatermark.logoLocation = y;
+            this.imageWatermark.logoLocation = x;
             this.logo.onload = (() => this.draw());
             break;
           case 'overlay':
             this.overlay.src = y;
-            this.imageWatermark.overlayLocation = y;
+            this.imageWatermark.overlayLocation = x;
             this.overlay.onload = (() => this.draw());
             break;
         }
