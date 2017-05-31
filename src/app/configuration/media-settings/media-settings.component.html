@@ -61,19 +61,6 @@
       <p><span class="glyphicon glyphicon-cog"></span><a [routerLink]="['/configuration/watermark-config/1']">Configure watermark</a></p>
     </div>
   </div>
-  <div class="row">
-    <div class="form-group col-xs-6">
-      <label for="qrImage">QR image</label>
-      <div id="qrImage" class="input-group">
-        <label class="input-group-btn">
-          <span class="btn btn-primary"  (click)="setQrPath(); $event.preventDefault();">
-            Browse&hellip; <input style="display: none;">
-          </span>
-        </label>
-        <input type="text" class="form-control" [(ngModel)]="event.config.qrImage" readonly>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- SHARING DETAILS -->
