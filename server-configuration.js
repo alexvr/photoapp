@@ -27,6 +27,7 @@ let imageCounter = 0;
 let overviewLayout = null;
 let detailLayout = null;
 let printWatermark = null;
+let useWatermark = null;
 
 /**
  * Start web sockets server on current network IP4 address on port 3001.
@@ -37,10 +38,12 @@ let printWatermark = null;
  * @param eventPrinter
  * @param overview
  * @param detail
+ * @param watermark
+ * @param useWatermarkParam
  * @param window
  * @returns {number} Current network IP4 address
  */
-exports.startServer = function startServer(mediaFolder, imageQuality, chosenEventId, chosenEventName, eventPrinter, overview, detail, watermark, window) {
+exports.startServer = function startServer(mediaFolder, imageQuality, chosenEventId, chosenEventName, eventPrinter, overview, detail, watermark, useWatermarkParam, window) {
   // Set global main window reference.
   mainWindow = window;
   mainWindow.webContents.send('async-logs', 'Start server...');
@@ -63,6 +66,7 @@ exports.startServer = function startServer(mediaFolder, imageQuality, chosenEven
 
   // Set the watermark for printing.
   printWatermark = watermark;
+  useWatermark = useWatermarkParam;
 
   // Set the compression for the client images.
   setCompressionQuality(imageQuality);
@@ -391,6 +395,6 @@ function printImages(imageNumbers) {
     fs.mkdirSync(mediaDirectory + '/print-images');
   }
   for (i = 0; i < imageNumbers.length; i++) {
-    printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers[i], printWatermark);
+    printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers[i], printWatermark, useWatermark);
   }
 }

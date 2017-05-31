@@ -23,71 +23,6 @@ exports.getAllPrinters = function getAllPrinters() {
   return installedPrinters;
 };
 
-exports.printImage = function printImage(chosenPrinter, mediaDirectory, imagePrefix, imageNumber, watermark) {
-  console.log('printer-configuration.js - printImage()');
-
-  let usedPrinter = chosenPrinter;
-
-  let image = null;
-
-  // TODO: Support other file formats.
-  if (process.platform !== 'win32') {
-    image = mediaDirectory + '/' + imagePrefix + imageNumber + '.jpg';
-  } else {
-    image = mediaDirectory + '\\' + imagePrefix + imageNumber + '.jpg';
-  }
-
-  createWatermarkPhoto(watermark, image).subscribe(val => {
-    let canvas = val;
-    let watermarkImageName = mediaDirectory + '/print-images/' + imagePrefix + imageNumber + '.jpeg';
-    let watermarkImage = fs.createWriteStream(watermarkImageName);
-    let stream = canvas.jpegStream({
-      bufsize: 4096 // output buffer size in bytes, default: 4096
-      , quality: 100 // JPEG quality (0-100) default: 75
-      , progressive: false // true for progressive compression, default: false
-    });
-
-    console.log('printer-configuration.js - writing png');
-
-    stream.on('data', function (chunk) {
-      watermarkImage.write(chunk);
-    });
-
-    stream.on('end', function () {
-      console.log('printer-configuration.js - saved png');
-      console.log('printer-configuration.js - Printing image ' + watermarkImageName);
-      setTimeout(() => {
-        if (process.platform !== 'win32') {
-          printer.printFile({
-            filename: watermarkImageName,
-            printer: usedPrinter, // printer name, if missing then will print to default printer
-            success: function (jobID) {
-              console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
-            },
-            error: function (err) {
-              console.log(err);
-            }
-          });
-        } else {
-          // not yet implemented, use printDirect and text
-          let fs = require('fs');
-          printer.printDirect({
-            data: fs.readFileSync(watermarkImageName),
-            printer: usedPrinter, // printer name, if missing then will print to default printer
-            success: function (jobID) {
-              console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
-            },
-            error: function (err) {
-              console.log(err);
-            }
-          });
-        }
-      }, 1000);
-
-    });
-  });
-};
-
 /**
  * Test if a photo can be send to a printer.
  * @param argumentPrinter
@@ -126,9 +61,100 @@ exports.testPrintPhotoOnPrinter = function testPrintPhotoOnPrinter(argumentPrint
 };
 
 /**
- * Creating the picture with watermark
+ * Print an image (with or without watermark)
+ * @param chosenPrinter
+ * @param mediaDirectory
+ * @param imagePrefix
+ * @param imageNumber
+ * @param watermark
+ * @param useWatermark
  */
+exports.printImage = function printImage(chosenPrinter, mediaDirectory, imagePrefix, imageNumber, watermark, useWatermark) {
+  console.log('printer-configuration.js - printImage()');
 
+  let usedPrinter = chosenPrinter;
+  let image = null;
+
+  // TODO: Support other file formats.
+  if (process.platform !== 'win32') {
+    image = mediaDirectory + '/' + imagePrefix + imageNumber + '.jpg';
+  } else {
+    image = mediaDirectory + '\\' + imagePrefix + imageNumber + '.jpg';
+  }
+
+  console.log('printer-configuration.js - ' + useWatermark);
+
+  if (useWatermark === 'true') {
+    console.log()
+    createWatermarkPhoto(watermark, image).subscribe(val => {
+      let canvas = val;
+      let watermarkImageName = mediaDirectory + '/print-images/' + imagePrefix + imageNumber + '.jpeg';
+      let watermarkImage = fs.createWriteStream(watermarkImageName);
+      let stream = canvas.jpegStream({
+        bufsize: 4096 // output buffer size in bytes, default: 4096
+        , quality: 100 // JPEG quality (0-100) default: 75
+        , progressive: false // true for progressive compression, default: false
+      });
+
+      console.log('printer-configuration.js - writing png');
+
+      stream.on('data', function (chunk) {
+        watermarkImage.write(chunk);
+      });
+
+      stream.on('end', function () {
+        console.log('printer-configuration.js - saved png');
+        console.log('printer-configuration.js - Printing image ' + watermarkImageName);
+
+        setTimeout(() => {
+          print(watermarkImageName, usedPrinter);
+        }, 1000);
+      });
+    });
+  } else {
+    print(image, usedPrinter);
+  }
+};
+
+/**
+ * Printing logic
+ * @param image
+ * @param usedPrinter
+ */
+function print(image, usedPrinter) {
+  if (process.platform !== 'win32') {
+    printer.printFile({
+      filename: image,
+      printer: usedPrinter, // printer name, if missing then will print to default printer
+      success: function (jobID) {
+        console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
+      },
+      error: function (err) {
+        console.log(err);
+      }
+    });
+  } else {
+    // not yet implemented, use printDirect and text
+    let fs = require('fs');
+    printer.printDirect({
+      data: fs.readFileSync(image),
+      printer: usedPrinter, // printer name, if missing then will print to default printer
+      success: function (jobID) {
+        console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
+      },
+      error: function (err) {
+        console.log(err);
+      }
+    });
+  }
+}
+
+
+/**
+ * Creating the image with watermark
+ * @param watermarkString
+ * @param imageLocation
+ */
 function createWatermarkPhoto(watermarkString, imageLocation) {
   let watermark = parseWatermark(watermarkString);
   let canvas = new Canvas(watermark.width, watermark.height);
@@ -195,6 +221,11 @@ function createWatermarkPhoto(watermarkString, imageLocation) {
   })
 }
 
+/**
+ * Turn the jsonString into an ImageWatermark
+ * @param jsonString
+ * @return {{}}
+ */
 function parseWatermark(jsonString) {
   let watermarkJson = JSON.parse(jsonString);
   let imageWatermark = {};
