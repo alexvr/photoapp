@@ -141,11 +141,28 @@
           <!-- IMAGE SETTINGS -->
           <div class="form-group canvas-dimensions">
             <label for="imageWidth">Width</label>
-            <input type="number" id="imageWidth" [(ngModel)]="imageWatermark.imageWidth" (change)="draw()">
+            <input type="number" id="imageWidth"
+                   [ngModel]="imageWatermark.imageWidth | dimensionsPipe:activeDimensionUnit"
+                   (ngModelChange)="imageWatermark.imageWidth=formatDimensions($event)" (change)="draw()">
           </div>
           <div class="form-group canvas-dimensions">
             <label for="imageHeight">Height</label>
-            <input type="number" id="imageHeight" [(ngModel)]="imageWatermark.imageHeight" (change)="draw()">
+            <input type="number" id="imageHeight"
+                   [ngModel]="imageWatermark.imageHeight | dimensionsPipe:activeDimensionUnit"
+                   (ngModelChange)="imageWatermark.imageHeight=formatDimensions($event)" (change)="draw()">
+          </div>
+          <div class="form-group canvas-dimensions">
+            <div id="imageDimensionType">
+              <input class="btn btn-default" type="button" value="Pixels"
+                     (click)="updateDimensionsUnit('pixels')"
+                     [ngStyle]="setDimensionTypeStyle('pixels')">
+              <input class="btn btn-default" type="button" value="Inches"
+                     (click)="updateDimensionsUnit('inches')"
+                     [ngStyle]="setDimensionTypeStyle('inches')">
+              <input class="btn btn-default" type="button" value="Centimeters"
+                     (click)="updateDimensionsUnit('centimeters')"
+                     [ngStyle]="setDimensionTypeStyle('centimeters')">
+            </div>
           </div>
           <div class="form-group col-xs-12">
             <label for="imageX">X <span>{{imageWatermark.imageX}}</span></label>

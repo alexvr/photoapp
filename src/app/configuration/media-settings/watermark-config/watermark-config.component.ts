@@ -113,9 +113,6 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
    * formatting the chosen dimensions to pixels.
    */
   formatDimensions(dimension) {
-    console.log('formatDim: ' + dimension);
-    console.log('dimensions: ' + this.imageWatermark.width + '-' + this.imageWatermark.height);
-
     switch (this.activeDimensionUnit) {
       case this.dimensionUnits[0]:    //pixels
         return dimension;
@@ -127,8 +124,6 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
   }
 
   updateDimensionsUnit(dimension) {
-    console.log(this.dimensionUnits);
-    console.log('updateDim: ' + dimension);
     this.activeDimensionUnit = dimension;
   }
 
