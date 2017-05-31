@@ -2,9 +2,7 @@ const printer = require('printer'), util = require('util');
 const fs = require('fs');
 const path = require('path');
 const Canvas = require('canvas');
-const watermarkConfig = require('./watermark-configuration');
 const rxjs = require('rxjs');
-
 
 /**
  * Get a list of all installed printers.
@@ -33,31 +31,7 @@ exports.testPrintPhotoOnPrinter = function testPrintPhotoOnPrinter(argumentPrint
   let usedPrinter = argumentPrinter;
   let filename = './src/assets/images/photo.jpg';
 
-  if (process.platform !== 'win32') {
-    printer.printFile({
-      filename: path.resolve(filename),
-      printer: usedPrinter, // printer name, if missing then will print to default printer
-      success: function (jobID) {
-        console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
-      },
-      error: function (err) {
-        console.log(err);
-      }
-    });
-  } else {
-    // not yet implemented, use printDirect and text
-    let fs = require('fs');
-    printer.printDirect({
-      data: fs.readFileSync(filename),
-      printer: usedPrinter, // printer name, if missing then will print to default printer
-      success: function (jobID) {
-        console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
-      },
-      error: function (err) {
-        console.log(err);
-      }
-    });
-  }
+  print(filename, usedPrinter);
 };
 
 /**
@@ -82,10 +56,7 @@ exports.printImage = function printImage(chosenPrinter, mediaDirectory, imagePre
     image = mediaDirectory + '\\' + imagePrefix + imageNumber + '.jpg';
   }
 
-  console.log('printer-configuration.js - ' + useWatermark);
-
   if (useWatermark === 'true') {
-    console.log()
     createWatermarkPhoto(watermark, image).subscribe(val => {
       let canvas = val;
       let watermarkImageName = mediaDirectory + '/print-images/' + imagePrefix + imageNumber + '.jpeg';
@@ -97,7 +68,6 @@ exports.printImage = function printImage(chosenPrinter, mediaDirectory, imagePre
       });
 
       console.log('printer-configuration.js - writing png');
-
       stream.on('data', function (chunk) {
         watermarkImage.write(chunk);
       });

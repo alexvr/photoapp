@@ -204,7 +204,7 @@ function initializeWatcher() {
   watcher
   // Configure add image event.
     .on('add', filePath => {
-      console.log('File ' + filePath + ' has been added!');
+      console.log('server-configuration.js - File ' + filePath + ' has been added!');
       const fileName = getFileName(filePath);
 
       if (!fileName.includes(imagePrefix)) {
@@ -339,7 +339,7 @@ function checkUncompressedFiles() {
         const itemNumber = parseInt(getImageNumber(listItemPath));
         if (itemNumber > imageCounter) {
           imageCounter = itemNumber;
-          console.log("ImageCounter na check uncompressed files: " + imageCounter);
+          console.log("server-configuration.js - ImageCounter after check uncompressed files: " + imageCounter);
         }
       }
     });
@@ -379,7 +379,7 @@ function sendExistingFiles(client) {
 
       list.forEach(function (filename) {
         const filePath = mediaDirectory + '/compressed/' + filename;
-        console.log('server-configuration - sendExistingFiles() - ' + filePath);
+        console.log('server-configuration.js - sendExistingFiles() - ' + filePath);
 
         let fileExtCheck = path.extname(filename);
         let fileNameCheck = path.basename(filename, fileExtCheck);

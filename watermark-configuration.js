@@ -13,7 +13,7 @@ exports.getImagePath = function (event) {
     if (selectedFiles != null) {
       event.sender.send('async-get-watermark-image-path', selectedFiles.toString());
     } else {
-      console.log('cancelled getImagePath');
+      console.log('watermark-configuration.js - cancelled getImagePath');
     }
   });
 };
