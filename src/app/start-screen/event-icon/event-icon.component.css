@@ -3,6 +3,7 @@
 }
 
 .event-image {
+  padding: 5px;
   background: white;
   width: 7rem;
   height: 7rem;

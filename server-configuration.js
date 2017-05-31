@@ -209,7 +209,7 @@ function initializeWatcher() {
 
       if (!fileName.includes(imagePrefix)) {
 
-        renameAndCompress(filePath);
+        renameCompressAndUpload(filePath);
 
       } else if (filePath.includes('compressed')) {
         // Send the image to all clients and increment the counter.
@@ -228,14 +228,21 @@ function initializeWatcher() {
 }
 
 /**
- * Rename file of the given file path and compress it.
+ * Rename file of the given file path, compress it and then upload it.
  * @param filePath
  */
-function renameAndCompress(filePath) {
+function renameCompressAndUpload(filePath) {
+  // Rename image
   const renamedPath = renameFile(filePath);
   console.log('File ' + renamedPath + ' has been renamed!');
+
+  // Upload image
+  const uploadLocation = eventName + '/event-photos/' + imageCounter;
+  cloudinaryConfiguration.uploadImageToServer(renamedPath, uploadLocation);
+
   imageCounter++;
 
+  // Compress image
   const outputPath = mediaDirectory + '/compressed/' + path.basename(renamedPath);
   console.log('Resizing image on path ' + outputPath);
   imageResize.resizeAndCompressImage(renamedPath, outputPath, resizedImageWidth);
@@ -356,7 +363,7 @@ function checkUncompressedFiles() {
     list.forEach(function (filename) {
       if (fs.lstatSync(mediaDirectory + '/' + filename).isFile()) {
         if (!filename.includes(imagePrefix)) {
-          renameAndCompress(mediaDirectory + '/' + filename);
+          renameCompressAndUpload(mediaDirectory + '/' + filename);
         }
       }
     });

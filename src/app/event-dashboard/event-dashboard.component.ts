@@ -30,7 +30,7 @@ export class EventDashboardComponent implements OnInit, OnDestroy {
   private printCounter: number;
   private shareCounter: number;
   private photoSubscription: Subscription;
-  private photoCounter: number = 0;
+  private photoCounter = 0;
   private durationSubscription: Subscription;
   private eventDuration = '00:00:00';
 
@@ -58,7 +58,12 @@ export class EventDashboardComponent implements OnInit, OnDestroy {
     const printWatermark = this.event.config.printWatermark;
     const useWatermark = this.event.config.watermarkPrinting;
 
-    this.serverService.startServer(mediastorage, photoQuality, eventId, eventName, printer, overviewLayout, detailLayout, printWatermark,useWatermark).subscribe(host => this.serverHost = host);
+    console.log('Event-dashboard - OverviewLayout:');
+    console.log(JSON.stringify(overviewLayout, null, 2));
+    console.log('Event-dashboard - DetailLayout:');
+    console.log(JSON.stringify(detailLayout, null, 2));
+
+    this.serverService.startServer(mediastorage, photoQuality, eventId, eventName, printer, overviewLayout, detailLayout, printWatermark, useWatermark).subscribe(host => this.serverHost = host);
     this.serverPort = 3001;
 
     // Get the IP addresses of all connected clients and display them.

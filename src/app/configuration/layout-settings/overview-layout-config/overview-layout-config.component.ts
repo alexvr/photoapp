@@ -44,11 +44,13 @@ export class OverviewLayoutConfigComponent {
   setLogoImage() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/overview-layout/logo').subscribe(data => {
       this.overviewLayout.logo = data;
+      this.event.eventLogo = data;
     });
   }
 
   deleteLogoImage() {
     this.overviewLayout.logo = null;
+    this.event.eventLogo = null;
     this.layoutService.deleteLayoutAsset(this.event.eventName + '/overview-layout/logo');
   }
 

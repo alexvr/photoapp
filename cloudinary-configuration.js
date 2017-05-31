@@ -37,14 +37,15 @@ exports.uploadFile = function (event, path) {
  * @param uploadLocation: location of the uploaded image
  * @param imagePath location of local image
  */
-exports.uploadImageFromServer = function (uploadLocation, imagePath) {
+exports.uploadImageToServer = function (imagePath, uploadLocation) {
   configureCloudinary();
 
   cloudinary.uploader.upload(imagePath, function(result) {
-    console.log(result)
-  }, {
-    public_id: uploadLocation
-  });
+      console.log(result)
+    },
+    {
+      public_id: uploadLocation
+    });
 };
 
 exports.deleteFile = function (event, path) {
