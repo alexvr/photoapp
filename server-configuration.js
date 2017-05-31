@@ -205,6 +205,11 @@ function initializeWatcher() {
   // Configure add image event.
     .on('add', filePath => {
       console.log('server-configuration.js - File ' + filePath + ' has been added!');
+
+      if (filePath.includes('event-photos')) {
+        return;
+      }
+
       const fileName = getFileName(filePath);
 
       if (!fileName.includes(imagePrefix)) {
