@@ -37,10 +37,10 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
       }
       if (this.imageWatermark != null) {
         if (this.imageWatermark.logoLocation != null) {
-          this.logo.src = this.imageWatermark.logoLocation;
+          this.watermarkConfigService.getImageDataURI(this.imageWatermark.logoLocation).subscribe(val => this.logo.src = val);
         }
         if (this.imageWatermark.overlayLocation != null) {
-          this.overlay.src = this.imageWatermark.overlayLocation;
+          this.watermarkConfigService.getImageDataURI(this.imageWatermark.overlayLocation).subscribe(val => this.overlay.src = val);
         }
       }
       this.draw();
