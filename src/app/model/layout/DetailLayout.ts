@@ -38,25 +38,21 @@ export class DetailLayout extends Layout {
     super();
     this.printBtnText = 'Print';
     this.printBtnColor = '#ffffff';
-    this.printBtnImage = '';
     this.printBtnBorderColor = '#4d4d4d';
     this.printBtnBorderWidth = 1;
 
     this.shareBtnText = 'Share';
     this.shareBtnColor = '#ffffff';
-    this.shareBtnImage = '';
     this.shareBtnBorderColor = '#4d4d4d';
     this.shareBtnBorderWidth = 1;
 
     this.backBtnText = 'Back';
     this.backBtnColor = '#ffffff';
-    this.backBtnImage = '';
     this.backBtnBorderColor = '#4d4d4d';
     this.backBtnBorderWidth = 1;
 
     this.finishBtnText = 'Finish';
     this.finishBtnColor = '#ffffff';
-    this.finishBtnImage = '';
     this.finishBtnBorderColor = '#4d4d4d';
     this.finishBtnBorderWidth = 1;
 
@@ -64,7 +60,6 @@ export class DetailLayout extends Layout {
 
     this.printMessageText = 'Image is printed!';
     this.printMessageColor = '#bbbbbb';
-    this.printMessageImage = '';
     this.printMessageBorderColor = '#ffffff';
     this.printMessageBorderWidth = 0;
   }
