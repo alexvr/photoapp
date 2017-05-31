@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const Canvas = require('canvas');
 const watermarkConfig = require('./watermark-configuration');
+const rxjs = require('rxjs');
+
 
 /**
  * Get a list of all installed printers.
@@ -35,44 +37,54 @@ exports.printImage = function printImage(chosenPrinter, mediaDirectory, imagePre
     image = mediaDirectory + '\\' + imagePrefix + imageNumber + '.jpg';
   }
 
-  let canvas = createWatermarkPhoto(watermark, image);
-  let watermarkImage = fs.createWriteStream(mediaDirectory + '/print-images/' + imagePrefix + imageNumber + '.png');
-  let stream = canvas.pngStream();
+  createWatermarkPhoto(watermark, image).subscribe(val => {
+    let canvas = val;
+    let watermarkImageName = mediaDirectory + '/print-images/' + imagePrefix + imageNumber + '.jpeg';
+    let watermarkImage = fs.createWriteStream(watermarkImageName);
+    let stream = canvas.jpegStream({
+      bufsize: 4096 // output buffer size in bytes, default: 4096
+      , quality: 100 // JPEG quality (0-100) default: 75
+      , progressive: false // true for progressive compression, default: false
+    });
 
-  stream.on('data', function (chunk) {
-    watermarkImage.write(chunk);
-  });
+    console.log('printer-configuration.js - writing png');
 
-  stream.on('end', function () {
-    console.log('saved png');
+    stream.on('data', function (chunk) {
+      watermarkImage.write(chunk);
+    });
 
-    console.log('printer-configuration.js - Printing image ' + image);
-
-    if (process.platform !== 'win32') {
-      printer.printFile({
-        filename: watermarkImage,
-        printer: usedPrinter, // printer name, if missing then will print to default printer
-        success: function (jobID) {
-          console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
-        },
-        error: function (err) {
-          console.log(err);
+    stream.on('end', function () {
+      console.log('printer-configuration.js - saved png');
+      console.log('printer-configuration.js - Printing image ' + watermarkImageName);
+      setTimeout(() => {
+        if (process.platform !== 'win32') {
+          printer.printFile({
+            filename: watermarkImageName,
+            printer: usedPrinter, // printer name, if missing then will print to default printer
+            success: function (jobID) {
+              console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
+            },
+            error: function (err) {
+              console.log(err);
+            }
+          });
+        } else {
+          // not yet implemented, use printDirect and text
+          let fs = require('fs');
+          printer.printDirect({
+            data: fs.readFileSync(watermarkImageName),
+            printer: usedPrinter, // printer name, if missing then will print to default printer
+            success: function (jobID) {
+              console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
+            },
+            error: function (err) {
+              console.log(err);
+            }
+          });
         }
-      });
-    } else {
-      // not yet implemented, use printDirect and text
-      let fs = require('fs');
-      printer.printDirect({
-        data: fs.readFileSync(watermarkImage),
-        printer: usedPrinter, // printer name, if missing then will print to default printer
-        success: function (jobID) {
-          console.log('printer-configuration.js - job sent to printer (' + usedPrinter + ') with ID: ' + jobID);
-        },
-        error: function (err) {
-          console.log(err);
-        }
-      });
-    }
+      }, 1000);
+
+    });
   });
 };
 
@@ -117,45 +129,124 @@ exports.testPrintPhotoOnPrinter = function testPrintPhotoOnPrinter(argumentPrint
  * Creating the picture with watermark
  */
 
-function createWatermarkPhoto(watermark, imageLocation) {
+function createWatermarkPhoto(watermarkString, imageLocation) {
+  let watermark = parseWatermark(watermarkString);
   let canvas = new Canvas(watermark.width, watermark.height);
   ctx = canvas.getContext('2d');
 
-  console.log('createWatermarkPhoto:');
-  console.log(watermark);
-  console.log(imageLocation);
-
-  // IMAGE
-  fs.readFile(imageLocation, function (err, image) {
-    if (err) throw err;
-    img = new Canvas.Image;
-    img.src = image;
-    ctx.drawImage(img, watermark.imageX, watermark.imageY,
-      (img.width / 100 * watermark.imageScale), (img.height / 100 * watermark.imageScale));
-  });
-
-  // OVERLAY
-  if (watermark.overlayLocation != null) {
-    fs.readFile(watermark.overlayLocation, function (err, overlayImg) {
+  return new rxjs.Observable(obs => {
+    // IMAGE
+    fs.readFile(imageLocation, function (err, image) {
       if (err) throw err;
       img = new Canvas.Image;
-      img.src = overlayImg;
-      ctx.drawImage(img, watermark.overlayX, watermark.overlayY,
-        (img.width / 100 * watermark.overlayScale), (img.height / 100 * watermark.overlayScale));
-    });
-  }
+      img.src = image;
+      ctx.drawImage(img, watermark.imageX, watermark.imageY,
+        (img.width / 100 * watermark.imageScale), (img.height / 100 * watermark.imageScale));
 
-  // LOGO
-  if (watermark.logoLocation != null) {
-    fs.readFile(watermark.logoLocation, function (err, logoImg) {
-      if (err) throw err;
-      img = new Canvas.Image;
-      img.src = logoImg;
-      ctx.drawImage(img, watermark.logoX, watermark.logoY,
-        (img.width / 100 * watermark.logoScale), (img.height / 100 * watermark.logoScale));
-    });
-  }
+      // OVERLAY
+      if (watermark.overlayLocation != null) {
+        fs.readFile(watermark.overlayLocation, function (err, overlayImg) {
+          if (err) throw err;
+          img = new Canvas.Image;
+          img.src = overlayImg;
+          ctx.drawImage(img, watermark.overlayX, watermark.overlayY,
+            (img.width / 100 * watermark.overlayScale), (img.height / 100 * watermark.overlayScale));
 
-  return canvas;
+          // LOGO
+          if (watermark.logoLocation != null) {
+            fs.readFile(watermark.logoLocation, function (err, logoImg) {
+              if (err) throw err;
+              img = new Canvas.Image;
+              img.src = logoImg;
+              ctx.drawImage(img, watermark.logoX, watermark.logoY,
+                (img.width / 100 * watermark.logoScale), (img.height / 100 * watermark.logoScale));
+
+              console.log('printer-configuration.js - watermark: logo & overlay!');
+              obs.next(canvas);
+              obs.complete();
+            });
+          } else {
+            console.log('printer-configuration.js - watermark: only overlay!');
+            obs.next(canvas);
+            obs.complete();
+          }
+        });
+      } else {
+        // LOGO
+        if (watermark.logoLocation != null) {
+          fs.readFile(watermark.logoLocation, function (err, logoImg) {
+            if (err) throw err;
+            img = new Canvas.Image;
+            img.src = logoImg;
+            ctx.drawImage(img, watermark.logoX, watermark.logoY,
+              (img.width / 100 * watermark.logoScale), (img.height / 100 * watermark.logoScale));
+
+            console.log('printer-configuration.js - watermark: only logo!');
+            obs.next(canvas);
+            obs.complete();
+          });
+        } else {
+          console.log('printer-configuration.js - watermark: no logo, no overlay!');
+          obs.next(canvas);
+          obs.complete();
+        }
+      }
+    })
+  })
+}
+
+function parseWatermark(jsonString) {
+  let watermarkJson = JSON.parse(jsonString);
+  let imageWatermark = {};
+
+  if (!util.isUndefined(watermarkJson.print)) {
+    imageWatermark.print = watermarkJson.print;
+  }
+  if (!util.isUndefined(watermarkJson.height)) {
+    imageWatermark.height = watermarkJson.height;
+  }
+  if (!util.isUndefined(watermarkJson.width)) {
+    imageWatermark.width = watermarkJson.width;
+  }
+  if (!util.isUndefined(watermarkJson.logoLocation)) {
+    imageWatermark.logoLocation = watermarkJson.logoLocation;
+  }
+  if (!util.isUndefined(watermarkJson.logoX)) {
+    imageWatermark.logoX = watermarkJson.logoX;
+  }
+  if (!util.isUndefined(watermarkJson.logoY)) {
+    imageWatermark.logoY = watermarkJson.logoY;
+  }
+  if (!util.isUndefined(watermarkJson.logoScale)) {
+    imageWatermark.logoScale = watermarkJson.logoScale;
+  }
+  if (!util.isUndefined(watermarkJson.overlayLocation)) {
+    imageWatermark.overlayLocation = watermarkJson.overlayLocation;
+  }
+  if (!util.isUndefined(watermarkJson.overlayX)) {
+    imageWatermark.overlayX = watermarkJson.overlayX;
+  }
+  if (!util.isUndefined(watermarkJson.overlayY)) {
+    imageWatermark.overlayY = watermarkJson.overlayY;
+  }
+  if (!util.isUndefined(watermarkJson.overlayScale)) {
+    imageWatermark.overlayScale = watermarkJson.overlayScale;
+  }
+  if (!util.isUndefined(watermarkJson.imageWidth)) {
+    imageWatermark.imageWidth = watermarkJson.imageWidth;
+  }
+  if (!util.isUndefined(watermarkJson.imageHeight)) {
+    imageWatermark.imageHeight = watermarkJson.imageHeight;
+  }
+  if (!util.isUndefined(watermarkJson.imageX)) {
+    imageWatermark.imageX = watermarkJson.imageX;
+  }
+  if (!util.isUndefined(watermarkJson.imageY)) {
+    imageWatermark.imageY = watermarkJson.imageY;
+  }
+  if (!util.isUndefined(watermarkJson.imageScale)) {
+    imageWatermark.imageScale = watermarkJson.imageScale;
+  }
+  return imageWatermark;
 }
 
