@@ -213,6 +213,16 @@
         <img *ngIf="event.eventText.qrCodeImage!=null" class="preview-qr" src="{{event.eventText.qrCodeImage}}" alt="preview-qr">
         <p *ngIf="event.eventText.textBottom!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textBottom"></p>
       </div>
+      <div *ngIf="event.eventText.backgroundImageToggle==null" class="preview" [style.background-color]="eventText.backgroundColor">
+        <img *ngIf="event.eventText.logo!=null" class="preview-logo" src="{{event.eventText.logo}}" alt="preview-logo">
+        <p *ngIf="event.eventText.textUpper!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textUpper"></p>
+        <p *ngIf="event.eventText.textAbovePhoto!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textAbovePhoto"></p>
+        <img class="preview-photo" src="../../../assets/images/share-page/placeholder.png" alt="preview-logo">
+        <img class="preview-photo" src="../../../assets/images/share-page/placeholder.png" alt="preview-logo">
+        <p *ngIf="event.eventText.textUnderPhoto!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textUnderPhoto"></p>
+        <img *ngIf="event.eventText.qrCodeImage!=null" class="preview-qr" src="{{event.eventText.qrCodeImage}}" alt="preview-qr">
+        <p *ngIf="event.eventText.textBottom!=null" class="preview-text" [style.color]="eventText.textColor" [innerHTML]="event.eventText.textBottom"></p>
+      </div>
     </div>
   </div>
 </div>

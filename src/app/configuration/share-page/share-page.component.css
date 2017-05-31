@@ -26,6 +26,7 @@ h2{
   max-height: 15rem;
   max-width: 30rem;
   padding-top: 1rem;
+  border-radius: 0rem;
 }
 .preview{
   height: 70rem;
