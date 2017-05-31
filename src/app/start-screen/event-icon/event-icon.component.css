@@ -3,6 +3,9 @@
 }
 
 .event-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 5px;
   background: white;
   width: 7rem;
