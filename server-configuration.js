@@ -206,7 +206,10 @@ function initializeWatcher() {
     .on('add', filePath => {
       console.log('server-configuration.js - File ' + filePath + ' has been added!');
 
+      // Ignore print and watermark images.
       if (filePath.includes('event-photos')) {
+        return;
+      } else if (filePath.includes('print-images')) {
         return;
       }
 
