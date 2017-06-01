@@ -4,6 +4,7 @@ import {WatermarkConfigService} from "../../services/watermark-config.service";
 import {ActivatedRoute} from "@angular/router";
 import {PrinterService} from "../../services/printer.service";
 import {ConfigurationService} from "../../services/configuration.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'watermark-config',
@@ -26,6 +27,7 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // Set the imageWatermark for print or for web.
     this.activatedRoute.params.subscribe(params => {
       if (+params['id'] === 1) {
         this.isPrint = true;
@@ -38,16 +40,28 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
           this.imageWatermark = this.configService.getConfiguredEvent().config.webWatermark;
         }
       }
+
+      // Set the logo and/or overlay images and draw the canvas.
       if (this.imageWatermark != null) {
         if (this.imageWatermark.logoLocation != null) {
-          this.watermarkConfigService.getImageDataURI(this.imageWatermark.logoLocation).subscribe(val => this.logo.src = val);
-        }
-        if (this.imageWatermark.overlayLocation != null) {
-          this.watermarkConfigService.getImageDataURI(this.imageWatermark.overlayLocation).subscribe(val => this.overlay.src = val);
+          this.watermarkConfigService.getImageDataURI(this.imageWatermark.logoLocation).subscribe(val => {
+            this.logo.src = val;
+            if (this.imageWatermark.overlayLocation != null) {
+              this.watermarkConfigService.getImageDataURI(this.imageWatermark.overlayLocation).subscribe(val => {
+                this.overlay.src = val;
+                this.draw();
+              });
+            }
+          });
+        } else if (this.imageWatermark.overlayLocation != null) {
+          this.watermarkConfigService.getImageDataURI(this.imageWatermark.overlayLocation).subscribe(val => {
+            this.overlay.src = val;
+            this.draw();
+          });
         }
       }
-      this.draw();
     });
+
   }
 
   ngOnDestroy(): void {
