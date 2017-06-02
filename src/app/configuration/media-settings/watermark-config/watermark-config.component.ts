@@ -51,6 +51,8 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
                 this.overlay.src = val;
                 this.draw();
               });
+            } else {
+              this.draw();
             }
           });
         } else if (this.imageWatermark.overlayLocation != null) {
@@ -58,6 +60,8 @@ export class WatermarkConfigComponent implements OnInit, OnDestroy {
             this.overlay.src = val;
             this.draw();
           });
+        } else {
+          this.draw();
         }
       }
     });

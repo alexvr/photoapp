@@ -12,6 +12,7 @@ const internalIp = require('internal-ip');
 const imageResize = require('./image-resize');
 const printerConfiguration = require('./printer-configuration');
 const cloudinaryConfiguration = require('./cloudinary-configuration');
+const watermarkConfig = require('./watermark-configuration');
 
 // Prefix for added images and width of resized image.
 const imagePrefix = 'COM_';
@@ -28,6 +29,8 @@ let overviewLayout = null;
 let detailLayout = null;
 let printWatermark = null;
 let useWatermark = null;
+let webWatermark = null;
+let useWebWatermark = null;
 
 /**
  * Start web sockets server on current network IP4 address on port 3001.
@@ -40,10 +43,12 @@ let useWatermark = null;
  * @param detail
  * @param watermark
  * @param useWatermarkParam
+ * @param webWatermark
+ * @param useWebWatermarkParam
  * @param window
  * @returns {number} Current network IP4 address
  */
-exports.startServer = function startServer(mediaFolder, imageQuality, chosenEventId, chosenEventName, eventPrinter, overview, detail, watermark, useWatermarkParam, window) {
+exports.startServer = function startServer(mediaFolder, imageQuality, chosenEventId, chosenEventName, eventPrinter, overview, detail, watermark, useWatermarkParam, webWatermarkParam, useWebWatermarkParam, window) {
   // Set global main window reference.
   mainWindow = window;
   mainWindow.webContents.send('async-logs', 'Start server...');
@@ -67,6 +72,10 @@ exports.startServer = function startServer(mediaFolder, imageQuality, chosenEven
   // Set the watermark for printing.
   printWatermark = watermark;
   useWatermark = useWatermarkParam;
+
+  // Set the watermark for sharing.
+  webWatermark = webWatermarkParam;
+  useWebWatermark = useWebWatermarkParam;
 
   // Set the compression for the client images.
   setCompressionQuality(imageQuality);
@@ -217,7 +226,7 @@ function initializeWatcher() {
 
       if (!fileName.includes(imagePrefix)) {
 
-        renameCompressAndUpload(filePath);
+        renameUploadAndCompress(filePath);
 
       } else if (filePath.includes('compressed')) {
         // Send the image to all clients and increment the counter.
@@ -239,20 +248,53 @@ function initializeWatcher() {
  * Rename file of the given file path, compress it and then upload it.
  * @param filePath
  */
-function renameCompressAndUpload(filePath) {
+function renameUploadAndCompress(filePath) {
+
   // Rename image
   const renamedPath = renameFile(filePath);
-  console.log('File ' + renamedPath + ' has been renamed!');
+  console.log('server-configuration.js - File ' + renamedPath + ' has been renamed!');
 
   // Upload image
   const uploadLocation = eventName + '/event-photos/' + imageCounter;
-  cloudinaryConfiguration.uploadImageToServer(renamedPath, uploadLocation);
+
+  if (useWebWatermark === 'true') {
+    if (!fs.existsSync(mediaDirectory + '/share-images')) {
+      fs.mkdirSync(mediaDirectory + '/share-images');
+    }
+
+    let watermarkImageCounter = imageCounter; // watermark uses observable so imageCounter may have already changed.
+
+    watermarkConfig.createWatermarkPhoto(webWatermark, renamedPath).subscribe(val => {
+      let canvas = val;
+      let watermarkImageName = mediaDirectory + '/share-images/' + imagePrefix + watermarkImageCounter + '.jpeg';
+      let watermarkImage = fs.createWriteStream(watermarkImageName);
+      let stream = canvas.jpegStream({
+        bufsize: 4096 // output buffer size in bytes, default: 4096
+        , quality: 100 // JPEG quality (0-100) default: 75
+        , progressive: false // true for progressive compression, default: false
+      });
+
+      console.log('server-configuration.js - writing png');
+      stream.on('data', function (chunk) {
+        watermarkImage.write(chunk);
+      });
+
+      stream.on('end', function () {
+        console.log('server-configuration.js - saved png');
+        setTimeout(() => {
+          cloudinaryConfiguration.uploadImageToServer(watermarkImageName, uploadLocation);
+        }, 1000);
+      });
+    });
+  } else {
+    cloudinaryConfiguration.uploadImageToServer(renamedPath, uploadLocation);
+  }
 
   imageCounter++;
 
   // Compress image
   const outputPath = mediaDirectory + '/compressed/' + path.basename(renamedPath);
-  console.log('Resizing image on path ' + outputPath);
+  console.log('server-configuration.js - Resizing image on path ' + outputPath);
   imageResize.resizeAndCompressImage(renamedPath, outputPath, resizedImageWidth);
 }
 
@@ -287,7 +329,7 @@ function renameFile(filePath) {
   }
 
   fs.rename(filePath, newFilePath, function (err) {
-    if (err) console.log('ERROR: ' + err);
+    if (err) console.error('server-configuration.js - ERROR: ' + err);
   });
 
   return newFilePath;
@@ -325,7 +367,7 @@ function deleteImage(filePath) {
       if (fileName === listFileNameWithoutExtension) {
         fs.unlink(pathToSearch + '/' + listFileName, (error => {
           if (error) throw error;
-          console.log('Succesfully deleted ' + pathToSearch + '/' + listFileName + '!');
+          console.log('server-configuration.js - Succesfully deleted ' + pathToSearch + '/' + listFileName + '!');
         }));
       }
     })
@@ -371,7 +413,7 @@ function checkUncompressedFiles() {
     list.forEach(function (filename) {
       if (fs.lstatSync(mediaDirectory + '/' + filename).isFile()) {
         if (!filename.includes(imagePrefix)) {
-          renameCompressAndUpload(mediaDirectory + '/' + filename);
+          renameUploadAndCompress(mediaDirectory + '/' + filename);
         }
       }
     });
@@ -385,7 +427,7 @@ function sendExistingFiles(client) {
   if (fs.existsSync(mediaDirectory + '/compressed')) {
     fs.readdir(mediaDirectory + '/compressed', function (err, filenames) {
       if (err) {
-        console.log(error);
+        console.error('server-configuration.js - ' + error);
         return;
       }
 

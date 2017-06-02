@@ -31,6 +31,8 @@ export class ServerService {
    * @param detailLayout
    * @param printWatermark
    * @param useWatermark
+   * @param webWatermark
+   * @param useWebWatermark
    * @returns {number} Network IP4 address
    */
   public startServer(mediaFolder: string,
@@ -41,7 +43,9 @@ export class ServerService {
                      overviewLayout: OverviewLayout,
                      detailLayout: DetailLayout,
                      printWatermark: ImageWatermark,
-                     useWatermark: boolean): Observable<number> {
+                     useWatermark: boolean,
+                     webWatermark: ImageWatermark,
+                     useWebWatermark: boolean): Observable<number> {
     return new Observable(observer => {
       let serverHost = '127.0.0.1';
       this.hasIpc = (typeof ipcRenderer !== 'undefined');
@@ -51,10 +55,11 @@ export class ServerService {
         const overviewString: string = JSON.stringify(overviewLayout);
         const detailString: string = JSON.stringify(detailLayout);
         const printWatermarkString: string = JSON.stringify(printWatermark);
+        const webWatermarkString: string = JSON.stringify(webWatermark);
 
         console.log("server-service");
 
-        const serverArguments: string[] = ['start-server', mediaFolder, imageQuality, eventId, eventName, printer, overviewString, detailString, printWatermarkString, useWatermark.toString()];
+        const serverArguments: string[] = ['start-server', mediaFolder, imageQuality, eventId, eventName, printer, overviewString, detailString, printWatermarkString, useWatermark.toString(), webWatermarkString, useWebWatermark.toString()];
         ipcRenderer.send('async', serverArguments);
 
         // Listen to response from the main process.
