@@ -52,52 +52,6 @@
         <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
           <div class="panel-body">
             <!-- BUTTONS -->
-            <!-- print button -->
-            <div class="form-group col-xs-12 section-end">
-              <button type="button" class="btn btn-primary" (click)="setPrintButton()">Choose print-button</button>
-              <button *ngIf="detailLayout.printBtnImage != null" type="button"
-                      class="btn btn-danger" (click)="deletePrintButton()">Delete print-button
-              </button>
-            </div>
-            <div class="form-group col-xs-12">
-              <label for="printBtnText">Print-button text</label>
-              <input id="printBtnText" type="text" [(ngModel)]="detailLayout.printBtnText">
-            </div>
-            <div class="form-group col-xs-12">
-              <label for="printBtnColor">Print-button color</label>
-              <input id="printBtnColor" type="color" [(ngModel)]="detailLayout.printBtnColor">
-            </div>
-            <div class="form-group col-xs-12">
-              <label for="printBtnBorderColor">Print-button border-color</label>
-              <input id="printBtnBorderColor" type="color" [(ngModel)]="detailLayout.printBtnBorderColor">
-            </div>
-            <div class="form-group col-xs-12">
-              <label for="printBtnBorderWidth">Print-button border-width</label>
-              <input id="printBtnBorderWidth" type="number" [(ngModel)]="detailLayout.printBtnBorderWidth">
-            </div>
-            <!-- share button -->
-            <div class="form-group col-xs-12 section-end">
-              <button type="button" class="btn btn-primary" (click)="setShareButton()">Choose share-button</button>
-              <button *ngIf="detailLayout.shareBtnImage != null" type="button"
-                      class="btn btn-danger" (click)="deleteShareButton()">Delete share-button
-              </button>
-            </div>
-            <div class="form-group col-xs-12">
-              <label for="shareBtnText">Share-button text</label>
-              <input id="shareBtnText" type="text" [(ngModel)]="detailLayout.shareBtnText">
-            </div>
-            <div class="form-group col-xs-12">
-              <label for="shareBtnColor">Share-button color</label>
-              <input id="shareBtnColor" type="color" [(ngModel)]="detailLayout.shareBtnColor">
-            </div>
-            <div class="form-group col-xs-12">
-              <label for="shareBtnBorderColor">Share-button border-color</label>
-              <input id="shareBtnBorderColor" type="color" [(ngModel)]="detailLayout.shareBtnBorderColor">
-            </div>
-            <div class="form-group col-xs-12">
-              <label for="shareBtnBorderWidth">Share-button border-width</label>
-              <input id="shareBtnBorderWidth" type="number" [(ngModel)]="detailLayout.shareBtnBorderWidth">
-            </div>
             <!-- back button -->
             <div class="form-group col-xs-12 section-end">
               <button type="button" class="btn btn-primary" (click)="setBackButton()">Choose back-button</button>
@@ -144,7 +98,55 @@
               <label for="finishBtnBorderWidth">Finish-button border-width</label>
               <input id="finishBtnBorderWidth" type="number" [(ngModel)]="detailLayout.finishBtnBorderWidth">
             </div>
+            <!-- print button -->
+            <div class="form-group col-xs-12 section-end">
+              <button type="button" class="btn btn-primary" (click)="setPrintButton()">Choose print-button</button>
+              <button *ngIf="detailLayout.printBtnImage != null" type="button"
+                      class="btn btn-danger" (click)="deletePrintButton()">Delete print-button
+              </button>
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printBtnText">Print-button text</label>
+              <input id="printBtnText" type="text" [(ngModel)]="detailLayout.printBtnText">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printBtnColor">Print-button color</label>
+              <input id="printBtnColor" type="color" [(ngModel)]="detailLayout.printBtnColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printBtnBorderColor">Print-button border-color</label>
+              <input id="printBtnBorderColor" type="color" [(ngModel)]="detailLayout.printBtnBorderColor">
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="printBtnBorderWidth">Print-button border-width</label>
+              <input id="printBtnBorderWidth" type="number" [(ngModel)]="detailLayout.printBtnBorderWidth">
+            </div>
           </div>
+          <!-- share button -->
+          <!--
+          <div class="form-group col-xs-12 section-end">
+            <button type="button" class="btn btn-primary" (click)="setShareButton()">Choose share-button</button>
+            <button *ngIf="detailLayout.shareBtnImage != null" type="button"
+                    class="btn btn-danger" (click)="deleteShareButton()">Delete share-button
+            </button>
+          </div>
+          <div class="form-group col-xs-12">
+            <label for="shareBtnText">Share-button text</label>
+            <input id="shareBtnText" type="text" [(ngModel)]="detailLayout.shareBtnText">
+          </div>
+          <div class="form-group col-xs-12">
+            <label for="shareBtnColor">Share-button color</label>
+            <input id="shareBtnColor" type="color" [(ngModel)]="detailLayout.shareBtnColor">
+          </div>
+          <div class="form-group col-xs-12">
+            <label for="shareBtnBorderColor">Share-button border-color</label>
+            <input id="shareBtnBorderColor" type="color" [(ngModel)]="detailLayout.shareBtnBorderColor">
+          </div>
+          <div class="form-group col-xs-12">
+            <label for="shareBtnBorderWidth">Share-button border-width</label>
+            <input id="shareBtnBorderWidth" type="number" [(ngModel)]="detailLayout.shareBtnBorderWidth">
+          </div>
+          -->
         </div>
       </div>
 
@@ -219,7 +221,9 @@
   </div>
 
   <!-- EVENT DETAIL PREVIEW -->
-  <event-detail [detailLayout]="detailLayout" [images]="testImages" [ngStyle]="setBackground()"
+  <event-detail [detailLayout]="detailLayout"
+                [images]="testImages"
+                [ngStyle]="setBackground()"
                 class="col-md-8 col-xs-12"></event-detail>
   <button class="btn btn-primary resize-btn" (click)="setFullScreen(!isFullScreenPreview)"
           [ngClass]="{'no-full-size-preview-btn': isFullScreenPreview}">

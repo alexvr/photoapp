@@ -1,4 +1,72 @@
-<div class="exit-btn" id="exit-btn-1" (click)="showMenuLeftBtn()"></div>
+<div class="container-fluid full-height" [ngStyle]="setImagePositionAndBackground()">
+
+  <main class="full-height">
+    <div id="top-container" class="row">
+      <div class="col-xs-9 full-height">
+        <div id="selected-image">
+          <img src="{{selectedImage.imageBase64}}">
+        </div>
+      </div>
+
+      <div class="col-xs-3 full-height">
+        <div id="image-actions" [ngStyle]="setImageActions()">
+          <div id="back">
+            <img *ngIf="detailLayout != null && detailLayout.backBtnImage != null"
+                 [ngStyle]="setButtonSize()"
+                 src="{{detailLayout.backBtnImage}}">
+            <button *ngIf="detailLayout != null && detailLayout.backBtnImage == null"
+                    class="btn btn-default"
+                    [ngStyle]="setBackButton()">{{detailLayout.backBtnText}}
+            </button>
+          </div>
+          <div id="finish">
+            <img *ngIf="detailLayout != null && detailLayout.finishBtnImage != null"
+                 [ngStyle]="setButtonSize()"
+                 src="{{detailLayout.finishBtnImage}}">
+            <button *ngIf="detailLayout != null && detailLayout.finishBtnImage == null"
+                    class="btn btn-default"
+                    [ngStyle]="setFinishButton()">{{detailLayout.finishBtnText}}
+            </button>
+          </div>
+          <div id="print">
+            <img *ngIf="detailLayout != null && detailLayout.printBtnImage !== null"
+                 [ngStyle]="setButtonSize()"
+                 src="{{detailLayout.printBtnImage}}">
+            <button *ngIf="detailLayout != null && detailLayout.printBtnImage === null"
+                    class="btn btn-default"
+                    [ngStyle]="setPrintButton()">{{detailLayout.printBtnText}}
+            </button>
+          </div>
+          <div id="print-message"
+               [ngStyle]="setPrintMessage()">{{detailLayout.printMessageText}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="bottom-container" class="row">
+      <div class="col-xs-9">
+        <swiper [config]="config">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let img of images">
+              <img src="{{img.imageBase64}}" [ngStyle]="setImageStyle()">
+            </div>
+          </div>
+        </swiper>
+      </div>
+
+      <div class="col-xs-3">
+        <div id="qr">
+          <img [ngStyle]="setQrStyle()" src="../../../assets/images/qr.jpg">
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+
+<!--<div class="exit-btn" id="exit-btn-1" (click)="showMenuLeftBtn()"></div>
 <div class="exit-btn" id="exit-btn-2" (click)="showMenuRightBtn()"></div>
 
 <main class="row" [ngStyle]="setImagePosition()">
@@ -50,3 +118,4 @@
   </div>
 
 </main>
+-->
