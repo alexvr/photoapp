@@ -5,7 +5,6 @@ import {FormsModule}      from '@angular/forms';
 import {HttpModule}       from '@angular/http';
 import {AppRoutingModule} from "./app-routing.module";
 import {SwiperModule}     from "angular2-useful-swiper";
-import {SpinnerModule}    from 'angular2-spinner/dist';
 
 // Services
 import {AuthService}          from "./login/services/auth.service";
@@ -65,8 +64,7 @@ import {DimensionsPipe} from "./configuration/media-settings/watermark-config/di
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    SwiperModule,
-    SpinnerModule
+    SwiperModule
   ],
   providers: [
     AuthService,
