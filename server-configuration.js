@@ -14,6 +14,10 @@ const printerConfiguration = require('./printer-configuration');
 const cloudinaryConfiguration = require('./cloudinary-configuration');
 const watermarkConfig = require('./watermark-configuration');
 
+// Module for Observable
+const rxjs = require('rxjs');
+
+
 // Prefix for added images and width of resized image.
 const imagePrefix = 'COM_';
 let resizedImageWidth = 0;
@@ -226,7 +230,7 @@ function initializeWatcher() {
 
       if (!fileName.includes(imagePrefix)) {
 
-        renameUploadAndCompress(filePath);
+        //renameUploadAndCompress(filePath);
 
       } else if (filePath.includes('compressed')) {
         // Send the image to all clients and increment the counter.
@@ -249,7 +253,6 @@ function initializeWatcher() {
  * @param filePath
  */
 function renameUploadAndCompress(filePath) {
-
   // Rename image
   const renamedPath = renameFile(filePath);
   console.log('server-configuration.js - File ' + renamedPath + ' has been renamed!');
@@ -264,6 +267,45 @@ function renameUploadAndCompress(filePath) {
 
     let watermarkImageCounter = imageCounter; // watermark uses observable so imageCounter may have already changed.
 
+    /**/
+
+    waitAndRedoWatermark({
+      'renamedPath': renamedPath,
+      'watermarkImageCounter': watermarkImageCounter,
+      'uploadLocation': uploadLocation
+    });
+
+    /**/
+
+  } else {
+    cloudinaryConfiguration.uploadImageToServer(renamedPath, uploadLocation);
+  }
+
+  imageCounter++;
+
+  // Compress image
+  const outputPath = mediaDirectory + '/compressed/' + path.basename(renamedPath);
+  console.log('server-configuration.js - Resizing image on path ' + outputPath);
+  imageResize.resizeAndCompressImage(renamedPath, outputPath, resizedImageWidth);
+}
+
+let watermarkInProgress = false;
+
+function waitAndRedoWatermark(image) {
+  if (watermarkInProgress) {
+    setTimeout(() => {
+      waitAndRedoWatermark(image);
+    }, 1000);
+  } else {
+    console.log('doWatermark!!');
+    watermarkInProgress = true;
+    createAndUploadWatermarkImage(image['renamedPath'], image['watermarkImageCounter'], image['uploadLocation']).subscribe(val => watermarkInProgress = false);
+  }
+}
+
+function createAndUploadWatermarkImage(renamedPath, watermarkImageCounter, uploadLocation) {
+  return new rxjs.Observable(observable => {
+    watermarkInProgress = true;
     watermarkConfig.createWatermarkPhoto(webWatermark, renamedPath).subscribe(val => {
       let canvas = val;
       let watermarkImageName = mediaDirectory + '/share-images/' + imagePrefix + watermarkImageCounter + '.jpeg';
@@ -283,19 +325,12 @@ function renameUploadAndCompress(filePath) {
         console.log('server-configuration.js - saved png');
         setTimeout(() => {
           cloudinaryConfiguration.uploadImageToServer(watermarkImageName, uploadLocation);
+          observable.next();
+          observable.complete();
         }, 1000);
       });
     });
-  } else {
-    cloudinaryConfiguration.uploadImageToServer(renamedPath, uploadLocation);
-  }
-
-  imageCounter++;
-
-  // Compress image
-  const outputPath = mediaDirectory + '/compressed/' + path.basename(renamedPath);
-  console.log('server-configuration.js - Resizing image on path ' + outputPath);
-  imageResize.resizeAndCompressImage(renamedPath, outputPath, resizedImageWidth);
+  });
 }
 
 /**
@@ -447,11 +482,34 @@ function sendExistingFiles(client) {
   }
 }
 
+/**
+ * Print one or more images.
+ * @param imageNumbers
+ */
 function printImages(imageNumbers) {
   if (!fs.existsSync(mediaDirectory + '/print-images')) {
     fs.mkdirSync(mediaDirectory + '/print-images');
   }
-  for (i = 0; i < imageNumbers.length; i++) {
-    printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers[i], printWatermark, useWatermark);
-  }
+
+  forEachPromise(imageNumbers, printImageHelper).then(() => {
+    console.log('server-configuration.js - done');
+  });
+}
+
+function forEachPromise(items, fn) {
+  return items.reduce((promise, item) => {
+    return promise.then(() => {
+      return fn(item);
+    });
+  }, Promise.resolve());
+}
+
+function printImageHelper(imageNr) {
+  return new Promise((resolve, reject) => {
+    process.nextTick(() => {
+      printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNr, printWatermark, useWatermark).subscribe(val =>
+        resolve()
+      );
+    })
+  });
 }

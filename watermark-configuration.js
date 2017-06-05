@@ -46,41 +46,41 @@ exports.createWatermarkPhoto = function (watermarkString, imageLocation) {
   let watermark = parseWatermark(watermarkString);
   let canvas = new Canvas(watermark.width, watermark.height);
   ctx = canvas.getContext('2d');
+  console.log('watermark-configuration.js - ' + watermarkString);
 
   return new rxjs.Observable(obs => {
     // IMAGE
     fs.readFile(imageLocation, function (err, image) {
       if (err) throw err;
-      img = new Canvas.Image;
+      let img = new Canvas.Image;
       img.src = image;
       ctx.drawImage(img, watermark.imageX, watermark.imageY,
         (img.width / 100 * watermark.imageScale), (img.height / 100 * watermark.imageScale));
 
       // OVERLAY
       if (watermark.overlayLocation != null) {
-        console.log(watermark.overlayLocation);
         fs.readFile(watermark.overlayLocation, function (err, overlayImg) {
           if (err) throw err;
-          img = new Canvas.Image;
-          img.src = overlayImg;
-          ctx.drawImage(img, watermark.overlayX, watermark.overlayY,
-            (img.width / 100 * watermark.overlayScale), (img.height / 100 * watermark.overlayScale));
+          let img2 = new Canvas.Image;
+          img2.src = overlayImg;
+          ctx.drawImage(img2, watermark.overlayX, watermark.overlayY,
+            (img2.width / 100 * watermark.overlayScale), (img2.height / 100 * watermark.overlayScale));
 
           // LOGO
           if (watermark.logoLocation != null) {
             fs.readFile(watermark.logoLocation, function (err, logoImg) {
               if (err) throw err;
-              img = new Canvas.Image;
-              img.src = logoImg;
-              ctx.drawImage(img, watermark.logoX, watermark.logoY,
-                (img.width / 100 * watermark.logoScale), (img.height / 100 * watermark.logoScale));
+              let img3 = new Canvas.Image;
+              img3.src = logoImg;
+              ctx.drawImage(img3, watermark.logoX, watermark.logoY,
+                (img3.width / 100 * watermark.logoScale), (img3.height / 100 * watermark.logoScale));
 
-              console.log('printer-configuration.js - watermark: logo & overlay!');
+              console.log('watermark-configuration.js - watermark: logo & overlay!');
               obs.next(canvas);
               obs.complete();
             });
           } else {
-            console.log('printer-configuration.js - watermark: only overlay!');
+            console.log('watermark-configuration.js - watermark: only overlay!');
             obs.next(canvas);
             obs.complete();
           }
@@ -90,24 +90,24 @@ exports.createWatermarkPhoto = function (watermarkString, imageLocation) {
         if (watermark.logoLocation != null) {
           fs.readFile(watermark.logoLocation, function (err, logoImg) {
             if (err) throw err;
-            img = new Canvas.Image;
-            img.src = logoImg;
+            let img4 = new Canvas.Image;
+            img4.src = logoImg;
             ctx.drawImage(img, watermark.logoX, watermark.logoY,
-              (img.width / 100 * watermark.logoScale), (img.height / 100 * watermark.logoScale));
+              (img4.width / 100 * watermark.logoScale), (img4.height / 100 * watermark.logoScale));
 
-            console.log('printer-configuration.js - watermark: only logo!');
+            console.log('watermark-configuration.js - watermark: only logo!');
             obs.next(canvas);
             obs.complete();
           });
         } else {
-          console.log('printer-configuration.js - watermark: no logo, no overlay!');
+          console.log('watermark-configuration.js - watermark: no logo, no overlay!');
           obs.next(canvas);
           obs.complete();
         }
       }
     })
   })
-}
+};
 
 /**
  * Turn the jsonString into an ImageWatermark

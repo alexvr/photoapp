@@ -49,7 +49,7 @@ h3{
 
 .menu-btn {
   display: block;
-  width: 80%;
+  min-width: 80%;
   height: 4rem;
   margin: 2rem auto;
 }
