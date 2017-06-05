@@ -17,6 +17,7 @@ export class SharePageComponent implements OnInit {
   private event: Event;
   private eventText: EventText;
   private textColor: string;
+  private logoLoading: boolean;
 
   constructor(public configurationService: ConfigurationService, public layoutService: LayoutService, private cdRef: ChangeDetectorRef) {
     this.event = this.configurationService.getConfiguredEvent();
@@ -51,7 +52,9 @@ export class SharePageComponent implements OnInit {
   public setLogoImage(): void {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/share-page-layout/logo').subscribe(data => {
       this.event.eventText.logo = data;
+      this.logoLoading = true;
       this.cdRef.detectChanges();
+      this.logoLoading = false;
     });
   }
   public deleteLogoImage(): void {

@@ -16,6 +16,7 @@
                   class="btn btn-danger" (click)="deleteLogoImage()">Delete logo
           </button>
           <div>
+            <!--<spinner *ngIf="logoLoading==true"></spinner>-->
             <img *ngIf="event.eventText.logo != null" src="{{event.eventText.logo}}" class="img-rounded share-logo" alt="logo">
           </div>
         </div>
@@ -157,7 +158,7 @@
       <div class="form-group col-xs-6">
         <label for="textColor">Text color</label>
         <div>
-          <input [disabled]="event.eventText.backgroundImageToggle===true" id="textColor" type="color" [(ngModel)]="event.eventText.textColor">
+          <input id="textColor" type="color" [(ngModel)]="event.eventText.textColor">
         </div>
       </div>
     </div>
