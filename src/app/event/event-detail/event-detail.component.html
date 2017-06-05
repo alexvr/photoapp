@@ -3,7 +3,7 @@
   <main class="full-height">
     <div id="top-container" class="row">
       <div class="col-xs-9 full-height">
-        <div id="selected-image">
+        <div id="selected-image" [ngStyle]="setSelectedImageStyle()">
           <img src="{{selectedImage.imageBase64}}">
         </div>
       </div>
@@ -57,7 +57,7 @@
 
       <div class="col-xs-3">
         <div id="qr">
-          <img [ngStyle]="setQrStyle()" src="../../../assets/images/qr.jpg">
+          <!--<img src="../../../assets/images/qr.jpg">-->
         </div>
       </div>
     </div>

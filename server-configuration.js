@@ -530,6 +530,8 @@ function printImageHelper(imageNr) {
       printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNr, printWatermark, useWatermark).subscribe(val =>
         resolve()
       );
+      printCounter++;
+      mainWindow.webContents.send('async-print-count', printCounter);
     })
   });
 }

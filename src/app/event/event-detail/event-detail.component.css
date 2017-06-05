@@ -104,3 +104,126 @@ swiper img {
   align-items: center;
   justify-content: center;
 }
+
+#qr img {
+  max-width: ;
+}
+
+
+/*:host {
+  background: #cecece;
+}
+
+.exit-btn {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  top: 0;
+}
+
+#exit-btn-1 {
+  left: 0;
+}
+
+#exit-btn-2 {
+  right: 0;
+}
+
+main {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.photos {
+  height: 100%;
+}
+
+.photos > .photo {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.photo > img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.photos > .photo-overview {
+  height: 20%;
+  width: 100%;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.photo-actions {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.printAndShare, .backAndFinish {
+  display: flex;
+  justify-content: space-around;
+}
+
+.printMessageAndQr {
+  display: flex;
+  justify-content: space-around;
+}
+
+.printMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.full-screen {
+  height: 25rem;
+  width: 25rem;
+}
+
+.small-screen {
+  height: 13rem;
+  width: 13rem;
+}
+
+swiper {
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide > img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.hide-pagination {
+  display: none;
+}
+
+.detail-button{
+  max-height: 50%;
+}
+
+@media screen and (min-width: 768px) {
+  main {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+*/

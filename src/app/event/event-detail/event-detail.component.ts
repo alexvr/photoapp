@@ -39,6 +39,18 @@ export class EventDetailComponent implements OnInit {
    * Functions to customize the layout style.
    */
 
+  private setSelectedImageStyle(): any {
+    if (this.isFullScreen) {
+      return {
+        'padding': '0'
+      };
+    } else {
+      return {
+        'padding': '10px 0'
+      };
+    }
+  }
+
   private setImageStyle(): any {
     if (this.detailLayout != null && !this.isFullScreen) {
       return {
