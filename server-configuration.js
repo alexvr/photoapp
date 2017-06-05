@@ -291,6 +291,10 @@ function renameUploadAndCompress(filePath) {
 
 let watermarkInProgress = false;
 
+/**
+ * Create and upload a watermark image or wait and try again.
+ * @param image
+ */
 function waitAndRedoWatermark(image) {
   if (watermarkInProgress) {
     setTimeout(() => {
@@ -303,6 +307,13 @@ function waitAndRedoWatermark(image) {
   }
 }
 
+/**
+ * Create and upload a watermark image.
+ * @param renamedPath
+ * @param watermarkImageCounter
+ * @param uploadLocation
+ * @return {*}
+ */
 function createAndUploadWatermarkImage(renamedPath, watermarkImageCounter, uploadLocation) {
   return new rxjs.Observable(observable => {
     watermarkInProgress = true;
@@ -496,6 +507,11 @@ function printImages(imageNumbers) {
   });
 }
 
+/**
+ * function to loop over an array with promises (used to print images serially)
+ * @param items
+ * @param fn
+ */
 function forEachPromise(items, fn) {
   return items.reduce((promise, item) => {
     return promise.then(() => {
@@ -504,6 +520,10 @@ function forEachPromise(items, fn) {
   }, Promise.resolve());
 }
 
+/**
+ * Print images serially
+ * @param imageNr
+ */
 function printImageHelper(imageNr) {
   return new Promise((resolve, reject) => {
     process.nextTick(() => {
