@@ -2,6 +2,7 @@ const printer = require('printer'), util = require('util');
 const fs = require('fs');
 const path = require('path');
 const watermarkConfig = require('./watermark-configuration');
+const rxjs = require('rxjs');
 
 /**
  * Get a list of all installed printers.
@@ -43,46 +44,52 @@ exports.testPrintPhotoOnPrinter = function testPrintPhotoOnPrinter(argumentPrint
  * @param useWatermark
  */
 exports.printImage = function printImage(chosenPrinter, mediaDirectory, imagePrefix, imageNumber, watermark, useWatermark) {
-  console.log('printer-configuration.js - printImage()');
+  return new rxjs.Observable(observable => {
+    console.log('printer-configuration.js - printImage()');
 
-  let usedPrinter = chosenPrinter;
-  let image = null;
+    let usedPrinter = chosenPrinter;
+    let image = null;
 
-  // TODO: Support other file formats.
-  if (process.platform !== 'win32') {
-    image = mediaDirectory + '/' + imagePrefix + imageNumber + '.jpg';
-  } else {
-    image = mediaDirectory + '\\' + imagePrefix + imageNumber + '.jpg';
-  }
+    // TODO: Support other file formats.
+    if (process.platform !== 'win32') {
+      image = mediaDirectory + '/' + imagePrefix + imageNumber + '.jpg';
+    } else {
+      image = mediaDirectory + '\\' + imagePrefix + imageNumber + '.jpg';
+    }
 
-  if (useWatermark === 'true') {
-    watermarkConfig.createWatermarkPhoto(watermark, image).subscribe(val => {
-      let canvas = val;
-      let watermarkImageName = mediaDirectory + '/print-images/' + imagePrefix + imageNumber + '.jpeg';
-      let watermarkImage = fs.createWriteStream(watermarkImageName);
-      let stream = canvas.jpegStream({
-        bufsize: 4096 // output buffer size in bytes, default: 4096
-        , quality: 100 // JPEG quality (0-100) default: 75
-        , progressive: false // true for progressive compression, default: false
+    if (useWatermark === 'true') {
+      watermarkConfig.createWatermarkPhoto(watermark, image).subscribe(val => {
+        let canvas = val;
+        let watermarkImageName = mediaDirectory + '/print-images/' + imagePrefix + imageNumber + '.jpeg';
+        let watermarkImage = fs.createWriteStream(watermarkImageName);
+        let stream = canvas.jpegStream({
+          bufsize: 4096 // output buffer size in bytes, default: 4096
+          , quality: 100 // JPEG quality (0-100) default: 75
+          , progressive: false // true for progressive compression, default: false
+        });
+
+        console.log('printer-configuration.js - writing jpeg');
+        stream.on('data', function (chunk) {
+          watermarkImage.write(chunk);
+        });
+
+        stream.on('end', function () {
+          console.log('printer-configuration.js - saved jpeg');
+          console.log('printer-configuration.js - Printing image ' + watermarkImageName);
+
+          setTimeout(() => {
+            print(watermarkImageName, usedPrinter);
+            observable.next();
+            observable.complete();
+          }, 1000);
+        });
       });
-
-      console.log('printer-configuration.js - writing png');
-      stream.on('data', function (chunk) {
-        watermarkImage.write(chunk);
-      });
-
-      stream.on('end', function () {
-        console.log('printer-configuration.js - saved png');
-        console.log('printer-configuration.js - Printing image ' + watermarkImageName);
-
-        setTimeout(() => {
-          print(watermarkImageName, usedPrinter);
-        }, 1000);
-      });
-    });
-  } else {
-    print(image, usedPrinter);
-  }
+    } else {
+      print(image, usedPrinter);
+      observable.next();
+      observable.complete();
+    }
+  });
 };
 
 /**

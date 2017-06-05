@@ -17,7 +17,7 @@ exports.resizeAndCompressImage = function resizeAndCompressImage(imagePath, outp
     .resize(imageWidth)
     .toFile(outputPath, function (error, info) {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else if (info) {
         console.log(info);
       }
