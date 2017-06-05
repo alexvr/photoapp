@@ -3,7 +3,7 @@ import {ConfigurationService} from '../../services/configuration.service';
 import {Event} from '../../../model/Event';
 import {OverviewLayout} from '../../../model/layout/OverviewLayout';
 import {LayoutService} from '../../services/layout.service';
-import {Image} from "../../../model/Image";
+import {Image} from '../../../model/Image';
 
 @Component({
   selector: 'overview-layout-config',
@@ -14,7 +14,7 @@ import {Image} from "../../../model/Image";
 export class OverviewLayoutConfigComponent {
   private event: Event;
   private overviewLayout: OverviewLayout;
-  private isFullScreenPreview: boolean = false;
+  private isFullScreenPreview = false;
 
   private testImages: Image[] = [
     new Image(1, '../../../assets/images/photo.jpg'),
@@ -58,7 +58,7 @@ export class OverviewLayoutConfigComponent {
   setSelectionIcon() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/overview-layout/selectionIcon').subscribe(data => {
       this.overviewLayout.selectionIcon = data;
-    })
+    });
   }
 
   deleteSelectionIcon() {
@@ -69,7 +69,7 @@ export class OverviewLayoutConfigComponent {
   setSelectButton() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/overview-layout/selectButton').subscribe(data => {
       this.overviewLayout.selectBtnImage = data;
-    })
+    });
   }
 
   deleteSelectButton() {
@@ -83,7 +83,7 @@ export class OverviewLayoutConfigComponent {
       data => {
         this.overviewLayout.backgroundImage = data;
       }
-    )
+    );
   }
 
   deleteBackgroundImage() {
@@ -94,9 +94,14 @@ export class OverviewLayoutConfigComponent {
   // The styling of the background has to happen here, because it has to happen on the :host element
   setBackground(): any {
     if (this.overviewLayout != null && this.overviewLayout.backgroundImage) {
-      return {'background-image': 'url(' + this.overviewLayout.backgroundImage + ')', 'background-cover': 'cover'}
+      return {
+        'background-image': 'url(' + this.overviewLayout.backgroundImage + ')',
+        'background-size': 'cover'
+      };
     } else {
-      return {'background': this.overviewLayout.backgroundColor};
+      return {
+        'background': this.overviewLayout.backgroundColor
+      };
     }
   }
 
