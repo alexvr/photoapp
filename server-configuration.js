@@ -25,6 +25,7 @@ let eventId = null;
 let eventName = null;
 let printer = null;
 let imageCounter = 0;
+let printCounter = 0;
 let overviewLayout = null;
 let detailLayout = null;
 let printWatermark = null;
@@ -453,5 +454,7 @@ function printImages(imageNumbers) {
   }
   for (i = 0; i < imageNumbers.length; i++) {
     printerConfiguration.printImage(printer, mediaDirectory, imagePrefix, imageNumbers[i], printWatermark, useWatermark);
+    printCounter++;
+    mainWindow.webContents.send('async-print-count', printCounter);
   }
 }

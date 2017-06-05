@@ -57,7 +57,8 @@
       <input id="watermark" class="checker" type="checkbox" [checked]="event.config.watermarkPrinting" (click)="toggleWatermarkPrinting($event.target.checked)">
       <label for="watermark">Watermark</label>
     </div>
-    <div class="form-group col-xs-4 col-md-6 checker-container">
+    <div *ngIf="event.config.watermarkPrinting"
+         class="form-group col-xs-4 col-md-6 checker-container">
       <p><span class="glyphicon glyphicon-cog"></span><a [routerLink]="['/configuration/watermark-config/1']">Configure watermark</a></p>
     </div>
   </div>
@@ -71,7 +72,8 @@
       <input id="watermarkSharing" class="checker" type="checkbox" [checked]="event.config.watermarkSharing" (click)="toggleWatermarkSharing($event.target.checked)">
       <label for="watermarkSharing">Watermark</label>
     </div>
-    <div class="form-group col-xs-8 col-md-9 checker-container sharing-checker-container">
+    <div *ngIf="event.config.watermarkSharing"
+         class="form-group col-xs-8 col-md-9 checker-container sharing-checker-container">
       <p><span class="glyphicon glyphicon-cog"></span><a [routerLink]="['/configuration/watermark-config/2']">Configure watermark</a></p>
     </div>
   </div>

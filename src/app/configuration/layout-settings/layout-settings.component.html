@@ -1,6 +1,11 @@
 <div class="layout-settings col-xs-12">
-  <div class="row">
-    <h2 class="col-xs-12">Layout</h2>
-  </div>
+
+  <h4 class="col-xs-6 text-right">
+    <a [routerLink]="['/configuration/layout/overview-layout-config']" class="layout-nav">Overview layout</a>
+  </h4>
+  <h4 class="col-xs-6">
+    <a [routerLink]="['/configuration/layout/detail-layout-config']" class="layout-nav ">Detail layout</a>
+  </h4>
+
   <router-outlet></router-outlet>
 </div>

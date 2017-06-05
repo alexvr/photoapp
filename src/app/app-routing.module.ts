@@ -53,11 +53,12 @@ export const routes: Routes = [/*
       {
         path: 'layout', component: LayoutSettingsComponent,
         children: [
-          {path: '', redirectTo: 'overview-layout-chooser', pathMatch: 'full'},
-          {path: 'overview-layout-chooser', component: OverviewLayoutChooserComponent},
-          {path: 'detail-layout-chooser', component: DetailLayoutChooserComponent},
-          {path: 'detail-layout-config', component: DetailLayoutConfigComponent},
+          // {path: '', redirectTo: 'overview-layout-chooser', pathMatch: 'full'},
+          // {path: 'overview-layout-chooser', component: OverviewLayoutChooserComponent},
+          // {path: 'detail-layout-chooser', component: DetailLayoutChooserComponent},
+          {path: '', redirectTo: 'overview-layout-config', pathMatch: 'full'},
           {path: 'overview-layout-config', component: OverviewLayoutConfigComponent},
+          {path: 'detail-layout-config', component: DetailLayoutConfigComponent}
         ]
       },
       {path: 'media-settings', component: MediaSettingsComponent},

@@ -120,10 +120,24 @@ export class ServerService {
    * Receives the count of all the event images.
    * @returns {Observable}
    */
-  public receivePhotoCount(): Observable<any> {
+  public receiveImageCount(): Observable<any> {
     return new Observable(o => {
       // Listen to application logs.
       ipcRenderer.on('async-image-count', (event, arg) => {
+        console.log(arg);
+        o.next(arg);
+      });
+    });
+  }
+
+  /**
+   * Receives the count of all the print events.
+   * @returns {Observable}
+   */
+  public receivePrintCount(): Observable<any> {
+    return new Observable(o => {
+      // Listen to application logs.
+      ipcRenderer.on('async-print-count', (event, arg) => {
         console.log(arg);
         o.next(arg);
       });

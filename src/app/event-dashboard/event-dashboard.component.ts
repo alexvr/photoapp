@@ -27,10 +27,12 @@ export class EventDashboardComponent implements OnInit, OnDestroy {
   private logs: string[] = [];
   private event: Event;
 
-  private printCounter: number;
-  private shareCounter: number;
-  private photoSubscription: Subscription;
-  private photoCounter = 0;
+  private printCountSubscription: Subscription;
+  private printCounter = 0;
+
+  private imageCountSubscription: Subscription;
+  private imageCounter = 0;
+
   private durationSubscription: Subscription;
   private eventDuration = '00:00:00';
 
@@ -90,9 +92,15 @@ export class EventDashboardComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.photoSubscription = this.serverService.receivePhotoCount().subscribe((counter) => {
+    this.imageCountSubscription = this.serverService.receiveImageCount().subscribe((counter) => {
       this.zone.run(() => {
-        this.photoCounter = counter;
+        this.imageCounter = counter;
+      });
+    });
+
+    this.printCountSubscription = this.serverService.receivePrintCount().subscribe((counter) => {
+      this.zone.run(() => {
+        this.printCounter = counter;
       });
     });
   }
