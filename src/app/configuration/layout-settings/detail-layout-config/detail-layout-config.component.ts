@@ -1,9 +1,9 @@
-import {Component} from "@angular/core";
-import {DetailLayout} from "../../../model/layout/DetailLayout";
-import {Event} from "../../../model/Event";
-import {LayoutService} from "../../services/layout.service";
-import {ConfigurationService} from "../../services/configuration.service";
-import {Image} from "../../../model/Image";
+import {Component} from '@angular/core';
+import {DetailLayout} from '../../../model/layout/DetailLayout';
+import {Event} from '../../../model/Event';
+import {LayoutService} from '../../services/layout.service';
+import {ConfigurationService} from '../../services/configuration.service';
+import {Image} from '../../../model/Image';
 
 @Component({
   selector: 'detail-layout-config',
@@ -14,7 +14,7 @@ import {Image} from "../../../model/Image";
 export class DetailLayoutConfigComponent {
   private event: Event;
   private detailLayout: DetailLayout;
-  private isFullScreenPreview: boolean = false;
+  private isFullScreenPreview = false;
   private testImages: Image[] = [
     new Image(1, '../../../assets/images/photo.jpg'),
     new Image(2, '../../../assets/images/photo.jpg'),
@@ -43,7 +43,7 @@ export class DetailLayoutConfigComponent {
   setPrintButton() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/detail-layout/printButton').subscribe(data => {
       this.detailLayout.printBtnImage = data;
-    })
+    });
   }
 
   deletePrintButton() {
@@ -55,7 +55,7 @@ export class DetailLayoutConfigComponent {
   setShareButton() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/detail-layout/shareButton').subscribe(data => {
       this.detailLayout.shareBtnImage = data;
-    })
+    });
   }
 
   deleteShareButton() {
@@ -67,7 +67,7 @@ export class DetailLayoutConfigComponent {
   setBackButton() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/detail-layout/backButton').subscribe(data => {
       this.detailLayout.backBtnImage = data;
-    })
+    });
   }
 
   deleteBackButton() {
@@ -79,7 +79,7 @@ export class DetailLayoutConfigComponent {
   setFinishButton() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/detail-layout/finishButton').subscribe(data => {
       this.detailLayout.finishBtnImage = data;
-    })
+    });
   }
 
   deleteFinishButton() {
@@ -91,7 +91,7 @@ export class DetailLayoutConfigComponent {
   setPrintMessage() {
     this.layoutService.uploadLayoutAsset(this.event.eventName + '/detail-layout/printMessageText').subscribe(data => {
       this.detailLayout.printMessageImage = data;
-    })
+    });
   }
 
   deletePrintMessage() {
@@ -105,7 +105,7 @@ export class DetailLayoutConfigComponent {
       data => {
         this.detailLayout.backgroundImage = data;
       }
-    )
+    );
   }
 
   deleteBackgroundImage() {
@@ -116,9 +116,13 @@ export class DetailLayoutConfigComponent {
   // The styling of the background has to happen here, because it has to happen on the :host element
   setBackground(): any {
     if (this.detailLayout != null && this.detailLayout.backgroundImage) {
-      return {'background-image': 'url(' + this.detailLayout.backgroundImage + ')', 'background-cover': 'cover'}
+      return {
+        'background': '#ffffff',
+      };
     } else {
-      return {'background': this.detailLayout.backgroundColor};
+      return {
+        'background': this.detailLayout.backgroundColor
+      };
     }
   }
 
